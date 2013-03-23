@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT.HDA.Web", "HDA\FIT.HDA.Web.csproj", "{DDB79C8A-6765-40A6-B8A3-00CD9BF48C78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT.HDA.Tests", "HDA.Tests\FIT.HDA.Tests.csproj", "{C1ED7958-8A0F-4E3E-A4DA-8E34581233B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT.HDA.Models", "ClassLibrary1\FIT.HDA.Models.csproj", "{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDB79C8A-6765-40A6-B8A3-00CD9BF48C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB79C8A-6765-40A6-B8A3-00CD9BF48C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB79C8A-6765-40A6-B8A3-00CD9BF48C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB79C8A-6765-40A6-B8A3-00CD9BF48C78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1ED7958-8A0F-4E3E-A4DA-8E34581233B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1ED7958-8A0F-4E3E-A4DA-8E34581233B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1ED7958-8A0F-4E3E-A4DA-8E34581233B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1ED7958-8A0F-4E3E-A4DA-8E34581233B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
