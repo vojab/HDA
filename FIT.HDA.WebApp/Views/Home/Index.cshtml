@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            <button onclick="GetAllEmployees();return false;">Get All Employees</button></td>
+                        <td>Enter Employee Id:
+                            <input type="text" id="txtEmpid" style="width: 50PX" /></td>
+                        <td>
+                            <button onclick="GetEmployee();return false;">Get Employee</button></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>EmpId:</td>
+                                    <td>
+                                        <input type="text" id="txtaddEmpid" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Emp Name:</td>
+                                    <td>
+                                        <input type="text" id="txtaddEmpName" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Emp Department:</td>
+                                    <td>
+                                        <input type="text" id="txtaddEmpDep" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile no:</td>
+                                    <td>
+                                        <input type="text" id="txtaddEmpMob" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <button onclick="AddEmployee();return false;">Add Employee</button></td>
+                        <td>Delete Employee
+                            <input type="text" id="txtdelEmpId" style="width: 50PX" /></td>
+                        <td>
+                            <button onclick="DeleteEmployee(); return false;">Delete Employee</button></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </section>
+}
+<h3>Oputput of action done through WEB API:</h3>
+<ol class="round">
+    <li>
+        <div id="divResult"></div>
+
+    </li>
+</ol>
+
+<script type="text/javascript">
+    function GetAllEmployees() {
+        jQuery.support.cors = true;
+        $.ajax({
+            url: 'http://localhost:3894/api/EmployeeAPI',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                WriteResponse(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+
+    function AddEmployee() {
+        jQuery.support.cors = true;
+        var employee = {
+            EmployeeId: $('#txtaddEmpid').val(),
+            EmployeeName: $('#txtaddEmpName').val(),
+            EmployeeDepartment: $('#txtaddEmpDep').val(),
+            EmployeeMobile: $('#txtaddEmpMob').val()
+        };
+
+        $.ajax({
+            url: 'http://localhost:3894/api/EmployeeAPI',
+            type: 'POST',
+            data: JSON.stringify(employee),
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                WriteResponse(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+
+    function DeleteEmployee() {
+        jQuery.support.cors = true;
+        var id = $('#txtdelEmpId').val();
+
+        $.ajax({
+            url: 'http://localhost:3894/api/EmployeeAPI' + id,
+            type: 'DELETE',
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                WriteResponse(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+
+    function WriteResponse(employees) {
+        var strResult = "<table><th>EmpID</th><th>Emp Name</th><th>Emp Department</th><th>Mobile No</th>";
+        $.each(employees, function (index, employee) {
+            strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.EmployeeName + "</td><td>" + employee.EmployeeDepartment + "</td><td>" + employee.EmployeeMobile + "</td></tr>";
+        });
+        strResult += "</table>";
+        $("#divResult").html(strResult);
+    }
+
+    function ShowEmployee(employee) {
+        if (employee != null) {
+            var strResult = "<table><th>EmpID</th><th>Emp Name</th><th>Emp Department</th><th>Mobile No</th>";
+            strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.EmployeeName + "</td><td>" + employee.EmployeeDepartment + "</td><td>" + employee.EmployeeMobile + "</td></tr>";
+            strResult += "</table>";
+            $("#divResult").html(strResult);
+        }
+        else {
+            $("#divResult").html("No Results To Display");
+        }
+    }
+
+    function GetEmployee() {
+        jQuery.support.cors = true;
+        var id = $('#txtEmpid').val();
+        $.ajax({
+            url: 'http://localhost:3894/api/EmployeeAPI' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                ShowEmployee(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+</script>
