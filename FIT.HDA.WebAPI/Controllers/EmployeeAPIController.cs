@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web.Http;
 using Models;
+using Newtonsoft.Json;
 
 
 namespace FIT.HDA.API.Controllers
@@ -21,9 +23,11 @@ namespace FIT.HDA.API.Controllers
         }
 
         // GET api/EmployeeAPI
-        public IEnumerable<Employee> GetEmployees()
+        [HttpGet]
+        public EmployeesDisplayModel GetEmployees()
         {
-            return _employeeList;
+            //return _employeeList;
+            return new EmployeesDisplayModel { Employees = _employeeList };
         }
 
         // GET api/EmployeeAPI/5

@@ -12,7 +12,7 @@
                 <table>
                     <tr>
                         <td>
-                            <button onclick="GetAllEmployees();return false;">Get All Employees</button></td>
+                            <button onclick="loadEmployees();return false;">Get All Employees</button></td>
                         <td>Enter Employee Id:
                             <input type="text" id="txtEmpid" style="width: 50PX" /></td>
                         <td>
@@ -61,14 +61,15 @@
 
     </li>
 </ol>
-
+<script src="~/Scripts/Main.js"></script>
 <script type="text/javascript">
     function GetAllEmployees() {
-        jQuery.support.cors = true;
+       // jQuery.support.cors = true;
         $.ajax({
             url: 'http://localhost:3894/api/EmployeeAPI',
             type: 'GET',
             dataType: 'json',
+            //contentType: 'json',
             success: function (data) {
                 WriteResponse(data);
             },

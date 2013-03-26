@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace FIT.HDA.WebApp
+namespace HDA.App_Start
 {
     public class BundleConfig
     {
@@ -9,19 +8,19 @@ namespace FIT.HDA.WebApp
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/Libraries/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/jquery-ui-{version}.js"));
+                        "~/Scripts/Libraries/jquery-ui-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.unobtrusive*",
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/Libraries/jquery.unobtrusive*",
+                        "~/Scripts/Libraries/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                        "~/Scripts/Libraries/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
@@ -38,6 +37,27 @@ namespace FIT.HDA.WebApp
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            // All application JS files (except mocks)
+            bundles.Add(new ScriptBundle("~/bundles/javaScriptApplicationLibraries")
+                .IncludeDirectory("~/Scripts/Application/", "*.js", searchSubdirectories: false));
+
+            // External Party JavaScript files
+            bundles.Add(new ScriptBundle("~/bundles/javaScriptExternalLibraries").Include(
+                // jQuery plugins
+                    //"~/Scripts/Libraries/activity-indicator.js",
+                // Knockout and its plugins
+                    "~/Scripts/Libraries/knockout-2.1.0.debug.js",
+                    //"~/Scripts/Libraries/knockout.activity.js",
+                // Other external libraries
+                    "~/Scripts/Libraries/underscore.js",
+                    "~/Scripts/Libraries/moment.js",
+                    "~/Scripts/Libraries/sammy-0.7.1.js",
+                    "~/Scripts/Libraries/amplify.js",
+                    "~/Scripts/Libraries/toastr.js",
+                    "~/Scripts/Libraries/cookie.js",
+                    "~/Scripts/Libraries/require.js"
+                    ));
         }
     }
 }
