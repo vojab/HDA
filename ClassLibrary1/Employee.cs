@@ -31,10 +31,8 @@ namespace Models
         }
     }
 
-    [DataContract]
-    public class EmployeesDisplayModel
+    public class EmployeeDisplayModel
     {
-        [DataMember]
-        public IEnumerable<Employee> Employees { get; set; }
+        public List<Employee> Employee { get; set; }
     }
 }

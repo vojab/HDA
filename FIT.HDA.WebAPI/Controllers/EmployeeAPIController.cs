@@ -22,13 +22,28 @@ namespace FIT.HDA.API.Controllers
             _employeeList.Add(new Employee(3, "Employee3", "Employee Department3", 9999777788));
         }
 
-        // GET api/EmployeeAPI
-        [HttpGet]
-        public EmployeesDisplayModel GetEmployees()
+        public IEnumerable<Employee> GetEmployees()
         {
-            //return _employeeList;
-            return new EmployeesDisplayModel { Employees = _employeeList };
+            return _employeeList;
         }
+
+        //// GET api/EmployeeAPI
+        //[HttpGet]
+        //public List<Employee> GetEmployees()
+        //{
+        //    var test = new Employee(7, "Employee7", "Employee Department7", 111);
+        //    var testList = new List<Employee>();
+        //    testList.Add(test);
+
+        //    return testList;
+        //    //return _employeeList;
+        //}
+
+        //[HttpGet]
+        //public List<Employee> GetEmployees()
+        //{
+        //    return _employeeList.ToList();
+        //}
 
         // GET api/EmployeeAPI/5
         public Employee GetEmployee(int id)

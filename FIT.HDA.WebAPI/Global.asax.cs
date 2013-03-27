@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using FIT.HDA.API.App_Start;
+using FIT.HDA.API.Formatters;
 
 namespace FIT.HDA.API
 {
@@ -16,6 +18,10 @@ namespace FIT.HDA.API
     {
         protected void Application_Start()
         {
+            // Register JSONP media type formatter
+            var config = GlobalConfiguration.Configuration;
+            config.Formatters.Insert(0, new JsonpFormatter());
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

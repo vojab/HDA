@@ -10,6 +10,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         loadEmployees = function () {
             dataService.employee.getEmployees({
                 success: function (result) {
+                    WriteResponse(result);
                     alert(result);
                 },
                 error: function () {
@@ -17,6 +18,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 }
             });
         };
+        
+        WriteResponse = function(employees) {
+            var strResult = "<table><th>EmpID</th><th>Emp Name</th><th>Emp Department</th><th>Mobile No</th>";
+            $.each(employees, function (index, employee) {
+                strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.EmployeeName + "</td><td>" +
+                    employee.EmployeeDepartment + "</td><td>" + employee.EmployeeMobile + "</td></tr>";
+            });
+            strResult += "</table>";
+            $("#divResult").html(strResult);
+        }
 
         return {
             initialize: initialize,

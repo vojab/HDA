@@ -64,19 +64,40 @@
 <script src="~/Scripts/Main.js"></script>
 <script type="text/javascript">
     function GetAllEmployees() {
-       // jQuery.support.cors = true;
+        //jQuery.support.cors = true;
+        //$.ajax({
+        //    url: 'http://localhost:3894/api/EmployeeAPI',
+        //    type: 'GET',
+        //    dataType: 'jsonp',
+        //    contentType: 'application/json;charset=utf-8',
+        //    success: function (data) {
+        //        WriteResponse(data);
+        //    },
+        //    error: function (x, y, z) {
+        //        alert(x + '\n' + y + '\n' + z);
+        //    }
+        //});
+        
+
+        jQuery.support.cors = true;
         $.ajax({
-            url: 'http://localhost:3894/api/EmployeeAPI',
-            type: 'GET',
-            dataType: 'json',
-            //contentType: 'json',
-            success: function (data) {
-                WriteResponse(data);
-            },
-            error: function (x, y, z) {
-                alert(x + '\n' + y + '\n' + z);
-            }
+            type: "GET",
+            url: "http://localhost:3894/api/EmployeeAPI",
+            dataType: "jsonp",
+            contentType: "application/json;charset=utf-8"
+        }).done(function (data) {
+            WriteResponse(data);
+        }).error(function (x, y, z) {
+            alert(x + '\n' + y + '\n' + z);
         });
+        
+        //$.getJSON("http://localhost:3894/api/EmployeeAPI",
+        //    type = "GET",
+        //    dataType = "json",
+        //    contentType = "application/json;charset=utf-8",
+        //    function (data) {
+        //        WriteResponse(data);
+        //});
     }
 
     function AddEmployee() {
