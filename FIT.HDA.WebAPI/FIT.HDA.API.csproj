@@ -126,6 +126,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\EmployeeAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RequestAPIController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Formatters\JsonpFormatter.cs" />
     <Compile Include="Global.asax.cs">
@@ -239,6 +240,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FIT.HDA.DAL\FIT.HDA.DAL.csproj">
+      <Project>{73248B2A-B53F-4EFD-9152-D066497261D2}</Project>
+      <Name>FIT.HDA.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FIT.HDA.Models\FIT.HDA.Models.csproj">
+      <Project>{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}</Project>
+      <Name>FIT.HDA.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

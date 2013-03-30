@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Serialization;
 using System.Web.Http;
-using Models;
-using Newtonsoft.Json;
+using FIT.HDA.DAL.Repositories;
+using FIT.HDA.Models;
 
 
 namespace FIT.HDA.API.Controllers

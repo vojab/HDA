@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Models
+namespace FIT.HDA.Models
 {
-    class TimeManagament
+    public class TimeManagament
     {
         public int TimeManagamentId { get; set; }
         public int EstimationTimeInHours { get; set; }
         public int RecordTimeInHours { get; set; }
+
+        // --- Code First DEFINITION
+        //public Request Request { get; set; }
+        // -------------------------
 
         public DateTime DateCreated { get; set; }
     }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Models
+namespace FIT.HDA.Models
 {
-    class RequestStatusChanges
+    public class RequestStatusChanges
     {
         public int RequestStatusChangesId { get; set; }
         public int RequestId { get; set; }

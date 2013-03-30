@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Models
+namespace FIT.HDA.Models
 {
-    class Product
+    public class Product
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
-        public int BusinessProviderId { get; set; }
+
+        // --- Code First DEFINITION
+        public virtual Request Request { get; set; }
+        // -------------------------
+        
+        // TODO: Code First for User - Implement later
+        //public int BusinessProviderId { get; set; }
 
         public DateTime DateCreated { get; set; }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace FIT.HDA.Models
 {
-    class Attachment
+    public class Attachment
     {
         public int AttachmentId { get; set; }
         public string AttachmentName { get; set; }

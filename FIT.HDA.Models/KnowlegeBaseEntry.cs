@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Models
+namespace FIT.HDA.Models
 {
-    class KnowlegeBaseEntry
+    public class KnowlegeBaseEntry
     {
         public int KnowlegeBaseEntryId { get; set; }
         public string KnowlegeBaseEntryDescription { get; set; }

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
 
-namespace Models
+namespace FIT.HDA.Models
 {
     [DataContract]
     public class Employee

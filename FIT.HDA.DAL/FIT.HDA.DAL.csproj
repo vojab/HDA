@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4D24D3CE-4ACF-49E2-B31A-2BC039F5E489}</ProjectGuid>
+    <ProjectGuid>{73248B2A-B53F-4EFD-9152-D066497261D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FIT.HDA.Models</RootNamespace>
-    <AssemblyName>FIT.HDA.Models</AssemblyName>
+    <RootNamespace>FIT.HDA.DAL</RootNamespace>
+    <AssemblyName>FIT.HDA.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,13 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,24 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssignedUserChanges.cs" />
-    <Compile Include="Attachment.cs" />
-    <Compile Include="Employee.cs" />
-    <Compile Include="KnowlegeBaseRate.cs" />
-    <Compile Include="Product.cs" />
+    <Compile Include="HelpDeskDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="RequestStatus.cs" />
-    <Compile Include="RequestStatusChanges.cs" />
-    <Compile Include="TimeManagament.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="UserType.cs" />
+    <Compile Include="Repositories\RequestRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KnowlegeBaseEntry.cs" />
-    <None Include="packages.config" />
+    <ProjectReference Include="..\FIT.HDA.Models\FIT.HDA.Models.csproj">
+      <Project>{4d24d3ce-4acf-49e2-b31a-2bc039f5e489}</Project>
+      <Name>FIT.HDA.Models</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

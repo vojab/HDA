@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace FIT.HDA.Models
 {
-    class AssignedUserChanges
+    public class AssignedUserChanges
     {
         public int AssignedUserChangesId { get; set; }
         public int UserId { get; set; }
