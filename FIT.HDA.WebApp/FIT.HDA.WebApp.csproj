@@ -258,7 +258,9 @@
     <Content Include="Scripts\Libraries\underscore.js" />
     <Content Include="Scripts\Libraries\_references.js" />
     <Content Include="Scripts\Main.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -303,6 +305,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FIT.HDA.DAL\FIT.HDA.DAL.csproj">
+      <Project>{73248B2A-B53F-4EFD-9152-D066497261D2}</Project>
+      <Name>FIT.HDA.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

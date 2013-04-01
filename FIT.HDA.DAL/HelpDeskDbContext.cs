@@ -5,9 +5,15 @@ namespace FIT.HDA.DAL
 {
     public class HelpDeskDbContext : DbContext
     {
-        public HelpDeskDbContext() { }
+        public HelpDeskDbContext()
+        {
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<HelpDeskDbContext>()); 
+        }
 
-        public HelpDeskDbContext(string connString) : base(connString) { }
+        public HelpDeskDbContext(string connString) : base(connString)
+        {
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<HelpDeskDbContext>()); 
+        }
 
         public DbSet<Request> Requests { get; set; }
         public DbSet<Product> Products { get; set; }
