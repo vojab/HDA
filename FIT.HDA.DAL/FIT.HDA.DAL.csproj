@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelpDeskDbContext.cs" />
+    <Compile Include="Migrations\201304050740417_InitialMigration.cs" />
+    <Compile Include="Migrations\201304050740417_InitialMigration.Designer.cs">
+      <DependentUpon>201304050740417_InitialMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RequestRepository.cs" />
@@ -60,6 +64,11 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201304050740417_InitialMigration.resx">
+      <DependentUpon>201304050740417_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

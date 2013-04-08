@@ -12,7 +12,8 @@ namespace FIT.HDA.DAL.Repositories
         private readonly HelpDeskDbContext _context;
         public RequestRepository()
         {
-            _context = new HelpDeskDbContext("HelpDeskDB");
+            _context = new HelpDeskDbContext();
+            //_context = new HelpDeskDbContext();
         }
 
         public IEnumerable<Request> GetAll()

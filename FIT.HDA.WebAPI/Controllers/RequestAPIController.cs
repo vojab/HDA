@@ -11,11 +11,11 @@ namespace FIT.HDA.API.Controllers
 {
     public class RequestAPIController : ApiController
     {
-        private readonly RequestRepository requestRepository;
+        private readonly RequestRepository _requestRepository;
 
         public RequestAPIController()
         {
-            requestRepository = new RequestRepository();
+            _requestRepository = new RequestRepository();
 
         }
 
@@ -25,7 +25,7 @@ namespace FIT.HDA.API.Controllers
 
             try
             {
-                requests = requestRepository.GetAll();
+                requests = _requestRepository.GetAll();
             }
             catch (Exception)
             {

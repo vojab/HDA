@@ -11,7 +11,7 @@ namespace FIT.HDA.Models
         public string ProductDescription { get; set; }
 
         // --- Code First DEFINITION
-        //public virtual Request Request { get; set; }
+        public virtual Request Request { get; set; }
         public int? RequestId { get; set; }
         // -------------------------
         

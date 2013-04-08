@@ -19,9 +19,9 @@ namespace FIT.HDA.Models
         [ForeignKey("TimeManagamentId")]
         public virtual TimeManagament TimeManagament { get; set; }
 
-        [ForeignKey("ProductId")]
-        //public int? RequestProductId { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        //[ForeignKey("ProductId")]
+        //public int? ProductId { get; set; }
+        //public virtual ICollection<Product> Products { get; set; }
         // -------------------------
 
         // TODO: Code first connections define bellow - IMPLEMENT LATER
