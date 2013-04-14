@@ -41,7 +41,6 @@ namespace HDA.App_Start
             // All application JS files (except mocks)
             bundles.Add(new ScriptBundle("~/bundles/javaScriptApplicationLibraries")
                 .IncludeDirectory("~/Scripts/Application/", "*.js", searchSubdirectories: false));
-
             // External Party JavaScript files
             bundles.Add(new ScriptBundle("~/bundles/javaScriptExternalLibraries").Include(
                 // jQuery plugins

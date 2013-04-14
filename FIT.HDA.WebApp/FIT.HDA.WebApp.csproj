@@ -232,6 +232,8 @@
     <Content Include="Scripts\Application\Bootstraper.js" />
     <Content Include="Scripts\Application\DataService.Employee.js" />
     <Content Include="Scripts\Application\DataService.js" />
+    <Content Include="Scripts\Application\DataService.Request.js" />
+    <Content Include="Scripts\Application\HelpDeskModel.js" />
     <Content Include="Scripts\Application\ViewModel.js" />
     <Content Include="Scripts\Libraries\activity-indicator.js" />
     <Content Include="Scripts\Libraries\amplify.js" />

@@ -13,7 +13,6 @@ namespace FIT.HDA.DAL.Repositories
         public RequestRepository()
         {
             _context = new HelpDeskDbContext();
-            //_context = new HelpDeskDbContext();
         }
 
         public IEnumerable<Request> GetAll()

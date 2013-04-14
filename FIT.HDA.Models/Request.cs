@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace FIT.HDA.Models
 {
@@ -15,13 +17,20 @@ namespace FIT.HDA.Models
         public DateTime RequestClosedDate { get; set; }
 
         // --- Code First DEFINITION
-        public int? TimeManagamentId { get; set; }
-        [ForeignKey("TimeManagamentId")]
-        public virtual TimeManagament TimeManagament { get; set; }
+        //public int? TimeManagamentId { get; set; }
+        //[ForeignKey("TimeManagamentId")]
+        //public virtual TimeManagament TimeManagament { get; set; }
 
-        //[ForeignKey("ProductId")]
-        //public int? ProductId { get; set; }
-        //public virtual ICollection<Product> Products { get; set; }
+        public int? ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
+
+        //public int? AttachmentId { get; set; }
+        //[ForeignKey("AttachmentId")]
+        [JsonIgnore] 
+        [IgnoreDataMember] 
+        public virtual ICollection<Attachment> Attachments { get; set; }
+        //public virtual List<Attachment> Attachments { get; set; }
         // -------------------------
 
         // TODO: Code first connections define bellow - IMPLEMENT LATER

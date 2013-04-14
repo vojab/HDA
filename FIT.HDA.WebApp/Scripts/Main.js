@@ -15,6 +15,7 @@
         define('toastr', [], function () { return main.toastr; });
         define('underscore', [], function () { return main._; });
         define('cookie', [], function () { return main.cookie; });
+        define('model', [], function () { return main.model; });
     }
 
     function boot() {

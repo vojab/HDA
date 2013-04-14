@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using FIT.HDA.DAL.Migrations;
 using FIT.HDA.Models;
 
 namespace FIT.HDA.DAL
@@ -7,7 +8,8 @@ namespace FIT.HDA.DAL
     {
         public HelpDeskDbContext()
         {
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<HelpDeskDbContext>()); 
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<HelpDeskDbContext>());
+
         }
 
         //public HelpDeskDbContext(string connString) : base(connString)
@@ -19,13 +21,14 @@ namespace FIT.HDA.DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<TimeManagament> TimeManagaments { get; set; }
         public DbSet<RequestStatus> RequestStatuses { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            // Do not crete database automatically
-            //Database.SetInitializer<HelpDeskDbContext>()
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    // Do not crete database automatically
+        //    //Database.SetInitializer<HelpDeskDbContext>()
 
-            base.OnModelCreating(modelBuilder);
-        }
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

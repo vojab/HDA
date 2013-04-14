@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace FIT.HDA.API
+namespace FIT.HDA.API.App_Start
 {
     public class FilterConfig
     {

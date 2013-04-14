@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIT.HDA.Models
 {
@@ -11,8 +12,9 @@ namespace FIT.HDA.Models
         public string ProductDescription { get; set; }
 
         // --- Code First DEFINITION
-        public virtual Request Request { get; set; }
-        public int? RequestId { get; set; }
+        //public int? RequestId { get; set; }
+        //[ForeignKey("RequestId")]
+        //public virtual Request Request { get; set; }
         // -------------------------
         
         // TODO: Code First for User - Implement later

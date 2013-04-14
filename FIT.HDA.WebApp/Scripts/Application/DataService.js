@@ -1,7 +1,8 @@
 ﻿define('DataService',
-    ['DataService.Employee'],
-    function (employee) {
+    ['DataService.Employee', 'DataService.Request'],
+    function (employee, request) {
         return {
-            employee: employee
+            employee: employee,
+            request: request
         };
     });

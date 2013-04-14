@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace FIT.HDA.API
+namespace FIT.HDA.API.App_Start
 {
     public class BundleConfig
     {

@@ -12,7 +12,7 @@
                 <table>
                     <tr>
                         <td>
-                            <button onclick="loadEmployees();return false;">Get All Employees</button></td>
+                            <button onclick="loadRequests();return false;">Get All Requests</button></td>
                         <td>Enter Employee Id:
                             <input type="text" id="txtEmpid" style="width: 50PX" /></td>
                         <td>
@@ -55,10 +55,10 @@
     </section>
 }
 <h3>Oputput of action done through WEB API:</h3>
+<label id="knockoutResultSet" data-bind="text: requests.RequestDescription"></label>
 <ol class="round">
     <li>
         <div id="divResult"></div>
-
     </li>
 </ol>
 <script src="~/Scripts/Main.js"></script>
