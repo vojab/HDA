@@ -164,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HDAController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -173,6 +174,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -229,6 +234,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\glyphicons-halflings-white.png" />
+    <Content Include="Images\glyphicons-halflings.png" />
     <Content Include="Scripts\Application\Bootstraper.js" />
     <Content Include="Scripts\Application\DataService.Employee.js" />
     <Content Include="Scripts\Application\DataService.js" />
@@ -237,6 +244,8 @@
     <Content Include="Scripts\Application\ViewModel.js" />
     <Content Include="Scripts\Libraries\activity-indicator.js" />
     <Content Include="Scripts\Libraries\amplify.js" />
+    <Content Include="Scripts\Libraries\bootstrap.js" />
+    <Content Include="Scripts\Libraries\bootstrap.min.js" />
     <Content Include="Scripts\Libraries\cookie.js" />
     <None Include="Scripts\Libraries\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.js" />
@@ -252,6 +261,7 @@
     <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Libraries\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\Libraries\knockout-2.1.0.js" />
+    <Content Include="Scripts\Libraries\knockout-mapping.js" />
     <Content Include="Scripts\Libraries\knockout.activity.js" />
     <Content Include="Scripts\Libraries\modernizr-2.5.3.js" />
     <Content Include="Scripts\Libraries\moment.js" />
@@ -301,6 +311,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\HDA\Requests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

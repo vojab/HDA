@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Help Desk Requests";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h4>@ViewBag.Message</h4>
+            </hgroup>
+            <div>
+                <table class="table table-striped" 
+                       data-bind="foreach: requests">
+                    <tr>
+                        <td data-bind="text: Product().ProductName()"></td>
+                        <td data-bind="text: DateCreated"></td>
+                        <td data-bind="text: DateCreated"></td>
+                        <td data-bind="text: DateCreated"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+}
+@*HDA SPA Entry Point*@
+<script src="~/Scripts/Main.js"></script>

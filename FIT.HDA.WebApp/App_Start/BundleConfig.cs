@@ -22,7 +22,7 @@ namespace HDA.App_Start
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/Libraries/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
@@ -43,11 +43,9 @@ namespace HDA.App_Start
                 .IncludeDirectory("~/Scripts/Application/", "*.js", searchSubdirectories: false));
             // External Party JavaScript files
             bundles.Add(new ScriptBundle("~/bundles/javaScriptExternalLibraries").Include(
-                // jQuery plugins
-                    //"~/Scripts/Libraries/activity-indicator.js",
                 // Knockout and its plugins
                     "~/Scripts/Libraries/knockout-2.1.0.debug.js",
-                    //"~/Scripts/Libraries/knockout.activity.js",
+                    "~/Scripts/Libraries/knockout-mapping.js",
                 // Other external libraries
                     "~/Scripts/Libraries/underscore.js",
                     "~/Scripts/Libraries/moment.js",
@@ -55,6 +53,7 @@ namespace HDA.App_Start
                     "~/Scripts/Libraries/amplify.js",
                     "~/Scripts/Libraries/toastr.js",
                     "~/Scripts/Libraries/cookie.js",
+                    "~/Scripts/Libraries/bootstrap.js",
                     "~/Scripts/Libraries/require.js"
                     ));
         }

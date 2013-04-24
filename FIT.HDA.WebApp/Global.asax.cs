@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using FIT.HDA.DAL;
+using FIT.HDA.WebApp.App_Start;
 using HDA.App_Start;
 
 namespace FIT.HDA.WebApp
