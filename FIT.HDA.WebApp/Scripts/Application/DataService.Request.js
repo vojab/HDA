@@ -5,9 +5,17 @@
 
             // Pass Resource Id, Request Type, and Settings
             amplify.request.define('GetRequests', 'ajax', {
+                // TODO: Move base url to the config file
                 url: 'http://localhost:3894/api/RequestAPI',
                 dataType: 'jsonp',
                 type: 'GET'
+            });
+
+            amplify.request.define('PostRequest', 'ajax', {
+                url: 'http://localhost:3894/api/RequestAPI',
+                dataType: 'json',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8'
             });
 
         },
@@ -19,9 +27,19 @@
                 });
             };
 
+        saveRequest = function (callbacks, picks) {
+            return amplify.request({
+                resourceId: 'PostRequest',
+                data: picks,
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
+
         init();
 
         return {
-            getRequests: getRequests
+            getRequests: getRequests,
+            saveRequest: saveRequest
         };
     });

@@ -48,8 +48,19 @@ namespace FIT.HDA.API.Controllers
         }
 
         // POST api/requestapi
+        [HttpPost]
         public void Post([FromBody]string value)
         {
+            var request = new Request
+                              {
+                                  RequestDescription = "TEST",
+                                  RequestOpenDate = DateTime.Now,
+                                  RequestClosedDate = DateTime.Now,
+                                  DateCreated = DateTime.Now,
+                                  RequestReadyForArchive = false,
+                                  ProductId = 1
+                              };
+            _requestRepository.SaveRequest(request);
         }
 
         // PUT api/requestapi/5

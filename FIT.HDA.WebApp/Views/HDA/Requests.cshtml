@@ -8,19 +8,55 @@
                 <h1>@ViewBag.Title.</h1>
                 <h4>@ViewBag.Message</h4>
             </hgroup>
-            <div>
-                <table class="table table-striped" 
-                       data-bind="foreach: requests">
-                    <tr>
-                        <td data-bind="text: Product().ProductName()"></td>
-                        <td data-bind="text: DateCreated"></td>
-                        <td data-bind="text: DateCreated"></td>
-                        <td data-bind="text: DateCreated"></td>
-                    </tr>
-                </table>
+
+            <div id="requestsArea">
             </div>
+
+            <div id="requestModalArea">
+            </div>
+
         </div>
     </section>
 }
 @*HDA SPA Entry Point*@
 <script src="~/Scripts/Main.js"></script>
+
+@*Templates section*@
+<script type="text/html" id="requestsTemplate">
+    <ol class="table table-striped"
+        data-bind="foreach: requests">
+        <li data-bind="text: Product().ProductName()"></li>
+        @*            <td data-bind="text: DateCreated"></td>
+            <td data-bind="text: DateCreated"></td>
+            <td data-bind="text: DateCreated"></td>*@
+        <li>
+            <button data-bind="click: openRequest.bind($data)"
+                class="btn"
+                type="button"
+                data-toggle="modal">
+                Open Help Desk Request</button>
+        </li>
+    </ol>
+</script>
+
+<script type="text/html" id="requestModalTemplate">
+    <div id="requestModal" 
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Modal header</h3>
+        </div>
+        <div class="modal-body">
+            <p>Help Desk Request Details...</p>
+            <label data-bind="text: Product().ProductName()"></label>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary">Save help desk request</button>
+        </div>
+    </div>
+</script>

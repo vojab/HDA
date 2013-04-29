@@ -25,6 +25,12 @@ namespace FIT.HDA.DAL.Repositories
             return _context.Requests.Where(r => r.RequestId == id).Select(r => r).AsEnumerable();
         }
 
+        public void SaveRequest(Request request)
+        {
+            _context.Requests.Add(request);
+            _context.SaveChanges();
+        }
+
         public void Dispose()
         {
             if (_context != null)
