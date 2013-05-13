@@ -4,17 +4,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         var that = this;
 
         initialize = function () {
-            alert('run Lola run!');
+            //alert('run Lola run!');
             that.loadRequests();
         };
         
         // ----- Knockout Observable Section -----
         
         // Knockout Observable for Help Desk Requests
-        request = ko.observable();
+        selectedRequest = ko.observable();
+        newRequest = ko.observable(new model.request());
         requests = ko.observableArray([]);
-
-        currentRequestIndex = ko.observable(0);
         
         // ----- --------------------------- -----
         
@@ -49,10 +48,35 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //that.redirectToErrorPage();
             }
         };
+
+        saveRequest = function() {
+            //dataService.request.saveRequest({
+            //    success: function () {
+            //        console.log('request is saved !');
+            //    },
+            //    error: function () {
+            //        console.log('error');
+            //    }
+            //}, ko.toJSON(that.newRequest));
+            $.ajax({
+                url:'http://localhost:3894/api/RequestAPI/save?requestdescription="voja"',
+                //data: 'voja',
+                dataType: 'json',
+                //dataType: "iframe",
+                //async: true,
+                //contentType: 'application/json; charset=utf-8',
+                type: 'GET'
+            }).success(function () {
+                // Set up bracket played flag to true so user can know that bracket is saved
+                console.log('Bracket is saved !');
+            }).error(function (message) {
+                //that.errorHandler(message);
+            });
+        };
         
         // HELPER FUNCTION SECTION TODO: Extract to separate module
         openRequest = function (currentData) {
-            request(currentData);
+            selectedRequest(currentData);
             renderRequestIntoModal();
             $('#requestModal').modal('show');
         };
@@ -61,7 +85,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         renderRequestIntoModal = function () {
             try {
                 var selector = "#requestModalArea";
-                $(selector).attr("data-bind", "template: { name: 'requestModalTemplate', data: request }");
+                $(selector).attr("data-bind", "template: { name: 'requestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#requestModalArea'));
                 ko.applyBindings(that.requests);
             } catch (e) {
@@ -76,9 +100,10 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             initialize: initialize,
             loadRequests: loadRequests,
             openRequest: openRequest,
-            request: request,
+            saveRequest: saveRequest,
+            selectedRequest: selectedRequest,
+            newRequest: newRequest,
             requests: requests,
-            renderRequestIntoModal: renderRequestIntoModal,
-            currentRequestIndex: currentRequestIndex
+            renderRequestIntoModal: renderRequestIntoModal
         };
     });

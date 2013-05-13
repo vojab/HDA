@@ -48,29 +48,49 @@ namespace FIT.HDA.API.Controllers
         }
 
         // POST api/requestapi
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [ActionName("save")]
+        [HttpGet]
+        public void SaveRequest(string requestdescription)
         {
-            var request = new Request
-                              {
-                                  RequestDescription = "TEST",
-                                  RequestOpenDate = DateTime.Now,
-                                  RequestClosedDate = DateTime.Now,
-                                  DateCreated = DateTime.Now,
-                                  RequestReadyForArchive = false,
-                                  ProductId = 1
-                              };
+            var request = new Request();
             _requestRepository.SaveRequest(request);
         }
 
+        //// POST api/requestapi
+        //[HttpPost]
+        //public void Post([FromBody]string value)
+        ////public void Post(string value)
+        //{
+        //    //var request = new Request
+        //    //                  {
+        //    //                      RequestDescription = "TEST",
+        //    //                      RequestOpenDate = DateTime.Now,
+        //    //                      RequestClosedDate = DateTime.Now,
+        //    //                      DateCreated = DateTime.Now,
+        //    //                      RequestReadyForArchive = false,
+        //    //                      ProductId = 1
+        //    //                  };
+
+
+
+        //    var request = new Request();
+
+
+        //    _requestRepository.SaveRequest(request);
+        //}
+
         // PUT api/requestapi/5
+        [HttpPut]
         public void Put(int id, [FromBody]string value)
         {
+            _requestRepository.UpdateRequest(id);
         }
 
         // DELETE api/requestapi/5
+        [HttpDelete]
         public void Delete(int id)
         {
+            _requestRepository.DeleteRequest(id);
         }
     }
 }

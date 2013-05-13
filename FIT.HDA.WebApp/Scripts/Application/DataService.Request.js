@@ -19,18 +19,19 @@
             });
 
         },
-            getRequests = function (callbacks) {
-                return amplify.request({
-                    resourceId: 'GetRequests',
-                    success: callbacks.success,
-                    error: callbacks.error
-                });
-            };
+            
+        getRequests = function (callbacks) {
+            return amplify.request({
+                resourceId: 'GetRequests',
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
 
-        saveRequest = function (callbacks, picks) {
+        saveRequest = function (callbacks, request) {
             return amplify.request({
                 resourceId: 'PostRequest',
-                data: picks,
+                data: request,
                 success: callbacks.success,
                 error: callbacks.error
             });
