@@ -49,7 +49,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
         };
 
-        saveRequest = function() {
+        saveRequest = function () {
+            dataService.request.saveRequest({
+                success: function () {
+                    console.log('success');
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.newRequest().RequestDescription(), that.newRequest().ProductId());
+
             //dataService.request.saveRequest({
             //    success: function () {
             //        console.log('request is saved !');
@@ -58,20 +67,20 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             //        console.log('error');
             //    }
             //}, ko.toJSON(that.newRequest));
-            $.ajax({
-                url:'http://localhost:3894/api/RequestAPI/save?requestdescription="voja"',
-                //data: 'voja',
-                dataType: 'json',
-                //dataType: "iframe",
-                //async: true,
-                //contentType: 'application/json; charset=utf-8',
-                type: 'GET'
-            }).success(function () {
-                // Set up bracket played flag to true so user can know that bracket is saved
-                console.log('Bracket is saved !');
-            }).error(function (message) {
-                //that.errorHandler(message);
-            });
+            //$.ajax({
+            //    url:'http://localhost:3894/api/RequestAPI/save?requestdescription="voja"',
+            //    //data: 'voja',
+            //    dataType: 'json',
+            //    //dataType: "iframe",
+            //    //async: true,
+            //    //contentType: 'application/json; charset=utf-8',
+            //    type: 'GET'
+            //}).success(function () {
+            //    console.log('saved !');
+            //}).error(function (message) {
+            //    console.log('error !');
+            //    //that.errorHandler(message);
+            //});
         };
         
         // HELPER FUNCTION SECTION TODO: Extract to separate module

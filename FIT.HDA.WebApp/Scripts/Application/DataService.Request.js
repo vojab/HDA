@@ -17,6 +17,12 @@
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8'
             });
+            
+            amplify.request.define('SaveRequest', 'ajax', {
+                url: 'http://localhost:3894/api/RequestAPI/save?requestdescription={requestdescription}&productid={productid}',
+                dataType: 'json',
+                type: 'GET'
+            });
 
         },
             
@@ -28,10 +34,10 @@
             });
         };
 
-        saveRequest = function (callbacks, request) {
+        saveRequest = function (callbacks, requestdescription, productid) {
             return amplify.request({
-                resourceId: 'PostRequest',
-                data: request,
+                resourceId: 'SaveRequest',
+                data: { requestdescription: requestdescription, productid: productid },
                 success: callbacks.success,
                 error: callbacks.error
             });

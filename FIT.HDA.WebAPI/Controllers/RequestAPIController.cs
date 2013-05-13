@@ -50,10 +50,20 @@ namespace FIT.HDA.API.Controllers
         // POST api/requestapi
         [ActionName("save")]
         [HttpGet]
-        public void SaveRequest(string requestdescription)
+        public string SaveRequest(string requestdescription, string productid)
         {
             var request = new Request();
+
+            request.RequestDescription = requestdescription;
+            request.ProductId = Int32.Parse(productid);
+            request.RequestReadyForArchive = false;
+            request.RequestOpenDate = DateTime.Now;
+            request.RequestClosedDate = DateTime.Now;
+            request.DateCreated = DateTime.Now;
+
             _requestRepository.SaveRequest(request);
+
+            return "value";
         }
 
         //// POST api/requestapi
