@@ -31,6 +31,7 @@ namespace FIT.HDA.DAL.Repositories
             _context.SaveChanges();
         }
 
+        // TODO: Finish implementation of this
         public void UpdateRequest(int requestId)
         {
             var request = _context.Requests.

@@ -11,7 +11,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         // ----- Knockout Observable Section -----
         
         // Knockout Observable for Help Desk Requests
-        selectedRequest = ko.observable();
+        selectedRequest = ko.observable(new model.request());
         newRequest = ko.observable(new model.request());
         requests = ko.observableArray([]);
         
@@ -35,7 +35,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 that.requests.push(new model.request(result[i]));
             }
             that.renderRequests();
-            ko.applyBindings(that.requests);
+            ko.applyBindings(that);
         };
         
         // Apply template to target div and render requests data
@@ -51,8 +51,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
         saveRequest = function () {
             dataService.request.saveRequest({
-                success: function () {
-                    console.log('success');
+                success: function (message) {
+                    console.log(message);
                 },
                 error: function () {
                     console.log('error !');
@@ -96,7 +96,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 var selector = "#requestModalArea";
                 $(selector).attr("data-bind", "template: { name: 'requestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#requestModalArea'));
-                ko.applyBindings(that.requests);
+                ko.applyBindings(that.requests, document.getElementById("requestModalArea"));
             } catch (e) {
                 console.log('Exception was thrown - Could not render current request into modal');
                 //that.redirectToErrorPage();

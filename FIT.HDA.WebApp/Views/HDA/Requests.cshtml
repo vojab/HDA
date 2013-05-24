@@ -16,6 +16,7 @@
             </div>
 
             <div id="newRequestModalArea">
+
                 <div id="newRequestModal"
                     class="modal hide fade"
                     tabindex="-1"
@@ -28,15 +29,12 @@
                     </div>
                     <div class="modal-body">
                         <p>Help Desk Request Details...</p>
-                        <form id="newRequest" method="post" action="#">
-                            <label>Help desk request description:</label>
-                            <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
-                                type="text" />
-                            <label>Help desk request product:</label>
-                            <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
-                                type="text" />
-                            <input type="submit" name="submit" value="CREATE" id="createNewRequest" data-bind="click: saveRequest"/>
-                        </form>
+                        <label>Help desk request description:</label>
+                        <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
+                            type="text" />
+                        <label>Help desk request product:</label>
+                        <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
+                            type="text" />
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -45,6 +43,7 @@
                             Save new help desk request</button>
                     </div>
                 </div>
+
             </div>
 
             <div>
@@ -63,20 +62,37 @@
 
 @*Templates section*@
 <script type="text/html" id="requestsTemplate">
-    <ol class="table table-striped"
-        data-bind="foreach: requests">
-        <li data-bind="text: Product().ProductName()"></li>
-        @*            <td data-bind="text: DateCreated"></td>
-            <td data-bind="text: DateCreated"></td>
-            <td data-bind="text: DateCreated"></td>*@
-        <li>
-            <button data-bind="click: openRequest.bind($data)"
-                class="btn"
-                type="button"
-                data-toggle="modal">
-                Open Help Desk Request</button>
-        </li>
-    </ol>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Request Description</th>
+                <th>Request Open Date</th>
+                <th>Request Closed Date</th>
+                <th>Product Name</th>
+                <th>Product Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: requests">
+            <tr>
+                <td data-bind="text: RequestId()"></td>
+                <td data-bind="text: RequestDescription()"></td>
+                <td data-bind="text: RequestOpenDate()"></td>
+                <td data-bind="text: RequestClosedDate()"></td>
+                <td data-bind="text: Product().ProductName()"></td>
+                <td data-bind="text: Product().ProductDescription()"></td>
+                <td>
+                    <button data-bind="click: openRequest.bind($data)"
+                            class="btn"
+                            type="button"
+                            data-toggle="modal">
+                        Open Help Desk Request
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </script>
 
 <script type="text/html" id="requestModalTemplate">
@@ -92,7 +108,7 @@
         </div>
         <div class="modal-body">
             <p>Help Desk Request Details...</p>
-            <label data-bind="text: Product().ProductName()"></label>
+            <label data-bind="text: selectedRequest().Product().ProductName()"></label>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

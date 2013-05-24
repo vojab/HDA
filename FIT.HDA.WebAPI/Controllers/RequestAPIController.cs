@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Mvc;
+using FIT.HDA.API.Formatters;
 using FIT.HDA.DAL.Repositories;
 using FIT.HDA.Models;
 
@@ -47,9 +48,8 @@ namespace FIT.HDA.API.Controllers
             return "value";
         }
 
-        // POST api/requestapi
-        [ActionName("save")]
-        [HttpGet]
+        [System.Web.Http.ActionName("save")]
+        [System.Web.Http.HttpGet]
         public string SaveRequest(string requestdescription, string productid)
         {
             var request = new Request();
@@ -63,7 +63,16 @@ namespace FIT.HDA.API.Controllers
 
             _requestRepository.SaveRequest(request);
 
-            return "value";
+            return "ta-ra";
+
+            //return new HttpResponseMessage()
+            //{
+            //    Content = new JsonContent(new
+            //    {
+            //        Status = "Success",
+            //        Data = "Success"
+            //    })
+            //};
         }
 
         //// POST api/requestapi
@@ -90,14 +99,14 @@ namespace FIT.HDA.API.Controllers
         //}
 
         // PUT api/requestapi/5
-        [HttpPut]
+        [System.Web.Http.HttpPut]
         public void Put(int id, [FromBody]string value)
         {
             _requestRepository.UpdateRequest(id);
         }
 
         // DELETE api/requestapi/5
-        [HttpDelete]
+        [System.Web.Http.HttpDelete]
         public void Delete(int id)
         {
             _requestRepository.DeleteRequest(id);
