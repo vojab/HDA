@@ -8,6 +8,9 @@
                 <h1>@ViewBag.Title.</h1>
                 <h4>@ViewBag.Message</h4>
             </hgroup>
+            
+            <input data-bind="value: filter, valueUpdate: 'afterkeydown'"
+                   type="text" class="search-query" placeholder="Search">
 
             <div id="requestsArea">
             </div>
@@ -16,38 +19,11 @@
             </div>
 
             <div id="newRequestModalArea">
-
-                <div id="newRequestModal"
-                    class="modal hide fade"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-labelledby="myModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="newRequestModalLabel">Modal header</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p>Help Desk Request Details...</p>
-                        <label>Help desk request description:</label>
-                        <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
-                            type="text" />
-                        <label>Help desk request product:</label>
-                        <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
-                            type="text" />
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                        <button data-bind="click: saveRequest"
-                            class="btn btn-primary">
-                            Save new help desk request</button>
-                    </div>
-                </div>
-
             </div>
 
             <div>
-                <button class="btn"
+                <button data-bind="click: openModalForNewRequest"
+                    class="btn"
                     type="button"
                     data-toggle="modal"
                     data-target="#newRequestModal">
@@ -61,7 +37,7 @@
 <script src="~/Scripts/Main.js"></script>
 
 @*Templates section*@
-<script type="text/html" id="requestsTemplate">
+<script type="text/html" id="requestsListTemplate">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -74,7 +50,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: requests">
+        <tbody data-bind="foreach: filteredRequests">
             <tr>
                 <td data-bind="text: RequestId()"></td>
                 <td data-bind="text: RequestDescription()"></td>
@@ -84,10 +60,11 @@
                 <td data-bind="text: Product().ProductDescription()"></td>
                 <td>
                     <button data-bind="click: openRequest.bind($data)"
-                            class="btn"
-                            type="button"
-                            data-toggle="modal">
-                        Open Help Desk Request
+                        class="btn"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#requestModal">
+                        Open
                     </button>
                 </td>
             </tr>
@@ -95,7 +72,7 @@
     </table>
 </script>
 
-<script type="text/html" id="requestModalTemplate">
+<script type="text/html" id="requestDetailsModalTemplate">
     <div id="requestModal"
         class="modal hide fade"
         tabindex="-1"
@@ -113,6 +90,35 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary">Save help desk request</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="newRequestModalTemplate">
+    <div id="newRequestModal"
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="newRequestModalLabel">Modal header</h3>
+        </div>
+        <div class="modal-body">
+            <p>Help Desk Request Details...</p>
+            <label>Help desk request description:</label>
+            <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
+                type="text" />
+            <label>Help desk request product:</label>
+            <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
+                type="text" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button data-bind="click: saveRequest"
+                class="btn btn-primary">
+                Save new help desk request</button>
         </div>
     </div>
 </script>

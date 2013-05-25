@@ -22,6 +22,8 @@ namespace FIT.HDA.DAL
         public DbSet<TimeManagament> TimeManagaments { get; set; }
         public DbSet<RequestStatus> RequestStatuses { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

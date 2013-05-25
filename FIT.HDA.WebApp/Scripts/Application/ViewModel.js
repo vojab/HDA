@@ -14,6 +14,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         selectedRequest = ko.observable(new model.request());
         newRequest = ko.observable(new model.request());
         requests = ko.observableArray([]);
+        filteredRequests = ko.observableArray([]);
+        filter = ko.observable("");
         
         // ----- --------------------------- -----
         
@@ -42,7 +44,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         renderRequests = function () {
             try {
                 var selector = "#requestsArea";
-                $(selector).attr("data-bind", "template: { name: 'requestsTemplate' }");
+                $(selector).attr("data-bind", "template: { name: 'requestsListTemplate' }");
             } catch (e) {
                 console.log('Exception was thrown - Could not render requests');
                 //that.redirectToErrorPage();
@@ -52,49 +54,27 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         saveRequest = function () {
             dataService.request.saveRequest({
                 success: function (message) {
+                    //TODO: save request status within other endpoint
                     console.log(message);
                 },
                 error: function () {
                     console.log('error !');
                 }
             }, that.newRequest().RequestDescription(), that.newRequest().ProductId());
-
-            //dataService.request.saveRequest({
-            //    success: function () {
-            //        console.log('request is saved !');
-            //    },
-            //    error: function () {
-            //        console.log('error');
-            //    }
-            //}, ko.toJSON(that.newRequest));
-            //$.ajax({
-            //    url:'http://localhost:3894/api/RequestAPI/save?requestdescription="voja"',
-            //    //data: 'voja',
-            //    dataType: 'json',
-            //    //dataType: "iframe",
-            //    //async: true,
-            //    //contentType: 'application/json; charset=utf-8',
-            //    type: 'GET'
-            //}).success(function () {
-            //    console.log('saved !');
-            //}).error(function (message) {
-            //    console.log('error !');
-            //    //that.errorHandler(message);
-            //});
         };
         
         // HELPER FUNCTION SECTION TODO: Extract to separate module
         openRequest = function (currentData) {
             selectedRequest(currentData);
             renderRequestIntoModal();
-            $('#requestModal').modal('show');
+            //$('#requestModal').modal('show');
         };
         
         // Apply template to target div and render requests data
         renderRequestIntoModal = function () {
             try {
                 var selector = "#requestModalArea";
-                $(selector).attr("data-bind", "template: { name: 'requestModalTemplate', data: selectedRequest }");
+                $(selector).attr("data-bind", "template: { name: 'requestDetailsModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#requestModalArea'));
                 ko.applyBindings(that.requests, document.getElementById("requestModalArea"));
             } catch (e) {
@@ -103,6 +83,32 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
         };
         
+        // Apply template to target div to render modal for creating new request
+        openModalForNewRequest = function () {
+            try {
+                var selector = "#newRequestModalArea";
+                $(selector).attr("data-bind", "template: { name: 'newRequestModalTemplate' }");
+                //$('#newRequestModal').modal('show');
+                ko.cleanNode($('#newRequestModalArea'));
+                ko.applyBindings(that.newRequest, document.getElementById("newRequestModalArea"));
+            } catch (e) {
+                console.log('Exception was thrown - Could not render current request into modal');
+                //that.redirectToErrorPage();
+            }
+        };
+        
+        // Filter requests using the filter text
+        that.filteredRequests = ko.dependentObservable(function () {
+            var filter = this.filter().toLowerCase();
+            if (!filter) {
+                return that.requests();
+            } else {
+                return ko.utils.arrayFilter(that.requests(), function (request) {
+                    return ko.utils.stringStartsWith(request.RequestDescription().toLowerCase(), filter);
+                });
+            }
+        }, that);
+
         // UTIL FUNCTION SECTION TODO: Extract to separate module
 
         return {
@@ -113,6 +119,9 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             selectedRequest: selectedRequest,
             newRequest: newRequest,
             requests: requests,
-            renderRequestIntoModal: renderRequestIntoModal
+            filter: filter,
+            filteredRequests: filteredRequests,
+            renderRequestIntoModal: renderRequestIntoModal,
+            openModalForNewRequest: openModalForNewRequest
         };
     });
