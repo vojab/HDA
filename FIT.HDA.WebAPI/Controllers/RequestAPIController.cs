@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -13,10 +14,12 @@ namespace FIT.HDA.API.Controllers
     public class RequestAPIController : ApiController
     {
         private readonly RequestRepository _requestRepository;
+        private readonly RequestStatusChangesRepository _requestStatusChangeRepository;
 
         public RequestAPIController()
         {
             _requestRepository = new RequestRepository();
+            _requestStatusChangeRepository = new RequestStatusChangesRepository();
 
         }
 
@@ -27,6 +30,7 @@ namespace FIT.HDA.API.Controllers
             try
             {
                 requests = _requestRepository.GetAll();
+                
             }
             catch (Exception)
             {
@@ -60,6 +64,20 @@ namespace FIT.HDA.API.Controllers
             request.RequestOpenDate = DateTime.Now;
             request.RequestClosedDate = DateTime.Now;
             request.DateCreated = DateTime.Now;
+
+            // Save Request Status Changes entry
+            request.RequestStatusChanges = new Collection<RequestStatusChanges>();
+            var requestStatusChange = new RequestStatusChanges();
+            requestStatusChange.RequestStatusId = 1; // OPEN
+            requestStatusChange.DateCreated = DateTime.Now;
+            request.RequestStatusChanges.Add(requestStatusChange);
+
+            // Save Assigned User Changes entry
+            request.AssignedUserChanges = new Collection<AssignedUserChanges>();
+            var assigneUserChange = new AssignedUserChanges();
+            assigneUserChange.UserId = 1; // ADMIN;
+            assigneUserChange.DateCreated = DateTime.Now;
+            request.AssignedUserChanges.Add(assigneUserChange);
 
             _requestRepository.SaveRequest(request);
 

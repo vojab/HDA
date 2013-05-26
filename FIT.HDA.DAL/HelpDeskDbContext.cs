@@ -20,7 +20,9 @@ namespace FIT.HDA.DAL
         public DbSet<Request> Requests { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<TimeManagament> TimeManagaments { get; set; }
-        public DbSet<RequestStatus> RequestStatuses { get; set; }
+        public DbSet<RequestStatus> RequestStatus { get; set; }
+        public DbSet<RequestStatusChanges> RequestStatusChanges { get; set; }
+        public DbSet<AssignedUserChanges> AssignedUserChanges { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }

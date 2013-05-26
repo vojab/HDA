@@ -25,19 +25,13 @@ namespace FIT.HDA.Models
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
-        //public int? AttachmentId { get; set; }
-        //[ForeignKey("AttachmentId")]
         [JsonIgnore] 
         [IgnoreDataMember] 
         public virtual ICollection<Attachment> Attachments { get; set; }
-        //public virtual List<Attachment> Attachments { get; set; }
-        // -------------------------
 
-        // TODO: Code first connections define bellow - IMPLEMENT LATER
-        //public int RequestStatusId { get; set; }
-        //public int CurrentlyAssignedUserId { get; set; }
-        //public int RequestKnowlegeBaseEntryId { get; set; }
-        //public int RequestAttachmentId { get; set; }
+        public virtual ICollection<RequestStatusChanges> RequestStatusChanges { get; set; }
+
+        public virtual ICollection<AssignedUserChanges> AssignedUserChanges { get; set; }
 
         public DateTime DateCreated { get; set; }
     }
