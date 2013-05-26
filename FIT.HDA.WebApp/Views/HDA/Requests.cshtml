@@ -8,11 +8,26 @@
                 <h1>@ViewBag.Title.</h1>
                 <h4>@ViewBag.Message</h4>
             </hgroup>
-            
-            <p>Welcome, <label data-bind="text: loggedInUser().UserName()"></label></p>
 
-            <input data-bind="value: filter, valueUpdate: 'afterkeydown'"
-                   type="text" class="search-query" placeholder="Search">
+            <div id="userArea">
+                <p>Welcome, 
+                    <i class="icon-user"></i>
+                    <label data-bind="text: loggedInUser().UserName()"></label>
+                </p>
+            </div>
+            
+            <div id="filterArea">
+                <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
+                       type="text" class="search-query" placeholder="Search">
+                
+                <br/>
+
+                <p>Filter requests by status:
+                <select class="span2" data-bind="options: requestStatusOptions,
+                                                optionsText: 'RequestStatusName',
+                                                value: selectedRequestStatusOption,
+                                                event: { change: filterRequestsByRequestStatus }"></select>
+            </div>
 
             <div id="requestsArea">
             </div>
@@ -54,7 +69,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: filteredRequests">
+        <tbody data-bind="foreach: filteredRequestsByRequestStatus">
             <tr>
                 <td data-bind="text: RequestId()"></td>
                 <td data-bind="text: RequestDescription()"></td>

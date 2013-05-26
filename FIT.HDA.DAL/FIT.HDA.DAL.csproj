@@ -52,8 +52,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RequestRepository.cs" />
+    <Compile Include="Repositories\RequestStatusRepository.cs" />
     <Compile Include="Repositories\RequestStatusChangesRepository.cs" />
-    <Compile Include="UserRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FIT.HDA.Models\FIT.HDA.Models.csproj">

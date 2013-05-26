@@ -18,7 +18,7 @@ namespace FIT.HDA.API.Controllers
         public RequestAPIController()
         {
             _requestRepository = new RequestRepository();
-            }
+        }
 
         public IEnumerable<Request> GetRequests()
         {

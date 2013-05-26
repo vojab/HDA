@@ -240,6 +240,7 @@
     <Content Include="Scripts\Application\DataService.Employee.js" />
     <Content Include="Scripts\Application\DataService.js" />
     <Content Include="Scripts\Application\DataService.Request.js" />
+    <Content Include="Scripts\Application\DataService.RequestStatus.js" />
     <Content Include="Scripts\Application\DataService.User.js" />
     <Content Include="Scripts\Application\HelpDeskModel.js" />
     <Content Include="Scripts\Application\ViewModel.js" />
