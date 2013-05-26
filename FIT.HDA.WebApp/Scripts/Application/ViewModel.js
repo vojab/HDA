@@ -6,6 +6,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         initialize = function () {
             //alert('run Lola run!');
             that.loadRequests();
+            that.loadUser();
         };
         
         // ----- Knockout Observable Section -----
@@ -16,8 +17,30 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         requests = ko.observableArray([]);
         filteredRequests = ko.observableArray([]);
         filter = ko.observable("");
+        loggedInUser = ko.observable(new model.user());
         
         // ----- --------------------------- -----
+        
+        // TODO: User will be loaded from Log In page - this is temporary for testing
+        loadUser = function () {
+            dataService.user.getUserByUserNameAndPassword({
+                success: function (result) {
+                    that.bindUserData(result);
+                    //console.log(result);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, 'vojab', 'test'); // TODO: Remove temporary hardcoded values
+        };
+        
+        // Function for binding JSON requests data to the knockout observable
+        bindUserData = function (result) {
+            that.loggedInUser(new model.user(result));
+
+            //that.renderRequests();
+            //ko.applyBindings(that);
+        };
         
         loadRequests = function () {
             dataService.request.getRequests({
@@ -34,7 +57,24 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         // Function for binding JSON requests data to the knockout observable
         bindRequestData = function (result) {
             for (var i = 0; i < result.length; i++) {
-                that.requests.push(new model.request(result[i]));
+                var currentRequest = result[i];
+                
+                // Find request status in request status changes with highest id (that is latest and current)
+                var currentRequestStatusChangesObject = 
+                    _.max(currentRequest.RequestStatusChanges, function (requestStatusChangesObject) {
+                        return requestStatusChangesObject.RequestStatusChangesId;
+                    });
+                currentRequest.currentRequestStatus = currentRequestStatusChangesObject.RequestStatus;
+
+                // Find user in assigned user changes with highest id (that is latest and current)
+                var currentAssignedUserChangesObject =
+                    _.max(currentRequest.AssignedUserChanges, function (assignedUserChangesObject) {
+                        return assignedUserChangesObject.AssignedUserChangesId;
+                    });
+                currentRequest.currentAssignedUser = currentAssignedUserChangesObject.User;
+                
+                var currentRequestObservable = new model.request(currentRequest);
+                that.requests.push(currentRequestObservable);
             }
             that.renderRequests();
             ko.applyBindings(that);
@@ -99,7 +139,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         
         // Filter requests using the filter text
         that.filteredRequests = ko.dependentObservable(function () {
-            var filter = this.filter().toLowerCase();
+            var filter = that.filter().toLowerCase();
             if (!filter) {
                 return that.requests();
             } else {
@@ -119,6 +159,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             selectedRequest: selectedRequest,
             newRequest: newRequest,
             requests: requests,
+            loggedInUser: loggedInUser,
             filter: filter,
             filteredRequests: filteredRequests,
             renderRequestIntoModal: renderRequestIntoModal,

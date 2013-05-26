@@ -14,14 +14,11 @@ namespace FIT.HDA.API.Controllers
     public class RequestAPIController : ApiController
     {
         private readonly RequestRepository _requestRepository;
-        private readonly RequestStatusChangesRepository _requestStatusChangeRepository;
 
         public RequestAPIController()
         {
             _requestRepository = new RequestRepository();
-            _requestStatusChangeRepository = new RequestStatusChangesRepository();
-
-        }
+            }
 
         public IEnumerable<Request> GetRequests()
         {
@@ -82,15 +79,6 @@ namespace FIT.HDA.API.Controllers
             _requestRepository.SaveRequest(request);
 
             return "ta-ra";
-
-            //return new HttpResponseMessage()
-            //{
-            //    Content = new JsonContent(new
-            //    {
-            //        Status = "Success",
-            //        Data = "Success"
-            //    })
-            //};
         }
 
         //// POST api/requestapi

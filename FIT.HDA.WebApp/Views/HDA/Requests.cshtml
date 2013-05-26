@@ -9,6 +9,8 @@
                 <h4>@ViewBag.Message</h4>
             </hgroup>
             
+            <p>Welcome, <label data-bind="text: loggedInUser().UserName()"></label></p>
+
             <input data-bind="value: filter, valueUpdate: 'afterkeydown'"
                    type="text" class="search-query" placeholder="Search">
 
@@ -43,8 +45,10 @@
             <tr>
                 <th>ID</th>
                 <th>Request Description</th>
+                <th>Request Status</th>
                 <th>Request Open Date</th>
                 <th>Request Closed Date</th>
+                <th>Assigned To</th>
                 <th>Product Name</th>
                 <th>Product Description</th>
                 <th></th>
@@ -54,8 +58,10 @@
             <tr>
                 <td data-bind="text: RequestId()"></td>
                 <td data-bind="text: RequestDescription()"></td>
+                <td data-bind="text: CurrentRequestStatus().RequestStatusName()"></td>
                 <td data-bind="text: RequestOpenDate()"></td>
                 <td data-bind="text: RequestClosedDate()"></td>
+                <td data-bind="text: CurrentAssignedUser().UserName()"></td>
                 <td data-bind="text: Product().ProductName()"></td>
                 <td data-bind="text: Product().ProductDescription()"></td>
                 <td>
