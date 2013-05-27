@@ -51,7 +51,7 @@ namespace FIT.HDA.API.Controllers
 
         [System.Web.Http.ActionName("save")]
         [System.Web.Http.HttpGet]
-        public string SaveRequest(string requestdescription, string productid)
+        public string SaveRequest(string requestdescription, string productid, string userid)
         {
             var request = new Request();
 
@@ -72,7 +72,8 @@ namespace FIT.HDA.API.Controllers
             // Save Assigned User Changes entry
             request.AssignedUserChanges = new Collection<AssignedUserChanges>();
             var assigneUserChange = new AssignedUserChanges();
-            assigneUserChange.UserId = 1; // ADMIN;
+            // TODO: Be defensive here, cannot cast any string!
+            assigneUserChange.UserId = Int32.Parse(userid);
             assigneUserChange.DateCreated = DateTime.Now;
             request.AssignedUserChanges.Add(assigneUserChange);
 

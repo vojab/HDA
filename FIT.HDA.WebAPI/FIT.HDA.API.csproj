@@ -127,6 +127,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\EmployeeAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductAPIController.cs" />
     <Compile Include="Controllers\RequestAPIController.cs" />
     <Compile Include="Controllers\RequestStatusAPIController.cs" />
     <Compile Include="Controllers\UserAPIController.cs" />

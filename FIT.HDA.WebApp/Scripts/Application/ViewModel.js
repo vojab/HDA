@@ -6,6 +6,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         initialize = function () {
             //alert('run Lola run!');
             that.loadUser();
+            that.loadProducts();
             that.loadRequestStatusOptions();
             that.loadRequests();
         };
@@ -21,6 +22,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         keywordFilter = ko.observable("");
         requestStatusFilter = ko.observable("");
         loggedInUser = ko.observable(new model.user());
+        products = ko.observableArray([]);
+        selectedProduct = ko.observable([]);
         requestStatusOptions = ko.observableArray([]);
         selectedRequestStatusOption = ko.observable([]);
         
@@ -47,6 +50,28 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             //ko.applyBindings(that);
         };
         
+        loadProducts = function () {
+            dataService.product.getProducts({
+                success: function (result) {
+                    that.bindProducts(result);
+                    //console.log(result);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            });
+        };
+
+        bindProducts = function (result) {
+            for (var i = 0; i < result.length; i++) {
+                var currentProduct = new model.product(result[i]);
+                that.products.push(currentProduct);
+            }
+
+            //that.renderRequests();
+            //ko.applyBindings(that);
+        };
+        
         loadRequestStatusOptions = function () {
             dataService.requestStatus.getRequestStatusOptions({
                 success: function (result) {
@@ -60,6 +85,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         };
         
         bindRequestStatusOptions = function (result) {
+            // Add to the top ALL options for all request status
             var allRequestStatusOption = new model.requestStatus();
             allRequestStatusOption.RequestStatusId(0);
             allRequestStatusOption.RequestStatusValue(0);
@@ -132,7 +158,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 error: function () {
                     console.log('error !');
                 }
-            }, that.newRequest().RequestDescription(), that.newRequest().ProductId());
+            }, that.newRequest().RequestDescription(), that.selectedProduct().ProductId(), that.loggedInUser().UserId());
         };
         
         // HELPER FUNCTION SECTION TODO: Extract to separate module
@@ -181,7 +207,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
         }, that);
         
-        // Filter requests using the selected request status name
+        // Filter requests (which are already filtered by keyword) using the selected request status name
         that.filteredRequestsByRequestStatus = ko.computed(function () {
             // TODO: Move hardcoded value 'all' to the config
             var requestStatusFilter = 'all';
@@ -189,28 +215,14 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 requestStatusFilter = selectedRequestStatusOption().RequestStatusName().toLowerCase();
             }
             if (!requestStatusFilter || requestStatusFilter === 'all') {
-                return that.requests();
+                return that.filteredRequestsByKeyword();
             } else {
-                return ko.utils.arrayFilter(that.requests(), function (request) {
+                return ko.utils.arrayFilter(that.filteredRequestsByKeyword(), function (request) {
                     return ko.utils.stringStartsWith(request.CurrentRequestStatus().RequestStatusName().toLowerCase(), requestStatusFilter);
                 });
             }
         }, that);
         
-        //// Merged filtered requests
-        //that.filteredRequests = ko.computed(function () {
-        //    return _.union(that.filteredRequestsByKeyword(), that.filteredRequestsByRequestStatus());
-        //}, that);
-
-        // TODO: Implement filter of requests by request status and show all if is selected "ALL" option
-        that.filterRequestsByRequestStatus = function() {
-            //var requestStatusFilter = that.requestStatusFilter().toLowerCase();
-            //if (selectedRequestStatusOption().RequestStatusName) {
-            //    that.requestStatusFilter(selectedRequestStatusOption().RequestStatusName());
-            //}
-            //alert("tara");
-        };
-
         // UTIL FUNCTION SECTION TODO: Extract to separate module
 
         return {
@@ -222,13 +234,14 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             newRequest: newRequest,
             requests: requests,
             loggedInUser: loggedInUser,
+            products: products,
+            selectedProduct: selectedProduct,
             requestStatusOptions: requestStatusOptions,
             selectedRequestStatusOption: selectedRequestStatusOption,
             keywordFilter: keywordFilter,
             requestStatusFilter: requestStatusFilter,
             filteredRequestsByKeyword: filteredRequestsByKeyword,
-            filteredRequestsByRequestStatus: filteredRequestsByRequestStatus,
-            filterRequestsByRequestStatus: filterRequestsByRequestStatus,   
+            filteredRequestsByRequestStatus: filteredRequestsByRequestStatus, 
             renderRequestIntoModal: renderRequestIntoModal,
             openModalForNewRequest: openModalForNewRequest
         };

@@ -10,23 +10,24 @@
             </hgroup>
 
             <div id="userArea">
-                <p>Welcome, 
+                <p>
+                    Welcome, 
                     <i class="icon-user"></i>
                     <label data-bind="text: loggedInUser().UserName()"></label>
                 </p>
             </div>
-            
+
             <div id="filterArea">
                 <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
-                       type="text" class="search-query" placeholder="Search">
-                
-                <br/>
+                    type="text" class="search-query" placeholder="Search">
 
-                <p>Filter requests by status:
+                <br />
+
+                <p>Filter requests by status: </p>
                 <select class="span2" data-bind="options: requestStatusOptions,
-                                                optionsText: 'RequestStatusName',
-                                                value: selectedRequestStatusOption,
-                                                event: { change: filterRequestsByRequestStatus }"></select>
+                                                 optionsText: 'RequestStatusName',
+                                                 value: selectedRequestStatusOption">
+                </select>
             </div>
 
             <div id="requestsArea">
@@ -132,8 +133,12 @@
             <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
                 type="text" />
             <label>Help desk request product:</label>
-            <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
-                type="text" />
+                 <select class="span2" data-bind="options: products,
+                                                  optionsText: 'ProductName',
+                                                  value: selectedProduct">
+                </select>
+@*                <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
+                    type="text" />*@
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
