@@ -32,19 +32,6 @@ namespace FIT.HDA.DAL.Repositories
             _context.SaveChanges();
         }
 
-        //public void UpdateRequest(int requestId)
-        //{
-        //    var request = _context.Requests.
-        //        First(r => r.RequestId == 6);
-
-        //    if (request != null)
-        //    {
-        //        request.RequestDescription = "CHANGED DESCRIPTION";
-
-        //        _context.SaveChanges();
-        //    }
-        //}
-
         public void DeleteRequestStatusChanges(int requestStatusChangesId)
         {
             var requestStatusChanges = _context.RequestStatusChanges.

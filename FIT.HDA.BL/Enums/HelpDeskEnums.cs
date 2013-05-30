@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Enums
+﻿namespace FIT.HDA.BL.Enums
 {
-    class HelpDeskEnums
+    public class HelpDeskEnums
     {
         public enum RequestStatus
         {

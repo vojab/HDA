@@ -26,7 +26,7 @@
                 <p>Filter requests by status: </p>
                 <select class="span2" data-bind="options: requestStatusOptions,
                                                  optionsText: 'RequestStatusName',
-                                                 value: selectedRequestStatusOption">
+                                                 value: selectedFilterRequestStatusOption">
                 </select>
             </div>
 
@@ -38,8 +38,11 @@
 
             <div id="newRequestModalArea">
             </div>
-            
+
             <div id="assignToUserModalArea">
+            </div>
+
+            <div id="changeRequestStatusModalArea">
             </div>
 
             <div>
@@ -85,20 +88,29 @@
                 <td data-bind="text: Product().ProductDescription()"></td>
                 <td>
                     <button data-bind="click: openRequest.bind($data)"
-                            class="btn"
-                            type="button"
-                            data-toggle="modal"
-                            data-target="#requestModal">
+                        class="btn"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#requestModal">
                         Open
                     </button>
                 </td>
                 <td>
                     <button data-bind="click: openAssignToUserModal.bind($data)"
-                            class="btn"
-                            type="button"
-                            data-toggle="modal"
-                            data-target="#assignToUserModal">
+                        class="btn"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#assignToUserModal">
                         Assign
+                    </button>
+                </td>
+                <td>
+                    <button data-bind="click: openChangeRequestsStatusModal.bind($data)"
+                        class="btn"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#changeRequestStatusModal">
+                        Change Request Status
                     </button>
                 </td>
             </tr>
@@ -106,13 +118,39 @@
     </table>
 </script>
 
+<script type="text/html" id="changeRequestStatusModalTemplate">
+    <div id="changeRequestStatusModal"
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="changeRequestStatusModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="changeRequestStatusModalLabel">Modal header</h3>
+        </div>
+        <div class="modal-body">
+            <p>Change help desk request status to:</p>
+            <label>Request Status:</label>
+            <select class="span2" data-bind="options: requestStatusOptions,
+    optionsText: 'RequestStatusName',
+    value: selectedRequestStatusOption">
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: changeRequestStatus">Change request status</button>
+        </div>
+    </div>
+</script>
+
 <script type="text/html" id="assignToUserModalTemplate">
     <div id="assignToUserModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="assignToUserModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="assignToUserModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="assignToUserModalLabel">Modal header</h3>
@@ -121,24 +159,24 @@
             <p>Assign Help Desk Request To The User:...</p>
             <label>Users:</label>
             <select class="span2" data-bind="options: users,
-                                             optionsText: 'UserName',
-                                             value: selectedUser">
+    optionsText: 'UserName',
+    value: selectedUser">
             </select>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" data-bind="click: assignToUser">Asign to the user</button>
+            <button class="btn btn-primary" data-bind="click: assignToUser">Assign to the user</button>
         </div>
     </div>
 </script>
 
 <script type="text/html" id="requestDetailsModalTemplate">
     <div id="requestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="requestDetailsModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="requestDetailsModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="requestDetailsModalLabel">Modal header</h3>
@@ -171,10 +209,10 @@
             <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
                 type="text" />
             <label>Help desk request product:</label>
-                 <select class="span2" data-bind="options: products,
-                                                  optionsText: 'ProductName',
-                                                  value: selectedProduct">
-                </select>
+            <select class="span2" data-bind="options: products,
+    optionsText: 'ProductName',
+    value: selectedProduct">
+            </select>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

@@ -29,6 +29,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         selectedProduct = ko.observable([]);
         requestStatusOptions = ko.observableArray([]);
         selectedRequestStatusOption = ko.observable([]);
+        selectedFilterRequestStatusOption = ko.observable([]);
         
         // ----- --------------------------- -----
         
@@ -186,13 +187,56 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }, that.newRequest().RequestDescription(), that.selectedProduct().ProductId(), that.loggedInUser().UserId());
         };
         
+        openChangeRequestsStatusModal = function (currentData) {
+            selectedRequest(currentData);
+            
+            // Reset selected request status option
+            selectedRequestStatusOption = ko.observable(new model.requestStatus());
+            selectedRequestStatusOption().RequestStatusId(0);
+            selectedRequestStatusOption().RequestStatusValue(0);
+            selectedRequestStatusOption().RequestStatusName("ALL");
+
+            renderRequestsStatusIntoModal();
+        };
+        
+        // Apply template to target div and render requests status data
+        renderRequestsStatusIntoModal = function () {
+            try {
+                var selector = "#changeRequestStatusModalArea";
+                $(selector).attr("data-bind", "template: { name: 'changeRequestStatusModalTemplate', data: requestStatusOptions }");
+                ko.cleanNode($('#changeRequestStatusModalArea'));
+                ko.applyBindings(that.requestStatusOptions, document.getElementById("changeRequestStatusModalArea"));
+            } catch (e) {
+                console.log('Exception was thrown - Could not render requests status options into modal');
+                //that.redirectToErrorPage();
+            }
+        };
+        
+        // Create entry in RequestStatusChanges table with currently selected requestid and requeststatusid
+        changeRequestStatus = function () {
+            // TODO: Move hardcoded value to the config
+            if (selectedRequestStatusOption().RequestStatusName().toLowerCase() !== 'all') {
+                dataService.requeststatuschanges.saveRequestStatusChange({
+                    success: function (message) {
+                        console.log(message);
+                    },
+                    error: function () {
+                        console.log('error !');
+                    }
+                }, that.selectedRequestStatusOption().RequestStatusId(), that.selectedRequest().RequestId());
+            }
+            else {
+                // TODO: Implement toaster message
+                alert('Chose one of the valid status!');
+            }
+        };
+        
         openAssignToUserModal = function (currentData) {
             selectedRequest(currentData);
             renderUsersIntoModal();
-            //$('#requestModal').modal('show');
         };
         
-        // Apply template to target div and render requests data
+        // Apply template to target div and render users data
         renderUsersIntoModal = function () {
             try {
                 var selector = "#assignToUserModalArea";
@@ -205,11 +249,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
         };
 
+        // Create entry in AssignedUserChanges table with currently selected userid and requestid
         assignToUser = function() {
-            console.log(that.selectedUser().UserId());
-            console.log(that.selectedRequest().RequestId());
-            // TODO: Send only this two properties not User object under AssignedUserObjects
-            
+            dataService.assigneduserchanges.saveAssignedUserChange({
+                success: function (message) {
+                    console.log(message);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.selectedUser().UserId(), that.selectedRequest().RequestId());
         };
         
         // HELPER FUNCTION SECTION TODO: Extract to separate module
@@ -262,8 +311,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         that.filteredRequestsByRequestStatus = ko.computed(function () {
             // TODO: Move hardcoded value 'all' to the config
             var requestStatusFilter = 'all';
-            if (selectedRequestStatusOption().RequestStatusName) {
-                requestStatusFilter = selectedRequestStatusOption().RequestStatusName().toLowerCase();
+            if (selectedFilterRequestStatusOption().RequestStatusName) {
+                requestStatusFilter = selectedFilterRequestStatusOption().RequestStatusName().toLowerCase();
             }
             if (!requestStatusFilter || requestStatusFilter === 'all') {
                 return that.filteredRequestsByKeyword();
@@ -281,7 +330,9 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             loadRequests: loadRequests,
             openRequest: openRequest,
             openAssignToUserModal: openAssignToUserModal,
+            openChangeRequestsStatusModal: openChangeRequestsStatusModal,
             assignToUser: assignToUser,
+            changeRequestStatus: changeRequestStatus,
             saveRequest: saveRequest,
             selectedRequest: selectedRequest,
             newRequest: newRequest,
@@ -293,6 +344,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             selectedProduct: selectedProduct,
             requestStatusOptions: requestStatusOptions,
             selectedRequestStatusOption: selectedRequestStatusOption,
+            selectedFilterRequestStatusOption: selectedFilterRequestStatusOption,
             keywordFilter: keywordFilter,
             requestStatusFilter: requestStatusFilter,
             filteredRequestsByKeyword: filteredRequestsByKeyword,

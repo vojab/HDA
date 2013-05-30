@@ -125,11 +125,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AssignedUserChangesAPIController.cs" />
     <Compile Include="Controllers\EmployeeAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductAPIController.cs" />
     <Compile Include="Controllers\RequestAPIController.cs" />
     <Compile Include="Controllers\RequestStatusAPIController.cs" />
+    <Compile Include="Controllers\RequestStatusChangesAPIController.cs" />
     <Compile Include="Controllers\UserAPIController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Formatters\HTTPContentWrapper.cs" />
@@ -249,6 +251,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FIT.HDA.BL\FIT.HDA.BL.csproj">
+      <Project>{f38d36e3-115a-4084-a34c-203fe25ece18}</Project>
+      <Name>FIT.HDA.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FIT.HDA.DAL\FIT.HDA.DAL.csproj">
       <Project>{73248B2A-B53F-4EFD-9152-D066497261D2}</Project>
       <Name>FIT.HDA.DAL</Name>

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using FIT.HDA.API.Formatters;
 using FIT.HDA.DAL.Repositories;
 using FIT.HDA.Models;
+using FIT.HDA.BL.Enums;
 
 namespace FIT.HDA.API.Controllers
 {
@@ -65,17 +66,17 @@ namespace FIT.HDA.API.Controllers
             // Save Request Status Changes entry
             request.RequestStatusChanges = new Collection<RequestStatusChanges>();
             var requestStatusChange = new RequestStatusChanges();
-            requestStatusChange.RequestStatusId = 1; // OPEN
+            requestStatusChange.RequestStatusId = (int)HelpDeskEnums.RequestStatus.Open;
             requestStatusChange.DateCreated = DateTime.Now;
             request.RequestStatusChanges.Add(requestStatusChange);
 
             // Save Assigned User Changes entry
             request.AssignedUserChanges = new Collection<AssignedUserChanges>();
-            var assigneUserChange = new AssignedUserChanges();
+            var assignedUserChange = new AssignedUserChanges();
             // TODO: Be defensive here, cannot cast any string!
-            assigneUserChange.UserId = Int32.Parse(userid);
-            assigneUserChange.DateCreated = DateTime.Now;
-            request.AssignedUserChanges.Add(assigneUserChange);
+            assignedUserChange.UserId = Int32.Parse(userid);
+            assignedUserChange.DateCreated = DateTime.Now;
+            request.AssignedUserChanges.Add(assignedUserChange);
 
             _requestRepository.SaveRequest(request);
 
