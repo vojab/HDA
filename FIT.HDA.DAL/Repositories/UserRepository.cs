@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FIT.HDA.Models;
 
 namespace FIT.HDA.DAL.Repositories
@@ -11,10 +12,11 @@ namespace FIT.HDA.DAL.Repositories
             _context = new HelpDeskDbContext();
         }
 
-        //public IEnumerable<User> GetAll()
-        //{
-        //    return _context.Users.AsEnumerable();
-        //}
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users.AsEnumerable();
+        }
+
 
         public User GetUserByUserNameAndPassword(string username, string password)
         {

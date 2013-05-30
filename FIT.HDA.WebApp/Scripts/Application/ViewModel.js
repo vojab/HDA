@@ -6,6 +6,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         initialize = function () {
             //alert('run Lola run!');
             that.loadUser();
+            that.loadUsers();
             that.loadProducts();
             that.loadRequestStatusOptions();
             that.loadRequests();
@@ -22,12 +23,36 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         keywordFilter = ko.observable("");
         requestStatusFilter = ko.observable("");
         loggedInUser = ko.observable(new model.user());
+        users = ko.observableArray([]);
+        selectedUser = ko.observable([]);
         products = ko.observableArray([]);
         selectedProduct = ko.observable([]);
         requestStatusOptions = ko.observableArray([]);
         selectedRequestStatusOption = ko.observable([]);
         
         // ----- --------------------------- -----
+        
+        loadUsers = function () {
+            dataService.user.getUsers({
+                success: function (result) {
+                    that.bindUsersData(result);
+                    //console.log(result);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            });
+        };
+        
+        bindUsersData = function (result) {
+            for (var i = 0; i < result.length; i++) {
+                var currentUser = new model.user(result[i]);
+                that.users.push(currentUser);
+            }
+
+            //that.renderRequests();
+            //ko.applyBindings(that);
+        };
         
         // TODO: User will be loaded from Log In page - this is temporary for testing
         loadUser = function () {
@@ -53,7 +78,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         loadProducts = function () {
             dataService.product.getProducts({
                 success: function (result) {
-                    that.bindProducts(result);
+                    that.bindProductsData(result);
                     //console.log(result);
                 },
                 error: function () {
@@ -62,7 +87,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             });
         };
 
-        bindProducts = function (result) {
+        bindProductsData = function (result) {
             for (var i = 0; i < result.length; i++) {
                 var currentProduct = new model.product(result[i]);
                 that.products.push(currentProduct);
@@ -75,7 +100,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         loadRequestStatusOptions = function () {
             dataService.requestStatus.getRequestStatusOptions({
                 success: function (result) {
-                    that.bindRequestStatusOptions(result);
+                    that.bindRequestStatusOptionsData(result);
                     //console.log(result);
                 },
                 error: function () {
@@ -84,7 +109,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             });
         };
         
-        bindRequestStatusOptions = function (result) {
+        bindRequestStatusOptionsData = function (result) {
             // Add to the top ALL options for all request status
             var allRequestStatusOption = new model.requestStatus();
             allRequestStatusOption.RequestStatusId(0);
@@ -161,6 +186,32 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }, that.newRequest().RequestDescription(), that.selectedProduct().ProductId(), that.loggedInUser().UserId());
         };
         
+        openAssignToUserModal = function (currentData) {
+            selectedRequest(currentData);
+            renderUsersIntoModal();
+            //$('#requestModal').modal('show');
+        };
+        
+        // Apply template to target div and render requests data
+        renderUsersIntoModal = function () {
+            try {
+                var selector = "#assignToUserModalArea";
+                $(selector).attr("data-bind", "template: { name: 'assignToUserModalTemplate', data: users }");
+                ko.cleanNode($('#assignToUserModalArea'));
+                ko.applyBindings(that.users, document.getElementById("assignToUserModalArea"));
+            } catch (e) {
+                console.log('Exception was thrown - Could not render current users into modal');
+                //that.redirectToErrorPage();
+            }
+        };
+
+        assignToUser = function() {
+            console.log(that.selectedUser().UserId());
+            console.log(that.selectedRequest().RequestId());
+            // TODO: Send only this two properties not User object under AssignedUserObjects
+            
+        };
+        
         // HELPER FUNCTION SECTION TODO: Extract to separate module
         openRequest = function (currentData) {
             selectedRequest(currentData);
@@ -174,7 +225,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 var selector = "#requestModalArea";
                 $(selector).attr("data-bind", "template: { name: 'requestDetailsModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#requestModalArea'));
-                ko.applyBindings(that.requests, document.getElementById("requestModalArea"));
+                ko.applyBindings(that.selectedRequest, document.getElementById("requestModalArea"));
             } catch (e) {
                 console.log('Exception was thrown - Could not render current request into modal');
                 //that.redirectToErrorPage();
@@ -229,11 +280,15 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             initialize: initialize,
             loadRequests: loadRequests,
             openRequest: openRequest,
+            openAssignToUserModal: openAssignToUserModal,
+            assignToUser: assignToUser,
             saveRequest: saveRequest,
             selectedRequest: selectedRequest,
             newRequest: newRequest,
             requests: requests,
             loggedInUser: loggedInUser,
+            users: users,
+            selectedUser: selectedUser,
             products: products,
             selectedProduct: selectedProduct,
             requestStatusOptions: requestStatusOptions,

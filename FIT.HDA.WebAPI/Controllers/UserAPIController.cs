@@ -21,6 +21,23 @@ namespace FIT.HDA.API.Controllers
             _userRepository = new UserRepository();
         }
 
+        public IEnumerable<User> GetRequests()
+        {
+            IEnumerable<User> users;
+
+            try
+            {
+                users = _userRepository.GetAll();
+
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+
+            return users;
+        }
+
         [System.Web.Http.ActionName("getUserByUserNameAndPassword")]
         public User GetUserByUserNameAndPassword(string username, string password)
         {

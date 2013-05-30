@@ -38,6 +38,9 @@
 
             <div id="newRequestModalArea">
             </div>
+            
+            <div id="assignToUserModalArea">
+            </div>
 
             <div>
                 <button data-bind="click: openModalForNewRequest"
@@ -82,11 +85,20 @@
                 <td data-bind="text: Product().ProductDescription()"></td>
                 <td>
                     <button data-bind="click: openRequest.bind($data)"
-                        class="btn"
-                        type="button"
-                        data-toggle="modal"
-                        data-target="#requestModal">
+                            class="btn"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#requestModal">
                         Open
+                    </button>
+                </td>
+                <td>
+                    <button data-bind="click: openAssignToUserModal.bind($data)"
+                            class="btn"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#assignToUserModal">
+                        Assign
                     </button>
                 </td>
             </tr>
@@ -94,16 +106,42 @@
     </table>
 </script>
 
-<script type="text/html" id="requestDetailsModalTemplate">
-    <div id="requestModal"
-        class="modal hide fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="myModalLabel"
-        aria-hidden="true">
+<script type="text/html" id="assignToUserModalTemplate">
+    <div id="assignToUserModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="assignToUserModalLabel"
+         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Modal header</h3>
+            <h3 id="assignToUserModalLabel">Modal header</h3>
+        </div>
+        <div class="modal-body">
+            <p>Assign Help Desk Request To The User:...</p>
+            <label>Users:</label>
+            <select class="span2" data-bind="options: users,
+                                             optionsText: 'UserName',
+                                             value: selectedUser">
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: assignToUser">Asign to the user</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="requestDetailsModalTemplate">
+    <div id="requestModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="requestDetailsModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="requestDetailsModalLabel">Modal header</h3>
         </div>
         <div class="modal-body">
             <p>Help Desk Request Details...</p>
@@ -121,7 +159,7 @@
         class="modal hide fade"
         tabindex="-1"
         role="dialog"
-        aria-labelledby="myModalLabel"
+        aria-labelledby="newRequestModalLabel"
         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -137,8 +175,6 @@
                                                   optionsText: 'ProductName',
                                                   value: selectedProduct">
                 </select>
-@*                <input id="productId" name="productId" data-bind="value: newRequest().ProductId"
-                    type="text" />*@
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
