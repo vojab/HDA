@@ -39,21 +39,26 @@ namespace FIT.HDA.API.Controllers
         }
 
         [System.Web.Http.ActionName("getUserByUserNameAndPassword")]
-        public User GetUserByUserNameAndPassword(string username, string password)
+        public string GetUserByUserNameAndPassword(string username, string password)
         {
             var user = new User();
 
             try
             {
                 user = _userRepository.GetUserByUserNameAndPassword(username, password);
+                if (user != null)
+                {
+                    return Newtonsoft.Json.JsonConvert.SerializeObject(user);
+                } else
+                {
+                    return "badcredientials";
+                }
 
             }
             catch (Exception)
             {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
-            }
-
-            return user;
+            }           
         }
     }
 }

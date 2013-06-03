@@ -8,50 +8,81 @@
                 <h1>@ViewBag.Title.</h1>
                 <h4>@ViewBag.Message</h4>
             </hgroup>
+            
+            <div id="loginArea">
+                
+                <div id="loginModal"
+                     class="modal hide fade"
+                     tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="loginModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="loginModalLabel">Log In</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please enter your login details</p>
+                        <label>User Name: </label>
+                        <input type="text" name="username" value=" " />
+                        <label>Password: </label>
+                        <input type="text" name="password" value=" " />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary" data-bind="click: changeRequestStatus">Log In</button>
+                    </div>
+                </div>
 
-            <div id="userArea">
-                <p>
-                    Welcome, 
-                    <i class="icon-user"></i>
-                    <label data-bind="text: loggedInUser().UserName()"></label>
-                </p>
             </div>
+            
+            <div id="authorizedArea">
+                
+                <div id="userArea">
+                    <p>
+                        Welcome, 
+                        <i class="icon-user"></i>
+                        <label data-bind="text: loggedInUser().UserName()"></label>
+                    </p>
+                </div>
 
-            <div id="filterArea">
-                <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
-                    type="text" class="search-query" placeholder="Search">
+                <div id="filterArea">
+                    <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
+                           type="text" class="search-query" placeholder="Search">
 
-                <br />
+                    <br />
 
-                <p>Filter requests by status: </p>
-                <select class="span2" data-bind="options: requestStatusOptions,
-                                                 optionsText: 'RequestStatusName',
-                                                 value: selectedFilterRequestStatusOption">
-                </select>
-            </div>
+                    <p>Filter requests by status: </p>
+                    <select class="span2" data-bind="options: requestStatusOptions,
+                                                    optionsText: 'RequestStatusName',
+                                                    value: selectedFilterRequestStatusOption">
+                    </select>
+                </div>
 
-            <div id="requestsArea">
-            </div>
+                <div id="requestsArea">
+                </div>
 
-            <div id="requestModalArea">
-            </div>
+                <div id="requestModalArea">
+                </div>
 
-            <div id="newRequestModalArea">
-            </div>
+                <div id="newRequestModalArea">
+                </div>
 
-            <div id="assignToUserModalArea">
-            </div>
+                <div id="assignToUserModalArea">
+                </div>
 
-            <div id="changeRequestStatusModalArea">
-            </div>
+                <div id="changeRequestStatusModalArea">
+                </div>
 
-            <div>
-                <button data-bind="click: openModalForNewRequest"
-                    class="btn"
-                    type="button"
-                    data-toggle="modal"
-                    data-target="#newRequestModal">
-                    NEW Help Desk Request</button>
+                <div>
+                    <button data-bind="click: openModalForNewRequest"
+                            class="btn"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#newRequestModal">
+                        NEW Help Desk Request</button>
+                </div>
+
             </div>
 
         </div>
@@ -127,14 +158,14 @@
         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="changeRequestStatusModalLabel">Modal header</h3>
+            <h3 id="changeRequestStatusModalLabel">Change request status</h3>
         </div>
         <div class="modal-body">
             <p>Change help desk request status to:</p>
             <label>Request Status:</label>
             <select class="span2" data-bind="options: requestStatusOptions,
-    optionsText: 'RequestStatusName',
-    value: selectedRequestStatusOption">
+                                            optionsText: 'RequestStatusName',
+                                            value: selectedRequestStatusOption">
             </select>
         </div>
         <div class="modal-footer">
@@ -153,14 +184,14 @@
         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="assignToUserModalLabel">Modal header</h3>
+            <h3 id="assignToUserModalLabel">Assign request to the user</h3>
         </div>
         <div class="modal-body">
             <p>Assign Help Desk Request To The User:...</p>
             <label>Users:</label>
             <select class="span2" data-bind="options: users,
-    optionsText: 'UserName',
-    value: selectedUser">
+                                            optionsText: 'UserName',
+                                            value: selectedUser">
             </select>
         </div>
         <div class="modal-footer">
@@ -179,7 +210,7 @@
         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="requestDetailsModalLabel">Modal header</h3>
+            <h3 id="requestDetailsModalLabel">Help Desk Request Details...</h3>
         </div>
         <div class="modal-body">
             <p>Help Desk Request Details...</p>
@@ -201,7 +232,7 @@
         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="newRequestModalLabel">Modal header</h3>
+            <h3 id="newRequestModalLabel">Help desk request description</h3>
         </div>
         <div class="modal-body">
             <p>Help Desk Request Details...</p>
@@ -210,8 +241,8 @@
                 type="text" />
             <label>Help desk request product:</label>
             <select class="span2" data-bind="options: products,
-    optionsText: 'ProductName',
-    value: selectedProduct">
+                                            optionsText: 'ProductName',
+                                            value: selectedProduct">
             </select>
         </div>
         <div class="modal-footer">

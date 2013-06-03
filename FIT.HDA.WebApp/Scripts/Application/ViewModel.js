@@ -10,6 +10,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             that.loadProducts();
             that.loadRequestStatusOptions();
             that.loadRequests();
+            
+            $('#loginModal').modal('show');
         };
         
         // ----- Knockout Observable Section -----
@@ -70,7 +72,14 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         
         // Function for binding JSON requests data to the knockout observable
         bindUserData = function (result) {
-            that.loggedInUser(new model.user(result));
+            if (result === 'badcredientials') {
+                alert('Wrong Credientials');
+            }
+            else {
+                var jsonUser = $.parseJSON(result);
+                that.loggedInUser(new model.user(jsonUser));
+            }
+            
 
             //that.renderRequests();
             //ko.applyBindings(that);
