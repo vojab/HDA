@@ -9,34 +9,22 @@
                 <h4>@ViewBag.Message</h4>
             </hgroup>
             
-            <div id="loginArea">
+            <div id="loginArea" data-bind="visible: isUserAuthenticated() === false">
                 
-                <div id="loginModal"
-                     class="modal hide fade"
-                     tabindex="-1"
-                     role="dialog"
-                     aria-labelledby="loginModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="loginModalLabel">Log In</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p>Please enter your login details</p>
-                        <label>User Name: </label>
-                        <input type="text" name="username" value=" " />
-                        <label>Password: </label>
-                        <input type="text" name="password" value=" " />
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                        <button class="btn btn-primary" data-bind="click: changeRequestStatus">Log In</button>
-                    </div>
+                <div>
+                    <p>Please enter your login details</p>
+                    <label>User Name: </label>
+                    <input type="text" name="username" data-bind="value: userName" />
+                    <label>Password: </label>
+                    <input type="password" name="password" data-bind="value: password" />
+                </div>
+                <div>
+                    <button class="btn btn-primary" data-bind="click: loadUser">Log In</button>
                 </div>
 
             </div>
             
-            <div id="authorizedArea">
+            <div id="authorizedArea" data-bind="visible: isUserAuthenticated() === true">
                 
                 <div id="userArea">
                     <p>
@@ -57,6 +45,22 @@
                                                     optionsText: 'RequestStatusName',
                                                     value: selectedFilterRequestStatusOption">
                     </select>
+                </div>
+                
+                <div id="adminModule" data-bind="visible: loadAdminModule()">
+                    <p>Hello ADMIN</p>
+                </div>
+                
+                <div id="clientModule" data-bind="visible: loadClientModule()">
+                    <p>Hello CLIENT</p>
+                </div>
+                
+                <div id="businessModule" data-bind="visible: loadBusinessModule()">
+                    <p>Hello BUSINESS</p>
+                </div>
+                
+                <div id="helpDeskModule" data-bind="visible: loadHelpDeskModule()">
+                    <p>Hello HELP DESK</p>
                 </div>
 
                 <div id="requestsArea">

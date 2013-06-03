@@ -4,17 +4,57 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         var that = this;
 
         initialize = function () {
-            //alert('run Lola run!');
-            that.loadUser();
+            // Load lookup data
             that.loadUsers();
             that.loadProducts();
             that.loadRequestStatusOptions();
-            that.loadRequests();
-            
-            $('#loginModal').modal('show');
+
+            // TODO: Implement this line at the end
+            //ko.applyBindings(that);
         };
         
         // ----- Knockout Observable Section -----
+        
+        // Knockout Observable for pages handling
+        isUserAuthenticated = ko.observable(false);
+        currentPage = ko.observable();
+        
+        loadAdminModule = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "ADMIN" && that.isUserAuthenticated() === true) {
+                $("#adminModule").fadeIn();
+                return true;
+            }
+        }, that);
+        
+        loadClientModule = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "CLIENT" && that.isUserAuthenticated() === true) {
+                $("#clientModule").fadeIn();
+                return true;
+            }
+        }, that);
+        
+        loadBusinessModule = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "BUSINESS" && that.isUserAuthenticated() === true) {
+                $("#businessModule").fadeIn();
+                return true;
+            }
+        }, that);
+        
+        loadHelpDeskModule = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "HELPDESK" && that.isUserAuthenticated() === true) {
+                $("#helpDeskModule").fadeIn();
+                return true;
+            }
+        }, that);
+        
+        // Knockout Observable for authentication
+        loggedInUser = ko.observable(new model.user());
+        userName = ko.observable();
+        password = ko.observable();
         
         // Knockout Observable for Help Desk Requests
         selectedRequest = ko.observable(new model.request());
@@ -24,7 +64,6 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         filteredRequestsByRequestStatus = ko.observableArray([]);
         keywordFilter = ko.observable("");
         requestStatusFilter = ko.observable("");
-        loggedInUser = ko.observable(new model.user());
         users = ko.observableArray([]);
         selectedUser = ko.observable([]);
         products = ko.observableArray([]);
@@ -32,8 +71,61 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         requestStatusOptions = ko.observableArray([]);
         selectedRequestStatusOption = ko.observable([]);
         selectedFilterRequestStatusOption = ko.observable([]);
-        
+
         // ----- --------------------------- -----
+        
+        // TODO: User will be loaded from Log In page - this is temporary for testing
+        loadUser = function () {
+            dataService.user.getUserByUserNameAndPassword({
+                success: function (result) {
+                    that.bindUserData(result);
+                    //console.log(result);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.userName(), that.password());
+        };
+        
+        // Function for binding JSON requests data to the knockout observable
+        // TODO: Move hardcoded values to the config
+        bindUserData = function (result) {
+            if (result === 'badcredientials') {
+                alert('Wrong Credientials');
+                that.isUserAuthenticated(false);
+            }
+            else {
+                // Parse returned string to the JSON object
+                var jsonUser = $.parseJSON(result);
+                // Bind retreived user to the observable
+                that.loggedInUser(new model.user(jsonUser));
+                // Mark authentication flag as true
+                that.isUserAuthenticated(true);
+                // Determine user type and by that load correct page
+                var userType = that.loggedInUser().UserTypeId();
+                switch(userType) {
+                    case 1: // ADMIN
+                        that.currentPage("ADMIN");
+                        break;
+                    case 2: // HELP DESK
+                        that.currentPage("HELPDESK");
+                        break;
+                    case 3: // CLIENT
+                        that.currentPage("CLIENT");
+                        that.loadRequests();
+                        break;
+                    case 4: // BUSINESS
+                        that.currentPage("BUSINESS");
+                        break;
+                    default: // UNKNOWN
+                        alert('Unknown user type');
+                }
+            }
+            
+
+            //that.renderRequests();
+            //ko.applyBindings(that);
+        };
         
         loadUsers = function () {
             dataService.user.getUsers({
@@ -46,40 +138,12 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 }
             });
         };
-        
+
         bindUsersData = function (result) {
             for (var i = 0; i < result.length; i++) {
                 var currentUser = new model.user(result[i]);
                 that.users.push(currentUser);
             }
-
-            //that.renderRequests();
-            //ko.applyBindings(that);
-        };
-        
-        // TODO: User will be loaded from Log In page - this is temporary for testing
-        loadUser = function () {
-            dataService.user.getUserByUserNameAndPassword({
-                success: function (result) {
-                    that.bindUserData(result);
-                    //console.log(result);
-                },
-                error: function () {
-                    console.log('error !');
-                }
-            }, 'vojab', 'test'); // TODO: Remove temporary hardcoded values
-        };
-        
-        // Function for binding JSON requests data to the knockout observable
-        bindUserData = function (result) {
-            if (result === 'badcredientials') {
-                alert('Wrong Credientials');
-            }
-            else {
-                var jsonUser = $.parseJSON(result);
-                that.loggedInUser(new model.user(jsonUser));
-            }
-            
 
             //that.renderRequests();
             //ko.applyBindings(that);
@@ -132,7 +196,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
 
             //that.renderRequests();
-            //ko.applyBindings(that);
+            ko.applyBindings(that);
         };
         
         loadRequests = function () {
@@ -359,6 +423,14 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             filteredRequestsByKeyword: filteredRequestsByKeyword,
             filteredRequestsByRequestStatus: filteredRequestsByRequestStatus, 
             renderRequestIntoModal: renderRequestIntoModal,
-            openModalForNewRequest: openModalForNewRequest
+            openModalForNewRequest: openModalForNewRequest,
+            isUserAuthenticated: isUserAuthenticated,
+            currentPage: currentPage,
+            userName: userName,
+            password: password,
+            loadAdminModule: loadAdminModule,
+            loadClientModule: loadClientModule,
+            loadBusinessModule: loadBusinessModule,
+            loadHelpDeskModule: loadHelpDeskModule
         };
     });
