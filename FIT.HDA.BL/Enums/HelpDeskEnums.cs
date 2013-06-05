@@ -4,6 +4,7 @@
     {
         public enum RequestStatus
         {
+            Dummy,
             Open,
             Accepted,
             Processed,

@@ -1,6 +1,6 @@
 ﻿/****** VIEWMODEL SECTION *******/
-define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sammy', 'model', 'bootstrap'],
-    function ($, ko, cookie, dataService, underscore, sammy, model, bootstrap) {
+define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sammy', 'model', 'bootstrap', 'nicEdit'],
+    function ($, ko, cookie, dataService, underscore, sammy, model, bootstrap, nicEdit) {
         var that = this;
 
         initialize = function () {
@@ -12,6 +12,34 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             // TODO: Implement this line at the end
             //ko.applyBindings(that);
         };
+        
+        // ----- Knockout Custom Binders Section -----
+
+        ko.bindingHandlers.nicedit = {
+            init: function (element, valueAccessor) {
+                var value = valueAccessor();
+                var area = new nicEditor({ fullPanel: true }).panelInstance(element.id, { hasPanel: true });
+                $(element).text(ko.utils.unwrapObservable(value));
+
+                // Function for updating the right element whenever something changes
+                var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
+                var areachangefc = function () {
+                    value(textAreaContentElement.html());
+                };
+
+                // Make sure we update on both a text change, and when some HTML has been added/removed
+                // (like for example a text being set to "bold")
+                $(element).prev().keyup(areachangefc);
+                $(element).prev().bind('DOMNodeInserted DOMNodeRemoved', areachangefc);
+            },
+            update: function (element, valueAccessor) {
+                var value = valueAccessor();
+                var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
+                textAreaContentElement.html(value());
+            }
+        };
+        
+        // ----- --------------------------- -----
         
         // ----- Knockout Observable Section -----
         
@@ -395,7 +423,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 });
             }
         }, that);
-        
+       
         // UTIL FUNCTION SECTION TODO: Extract to separate module
 
         return {

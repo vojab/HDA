@@ -236,6 +236,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\glyphicons-halflings-white.png" />
     <Content Include="Images\glyphicons-halflings.png" />
+    <Content Include="Images\nicEditorIcons.gif" />
     <Content Include="Scripts\Application\Bootstraper.js" />
     <Content Include="Scripts\Application\DataService.AssignedUserChanges.js" />
     <Content Include="Scripts\Application\DataService.Employee.js" />
@@ -270,6 +271,7 @@
     <Content Include="Scripts\Libraries\knockout.activity.js" />
     <Content Include="Scripts\Libraries\modernizr-2.5.3.js" />
     <Content Include="Scripts\Libraries\moment.js" />
+    <Content Include="Scripts\Libraries\nicEdit.js" />
     <Content Include="Scripts\Libraries\require.js" />
     <Content Include="Scripts\Libraries\sammy-0.7.1.js" />
     <Content Include="Scripts\Libraries\toastr.js" />

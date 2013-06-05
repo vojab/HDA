@@ -229,11 +229,11 @@
 
 <script type="text/html" id="newRequestModalTemplate">
     <div id="newRequestModal"
-        class="modal hide fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="newRequestModalLabel"
-        aria-hidden="true">
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="newRequestModalLabel"
+         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="newRequestModalLabel">Help desk request description</h3>
@@ -241,8 +241,11 @@
         <div class="modal-body">
             <p>Help Desk Request Details...</p>
             <label>Help desk request description:</label>
-            <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
-                type="text" />
+            @*            <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
+                   type="text" />*@
+            <textarea id="requestDescription" name="requestDescription" cols="40" style="width: 300px; height: 100px;"
+                      data-bind="nicedit: newRequest().RequestDescription"></textarea>
+            <br />
             <label>Help desk request product:</label>
             <select class="span2" data-bind="options: products,
                                             optionsText: 'ProductName',

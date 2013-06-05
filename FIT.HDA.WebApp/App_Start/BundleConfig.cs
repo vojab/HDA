@@ -54,7 +54,8 @@ namespace HDA.App_Start
                     "~/Scripts/Libraries/toastr.js",
                     "~/Scripts/Libraries/cookie.js",
                     "~/Scripts/Libraries/bootstrap.js",
-                    "~/Scripts/Libraries/require.js"
+                    "~/Scripts/Libraries/require.js",
+                    "~/Scripts/Libraries/nicEdit.js"
                     ));
         }
     }

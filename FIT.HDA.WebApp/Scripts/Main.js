@@ -17,6 +17,7 @@
         define('cookie', [], function () { return main.cookie; });
         define('model', [], function () { return main.model; });
         define('bootstrap', [], function () { return main.bootstrap; });
+        define('nicEdit', [], function () { return main.nicEdit; });
     }
 
     function boot() {
