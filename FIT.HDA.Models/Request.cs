@@ -11,19 +11,19 @@ namespace FIT.HDA.Models
     {
         [Key]
         public int RequestId { get; set; }
+        public string RequestSubject { get; set; }
         public string RequestDescription { get; set; }
         public bool RequestReadyForArchive { get; set; }
         public DateTime RequestOpenDate { get; set; }
         public DateTime RequestClosedDate { get; set; }
 
-        // --- Code First DEFINITION
-        //public int? TimeManagamentId { get; set; }
-        //[ForeignKey("TimeManagamentId")]
-        //public virtual TimeManagament TimeManagament { get; set; }
-
         public int? ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+
+        //public int? TimeManagamentId { get; set; }
+        //[ForeignKey("TimeManagamentId")]
+        //public virtual TimeManagament TimeManagament { get; set; }
 
         [JsonIgnore] 
         [IgnoreDataMember] 

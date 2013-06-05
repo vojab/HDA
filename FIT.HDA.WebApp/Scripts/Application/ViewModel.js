@@ -241,6 +241,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
         // Function for binding JSON requests data to the knockout observable
         bindRequestData = function (result) {
+            // Empty requests array and fill with new data
+            that.requests(ko.observableArray([]));
             for (var i = 0; i < result.length; i++) {
                 var currentRequest = result[i];
                 
@@ -279,13 +281,18 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         saveRequest = function () {
             dataService.request.saveRequest({
                 success: function (message) {
-                    //TODO: save request status within other endpoint
+                    //TODO: toaster message here
                     console.log(message);
+                    $('#newRequestModal').modal('hide');
+                    that.loadRequests();
                 },
                 error: function () {
                     console.log('error !');
                 }
-            }, that.newRequest().RequestDescription(), that.selectedProduct().ProductId(), that.loggedInUser().UserId());
+            }, that.newRequest().RequestSubject(),
+               that.newRequest().RequestDescription(),
+               that.selectedProduct().ProductId(),
+               that.loggedInUser().UserId());
         };
         
         openChangeRequestsStatusModal = function (currentData) {
@@ -390,6 +397,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //$('#newRequestModal').modal('show');
                 ko.cleanNode($('#newRequestModalArea'));
                 ko.applyBindings(that.newRequest, document.getElementById("newRequestModalArea"));
+                nicEditors.allTextAreas();
             } catch (e) {
                 console.log('Exception was thrown - Could not render current request into modal');
                 //that.redirectToErrorPage();

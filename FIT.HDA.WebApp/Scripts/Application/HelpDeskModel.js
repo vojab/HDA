@@ -3,6 +3,7 @@
         var self = this;
         object = object || {};
         self.RequestId = ko.observable(object.RequestId);
+        self.RequestSubject = ko.observable(object.RequestSubject);
         self.RequestDescription = ko.observable(object.RequestDescription);
         self.RequestReadyForArchive = ko.observable(object.RequestReadyForArchive);
         self.RequestOpenDate = ko.observable(object.RequestOpenDate);

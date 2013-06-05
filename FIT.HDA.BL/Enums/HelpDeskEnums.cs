@@ -4,14 +4,13 @@
     {
         public enum RequestStatus
         {
-            Dummy,
-            Open,
-            Accepted,
-            Processed,
-            Finished,
-            Denied,
-            Closed,
-            Archived
+            Open = 1,
+            Accepted = 2,
+            Processed = 3,
+            Finished = 4,
+            Denied = 5,
+            Closed = 6,
+            Archived = 7
         }
 
         public enum UserTypes

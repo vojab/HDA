@@ -101,19 +101,21 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Request Description</th>
-                <th>Request Status</th>
-                <th>Request Open Date</th>
-                <th>Request Closed Date</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Open Date</th>
+                <th>Closed Date</th>
                 <th>Assigned To</th>
                 <th>Product Name</th>
-                <th>Product Description</th>
+                <th>Product</th>
                 <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: filteredRequestsByRequestStatus">
             <tr>
                 <td data-bind="text: RequestId()"></td>
+                <td data-bind="text: RequestSubject()"></td>
                 <td data-bind="text: RequestDescription()"></td>
                 <td data-bind="text: CurrentRequestStatus().RequestStatusName()"></td>
                 <td data-bind="text: RequestOpenDate()"></td>
@@ -207,18 +209,27 @@
 
 <script type="text/html" id="requestDetailsModalTemplate">
     <div id="requestModal"
-        class="modal hide fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="requestDetailsModalLabel"
-        aria-hidden="true">
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="requestDetailsModalLabel"
+         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="requestDetailsModalLabel">Help Desk Request Details...</h3>
+            <h3 id="requestDetailsModalLabel">Help Desk Request Details</h3>
         </div>
         <div class="modal-body">
-            <p>Help Desk Request Details...</p>
+            <label>Help desk request subject:</label>
+            <label data-bind="text: selectedRequest().RequestSubject()"></label>
+            <br/>
+            <label>Help desk request product:</label>
             <label data-bind="text: selectedRequest().Product().ProductName()"></label>
+            <br/>
+            <label>Help desk request description:</label>
+            <textarea id="requestDetailsDescription" name="requestDetailsDescription" 
+                      cols="40" 
+                      style="width: 300px; height: 100px;"
+                      data-bind="nicedit: selectedRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -236,21 +247,23 @@
          aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="newRequestModalLabel">Help desk request description</h3>
+            <h3 id="newRequestModalLabel">New Help Desk Request</h3>
         </div>
         <div class="modal-body">
-            <p>Help Desk Request Details...</p>
-            <label>Help desk request description:</label>
-            @*            <input id="requestDescription" name="requestDescription" data-bind="value: newRequest().RequestDescription"
-                   type="text" />*@
-            <textarea id="requestDescription" name="requestDescription" cols="40" style="width: 300px; height: 100px;"
-                      data-bind="nicedit: newRequest().RequestDescription"></textarea>
-            <br />
+            <p>Please enter details about new help desk request:</p>
+            <label>Help desk request subject:</label>
+            <input id="requestSubject" name="requestSubject" data-bind="value: newRequest().RequestSubject" type="text" />
             <label>Help desk request product:</label>
             <select class="span2" data-bind="options: products,
-                                            optionsText: 'ProductName',
-                                            value: selectedProduct">
+                                             optionsText: 'ProductName',
+                                             value: selectedProduct">
             </select>
+            <label>Help desk request details:</label>
+            <textarea id="requestDescription" 
+                      name="requestDescription" 
+                      cols="40" 
+                      style="width: 300px; height: 100px;"
+                      data-bind="nicedit: newRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

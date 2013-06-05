@@ -52,35 +52,46 @@ namespace FIT.HDA.API.Controllers
 
         [System.Web.Http.ActionName("save")]
         [System.Web.Http.HttpGet]
-        public string SaveRequest(string requestdescription, string productid, string userid)
+        public string SaveRequest(string requestsubject, 
+                                  string requestdescription, 
+                                  string productid, 
+                                  string userid)
         {
-            var request = new Request();
+            try
+            {
+                var request = new Request();
 
-            request.RequestDescription = requestdescription;
-            request.ProductId = Int32.Parse(productid);
-            request.RequestReadyForArchive = false;
-            request.RequestOpenDate = DateTime.Now;
-            request.RequestClosedDate = DateTime.Now;
-            request.DateCreated = DateTime.Now;
+                request.RequestSubject = requestsubject;
+                request.RequestDescription = requestdescription;
+                request.ProductId = Int32.Parse(productid);
+                request.RequestReadyForArchive = false;
+                request.RequestOpenDate = DateTime.Now;
+                request.RequestClosedDate = DateTime.Now;
+                request.DateCreated = DateTime.Now;
 
-            // Save Request Status Changes entry
-            request.RequestStatusChanges = new Collection<RequestStatusChanges>();
-            var requestStatusChange = new RequestStatusChanges();
-            requestStatusChange.RequestStatusId = (int)HelpDeskEnums.RequestStatus.Open;
-            requestStatusChange.DateCreated = DateTime.Now;
-            request.RequestStatusChanges.Add(requestStatusChange);
+                // Save Request Status Changes entry
+                request.RequestStatusChanges = new Collection<RequestStatusChanges>();
+                var requestStatusChange = new RequestStatusChanges();
+                requestStatusChange.RequestStatusId = (int)HelpDeskEnums.RequestStatus.Open;
+                requestStatusChange.DateCreated = DateTime.Now;
+                request.RequestStatusChanges.Add(requestStatusChange);
 
-            // Save Assigned User Changes entry
-            request.AssignedUserChanges = new Collection<AssignedUserChanges>();
-            var assignedUserChange = new AssignedUserChanges();
-            // TODO: Be defensive here, cannot cast any string!
-            assignedUserChange.UserId = Int32.Parse(userid);
-            assignedUserChange.DateCreated = DateTime.Now;
-            request.AssignedUserChanges.Add(assignedUserChange);
+                // Save Assigned User Changes entry
+                request.AssignedUserChanges = new Collection<AssignedUserChanges>();
+                var assignedUserChange = new AssignedUserChanges();
+                // TODO: Be defensive here, cannot cast any string!
+                assignedUserChange.UserId = Int32.Parse(userid);
+                assignedUserChange.DateCreated = DateTime.Now;
+                request.AssignedUserChanges.Add(assignedUserChange);
 
-            _requestRepository.SaveRequest(request);
+                _requestRepository.SaveRequest(request);
 
-            return "ta-ra";
+                return "success";
+            }
+            catch (Exception e)
+            {
+                return "error";
+            }
         }
 
         //// POST api/requestapi
@@ -98,10 +109,7 @@ namespace FIT.HDA.API.Controllers
         //    //                      ProductId = 1
         //    //                  };
 
-
-
         //    var request = new Request();
-
 
         //    _requestRepository.SaveRequest(request);
         //}
