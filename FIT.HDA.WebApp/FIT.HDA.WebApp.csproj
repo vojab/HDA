@@ -234,9 +234,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\blue-abstract-header.jpg" />
     <Content Include="Images\glyphicons-halflings-white.png" />
     <Content Include="Images\glyphicons-halflings.png" />
     <Content Include="Images\nicEditorIcons.gif" />
+    <Content Include="Images\slide-01.jpg" />
     <Content Include="Scripts\Application\Bootstraper.js" />
     <Content Include="Scripts\Application\DataService.AssignedUserChanges.js" />
     <Content Include="Scripts\Application\DataService.Employee.js" />

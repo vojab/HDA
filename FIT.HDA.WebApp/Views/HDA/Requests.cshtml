@@ -4,91 +4,141 @@
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
-            <hgroup class="title">
+            @*            <hgroup class="hero-unit">
                 <h1>@ViewBag.Title.</h1>
                 <h4>@ViewBag.Message</h4>
-            </hgroup>
-            
-            <div id="loginArea" data-bind="visible: isUserAuthenticated() === false">
-                
-                <div>
-                    <p>Please enter your login details</p>
-                    <label>User Name: </label>
-                    <input type="text" name="username" data-bind="value: userName" />
-                    <label>Password: </label>
-                    <input type="password" name="password" data-bind="value: password" />
+            </hgroup>*@
+
+            <div id="myCarousel" class="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="~/Images/blue-abstract-header.jpg" alt="" />
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1>Help Desk Application.</h1>
+                                <p class="lead">
+                                    Offers a high quality, efficient support service 24 hours a day to the customers, regardless of their geographical location.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <button class="btn btn-primary" data-bind="click: loadUser">Log In</button>
-                </div>
+            </div>
+
+            <div id="loginArea" class="form-signin" data-bind="visible: isUserAuthenticated() === false">
+
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <input class="input-block-level" type="text" placeholder="User Name"
+                    name="username" data-bind="value: userName">
+                <input class="input-block-level" type="password" placeholder="Password"
+                    name="password" data-bind="value: password">
+                <button class="btn btn-large btn-primary" type="submit"
+                    data-bind="click: loadUser">
+                    Sign in</button>
 
             </div>
-            
-            <div id="authorizedArea" data-bind="visible: isUserAuthenticated() === true">
-                
+
+            <div id="authorizedArea" class="hero-unit" data-bind="visible: isUserAuthenticated() === true">
+
                 <div id="userArea">
-                    <p>
-                        Welcome, 
-                        <i class="icon-user"></i>
-                        <label data-bind="text: loggedInUser().UserName()"></label>
-                    </p>
-                </div>
 
-                <div id="filterArea">
-                    <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
-                           type="text" class="search-query" placeholder="Search">
+                    <div class="navbar-wrapper">
+                        <div class="container">
+                            <div class="navbar navbar-inverse">
+                                <div class="navbar-inner">
+                                    <div class="nav-collapse collapse">
+                                        <ul class="nav">
+                                            <li class="active">
+                                                <a>
+                                                    <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
+                                                        type="text" class="search-query" placeholder="Search"></a>
+                                            </li>
+                                            <li>
+                                                <a>
+                                                    <select class="span2" data-bind="options: requestStatusOptions,
+    optionsText: 'RequestStatusName',
+    value: selectedFilterRequestStatusOption">
+                                                    </select></a>
+                                            </li>
+                                            <li class="dropdown open">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown
+                                                    <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="#">New request</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Request details</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Delete request</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li class="nav-header">Admin section</li>
+                                                    <li>
+                                                        <a href="#">Request history</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">User management</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p class="navbar-text pull-right">
+                                        <i class="icon-user"></i>
+                                        Welcome: 
+                                <a data-bind="text: loggedInUser().UserName()" class="navbar-link" href="#">Username</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <br />
+                    <div id="adminModule" data-bind="visible: loadAdminModule()">
+                        <p>Hello ADMIN</p>
+                    </div>
 
-                    <p>Filter requests by status: </p>
-                    <select class="span2" data-bind="options: requestStatusOptions,
-                                                    optionsText: 'RequestStatusName',
-                                                    value: selectedFilterRequestStatusOption">
-                    </select>
-                </div>
-                
-                <div id="adminModule" data-bind="visible: loadAdminModule()">
-                    <p>Hello ADMIN</p>
-                </div>
-                
-                <div id="clientModule" data-bind="visible: loadClientModule()">
-                    <p>Hello CLIENT</p>
-                </div>
-                
-                <div id="businessModule" data-bind="visible: loadBusinessModule()">
-                    <p>Hello BUSINESS</p>
-                </div>
-                
-                <div id="helpDeskModule" data-bind="visible: loadHelpDeskModule()">
-                    <p>Hello HELP DESK</p>
-                </div>
+                    <div id="clientModule" data-bind="visible: loadClientModule()">
+                        <p>Hello CLIENT</p>
+                    </div>
 
-                <div id="requestsArea">
-                </div>
+                    <div id="businessModule" data-bind="visible: loadBusinessModule()">
+                        <p>Hello BUSINESS</p>
+                    </div>
 
-                <div id="requestModalArea">
-                </div>
+                    <div id="helpDeskModule" data-bind="visible: loadHelpDeskModule()">
+                        <p>Hello HELP DESK</p>
+                    </div>
 
-                <div id="newRequestModalArea">
-                </div>
+                    <div id="requestsArea">
+                    </div>
 
-                <div id="assignToUserModalArea">
-                </div>
+                    <div id="requestModalArea">
+                    </div>
 
-                <div id="changeRequestStatusModalArea">
-                </div>
+                    <div id="newRequestModalArea">
+                    </div>
 
-                <div>
-                    <button data-bind="click: openModalForNewRequest"
+                    <div id="assignToUserModalArea">
+                    </div>
+
+                    <div id="changeRequestStatusModalArea">
+                    </div>
+
+                    <div>
+                        <button data-bind="click: openModalForNewRequest"
                             class="btn"
                             type="button"
                             data-toggle="modal"
                             data-target="#newRequestModal">
-                        NEW Help Desk Request</button>
+                            NEW Help Desk Request</button>
+                    </div>
+
                 </div>
 
             </div>
-
         </div>
     </section>
 }
@@ -170,8 +220,8 @@
             <p>Change help desk request status to:</p>
             <label>Request Status:</label>
             <select class="span2" data-bind="options: requestStatusOptions,
-                                            optionsText: 'RequestStatusName',
-                                            value: selectedRequestStatusOption">
+    optionsText: 'RequestStatusName',
+    value: selectedRequestStatusOption">
             </select>
         </div>
         <div class="modal-footer">
@@ -196,8 +246,8 @@
             <p>Assign Help Desk Request To The User:...</p>
             <label>Users:</label>
             <select class="span2" data-bind="options: users,
-                                            optionsText: 'UserName',
-                                            value: selectedUser">
+    optionsText: 'UserName',
+    value: selectedUser">
             </select>
         </div>
         <div class="modal-footer">
@@ -209,11 +259,11 @@
 
 <script type="text/html" id="requestDetailsModalTemplate">
     <div id="requestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="requestDetailsModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="requestDetailsModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="requestDetailsModalLabel">Help Desk Request Details</h3>
@@ -221,15 +271,15 @@
         <div class="modal-body">
             <label>Help desk request subject:</label>
             <label data-bind="text: selectedRequest().RequestSubject()"></label>
-            <br/>
+            <br />
             <label>Help desk request product:</label>
             <label data-bind="text: selectedRequest().Product().ProductName()"></label>
-            <br/>
+            <br />
             <label>Help desk request description:</label>
-            <textarea id="requestDetailsDescription" name="requestDetailsDescription" 
-                      cols="40" 
-                      style="width: 300px; height: 100px;"
-                      data-bind="nicedit: selectedRequest().RequestDescription"></textarea>
+            <textarea id="requestDetailsDescription" name="requestDetailsDescription"
+                cols="40"
+                style="width: 300px; height: 100px;"
+                data-bind="nicedit: selectedRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -240,11 +290,11 @@
 
 <script type="text/html" id="newRequestModalTemplate">
     <div id="newRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="newRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="newRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="newRequestModalLabel">New Help Desk Request</h3>
@@ -255,15 +305,15 @@
             <input id="requestSubject" name="requestSubject" data-bind="value: newRequest().RequestSubject" type="text" />
             <label>Help desk request product:</label>
             <select class="span2" data-bind="options: products,
-                                             optionsText: 'ProductName',
-                                             value: selectedProduct">
+    optionsText: 'ProductName',
+    value: selectedProduct">
             </select>
             <label>Help desk request details:</label>
-            <textarea id="requestDescription" 
-                      name="requestDescription" 
-                      cols="40" 
-                      style="width: 300px; height: 100px;"
-                      data-bind="nicedit: newRequest().RequestDescription"></textarea>
+            <textarea id="requestDescription"
+                name="requestDescription"
+                cols="40"
+                style="width: 300px; height: 100px;"
+                data-bind="nicedit: newRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

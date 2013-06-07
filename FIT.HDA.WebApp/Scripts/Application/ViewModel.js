@@ -242,7 +242,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         // Function for binding JSON requests data to the knockout observable
         bindRequestData = function (result) {
             // Empty requests array and fill with new data
-            that.requests(ko.observableArray([]));
+            //that.requests(ko.observableArray([]));
             for (var i = 0; i < result.length; i++) {
                 var currentRequest = result[i];
                 
@@ -284,6 +284,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                     //TODO: toaster message here
                     console.log(message);
                     $('#newRequestModal').modal('hide');
+                    that.requests(ko.observableArray([]));
                     that.loadRequests();
                 },
                 error: function () {
