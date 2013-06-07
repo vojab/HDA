@@ -8,6 +8,13 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
+li#actions {list-style-type: none;}
+
+a#newRequest {
+    /*border: 2px dotted red;*/
+    color: red;
+}
+
 .clearfix {
   *zoom: 1;
 }
@@ -5026,7 +5033,8 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav .active > a:hover,
 .navbar-inverse .nav .active > a:focus {
   color: #ffffff;
-  background-color: #1B1B1B;
+  /*background-color: #1B1B1B;*/
+  background-color: hsla(0,0%,0%,0)
 }
 
 .navbar-inverse .navbar-link {

@@ -48,7 +48,7 @@ namespace FIT.HDA.DAL.Repositories
         public void DeleteRequest(int requestId)
         {
             var request = _context.Requests.
-                FirstOrDefault(r => r.RequestId == 6);
+                FirstOrDefault(r => r.RequestId == requestId);
 
             _context.Requests.Remove(request);
 

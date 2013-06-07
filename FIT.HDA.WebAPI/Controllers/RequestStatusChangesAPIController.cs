@@ -27,6 +27,7 @@ namespace FIT.HDA.API.Controllers
         {
             var requestStatusChange = new RequestStatusChanges();
 
+            // TODO: Be defensive about parsing strings to int!
             requestStatusChange.RequestStatusId = Int32.Parse(requeststatusid);
             requestStatusChange.RequestId = Int32.Parse(requestid);
             requestStatusChange.DateCreated = DateTime.Now;

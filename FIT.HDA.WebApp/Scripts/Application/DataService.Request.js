@@ -23,6 +23,12 @@
                 dataType: 'jsonp',
                 type: 'GET'
             });
+            
+            amplify.request.define('DeleteRequest', 'ajax', {
+                url: 'http://localhost:3894/api/RequestAPI',
+                dataType: 'jsonp',
+                type: 'GET'
+            });
 
         },
             
@@ -48,10 +54,22 @@
             });
         };
 
+        deleteRequest = function (callbacks, requestid) {
+            return amplify.request({
+                resourceId: 'DeleteRequest',
+                data: {
+                    requestid: requestid
+                },
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
+
         init();
 
         return {
             getRequests: getRequests,
-            saveRequest: saveRequest
+            saveRequest: saveRequest,
+            deleteRequest: deleteRequest
         };
     });

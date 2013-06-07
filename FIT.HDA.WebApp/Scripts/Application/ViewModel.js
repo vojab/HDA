@@ -296,6 +296,20 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                that.loggedInUser().UserId());
         };
         
+        deleteRequest = function (currentData) {
+            dataService.request.deleteRequest({
+                success: function (message) {
+                    //TODO: toaster message here
+                    console.log(message);
+                    that.requests(ko.observableArray([]));
+                    that.loadRequests();
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, currentData.RequestId());
+        };
+        
         openChangeRequestsStatusModal = function (currentData) {
             selectedRequest(currentData);
             
@@ -444,6 +458,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             assignToUser: assignToUser,
             changeRequestStatus: changeRequestStatus,
             saveRequest: saveRequest,
+            deleteRequest: deleteRequest,
             selectedRequest: selectedRequest,
             newRequest: newRequest,
             requests: requests,

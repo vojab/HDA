@@ -60,29 +60,13 @@
     value: selectedFilterRequestStatusOption">
                                                     </select></a>
                                             </li>
-                                            <li class="dropdown open">
-                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown
-                                                    <b class="caret"></b>
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="#">New request</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Request details</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Delete request</a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li class="nav-header">Admin section</li>
-                                                    <li>
-                                                        <a href="#">Request history</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">User management</a>
-                                                    </li>
-                                                </ul>
+                                            <li>
+                                                <a id="newRequest"
+                                                    href="#"
+                                                    data-bind="click: openModalForNewRequest"
+                                                    data-toggle="modal"
+                                                    data-target="#newRequestModal">
+                                                    * NEW Help Desk Request</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -127,14 +111,14 @@
                     <div id="changeRequestStatusModalArea">
                     </div>
 
-                    <div>
+                    @*                    <div>
                         <button data-bind="click: openModalForNewRequest"
                             class="btn"
                             type="button"
                             data-toggle="modal"
                             data-target="#newRequestModal">
                             NEW Help Desk Request</button>
-                    </div>
+                    </div>*@
 
                 </div>
 
@@ -150,7 +134,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
+                <th></th>
+                <th>Id</th>
                 <th>Subject</th>
                 <th>Description</th>
                 <th>Status</th>
@@ -159,47 +144,62 @@
                 <th>Assigned To</th>
                 <th>Product Name</th>
                 <th>Product</th>
-                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: filteredRequestsByRequestStatus">
             <tr>
+                <td>
+                    <li id="actions" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">Actions</li>
+                            <li>
+                                <a href="#"
+                                   data-bind="click: openRequest.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#requestModal">Open request</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   data-bind="click: openAssignToUserModal.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#assignToUserModal">Assign request</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   data-bind="click: deleteRequest.bind($data)">Delete request</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                   data-bind="click: openChangeRequestsStatusModal.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#changeRequestStatusModal">Change status</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="nav-header">History</li>
+                            <li>
+                                <a href="#">Request status history</a>
+                            </li>
+                            <li>
+                                <a href="#">Assigned user history</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Admin section</li>
+                            <li>
+                                <a href="#">User management</a>
+                            </li>
+                        </ul>
+                    </li>
+                </td>
                 <td data-bind="text: RequestId()"></td>
                 <td data-bind="text: RequestSubject()"></td>
                 <td data-bind="text: RequestDescription()"></td>
                 <td data-bind="text: CurrentRequestStatus().RequestStatusName()"></td>
-                <td data-bind="text: RequestOpenDate()"></td>
-                <td data-bind="text: RequestClosedDate()"></td>
+                <td data-bind="text: RequestOpenDate().substring(0, 10)"></td>
+                <td data-bind="text: RequestClosedDate().substring(0, 10)"></td>
                 <td data-bind="text: CurrentAssignedUser().UserName()"></td>
                 <td data-bind="text: Product().ProductName()"></td>
                 <td data-bind="text: Product().ProductDescription()"></td>
-                <td>
-                    <button data-bind="click: openRequest.bind($data)"
-                        class="btn"
-                        type="button"
-                        data-toggle="modal"
-                        data-target="#requestModal">
-                        Open
-                    </button>
-                </td>
-                <td>
-                    <button data-bind="click: openAssignToUserModal.bind($data)"
-                        class="btn"
-                        type="button"
-                        data-toggle="modal"
-                        data-target="#assignToUserModal">
-                        Assign
-                    </button>
-                </td>
-                <td>
-                    <button data-bind="click: openChangeRequestsStatusModal.bind($data)"
-                        class="btn"
-                        type="button"
-                        data-toggle="modal"
-                        data-target="#changeRequestStatusModal">
-                        Change Request Status
-                    </button>
-                </td>
             </tr>
         </tbody>
     </table>

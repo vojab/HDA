@@ -28,7 +28,6 @@ namespace FIT.HDA.API.Controllers
             try
             {
                 requests = _requestRepository.GetAll();
-                
             }
             catch (Exception)
             {
@@ -114,18 +113,35 @@ namespace FIT.HDA.API.Controllers
         //    _requestRepository.SaveRequest(request);
         //}
 
-        // PUT api/requestapi/5
-        [System.Web.Http.HttpPut]
-        public void Put(int id, [FromBody]string value)
+        //// PUT api/requestapi/5
+        //[System.Web.Http.HttpPut]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //    _requestRepository.UpdateRequest(id);
+        //}
+
+        [System.Web.Http.ActionName("DeleteRequest")]
+        [System.Web.Http.HttpGet]
+        public string DeleteRequest(string requestid)
         {
-            _requestRepository.UpdateRequest(id);
+            try
+            {
+                // TODO: Be defensive here - cannot parse string to int!
+                _requestRepository.DeleteRequest(Int32.Parse(requestid));
+
+                return "deleted";
+            }
+            catch (Exception e)
+            {
+                return "error";
+            }
         }
 
-        // DELETE api/requestapi/5
-        [System.Web.Http.HttpDelete]
-        public void Delete(int id)
-        {
-            _requestRepository.DeleteRequest(id);
-        }
+        //// DELETE api/requestapi/5
+        //[System.Web.Http.HttpDelete]
+        //public void Delete(int id)
+        //{
+        //    _requestRepository.DeleteRequest(id);
+        //}
     }
 }
