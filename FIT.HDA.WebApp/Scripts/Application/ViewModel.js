@@ -385,6 +385,43 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         };
         
         // HELPER FUNCTION SECTION TODO: Extract to separate module
+        
+        openAssignedUserHistory = function (currentData) {
+            selectedRequest(currentData);
+            renderAssignedUserHistoryIntoModal();
+        };
+        
+        // Apply template to target div and render assigned users history data
+        renderAssignedUserHistoryIntoModal = function () {
+            try {
+                var selector = "#assignedUserHistoryModalArea";
+                $(selector).attr("data-bind", "template: { name: 'assignedUserHistoryModalTemplate', data: selectedRequest }");
+                ko.cleanNode($('#assignedUserHistoryModalArea'));
+                ko.applyBindings(that.selectedRequest, document.getElementById("assignedUserHistoryModalArea"));
+            } catch (e) {
+                console.log('Exception was thrown - Could not render assigned users history into modal');
+                //that.redirectToErrorPage();
+            }
+        };
+        
+        openRequestStatusHistory = function (currentData) {
+            selectedRequest(currentData);
+            renderRequestStatusHistoryIntoModal();
+        };
+        
+        // Apply template to target div and render request status history data
+        renderRequestStatusHistoryIntoModal = function () {
+            try {
+                var selector = "#requestStatusHistoryModalArea";
+                $(selector).attr("data-bind", "template: { name: 'requestStatusHistoryModalTemplate', data: selectedRequest }");
+                ko.cleanNode($('#requestStatusHistoryModalArea'));
+                ko.applyBindings(that.selectedRequest, document.getElementById("requestStatusHistoryModalArea"));
+            } catch (e) {
+                console.log('Exception was thrown - Could not render request status history into modal');
+                //that.redirectToErrorPage();
+            }
+        };
+
         openRequest = function (currentData) {
             selectedRequest(currentData);
             renderRequestIntoModal();
@@ -455,6 +492,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             openRequest: openRequest,
             openAssignToUserModal: openAssignToUserModal,
             openChangeRequestsStatusModal: openChangeRequestsStatusModal,
+            openRequestStatusHistory: openRequestStatusHistory,
+            openAssignedUserHistory: openAssignedUserHistory,
             assignToUser: assignToUser,
             changeRequestStatus: changeRequestStatus,
             saveRequest: saveRequest,
