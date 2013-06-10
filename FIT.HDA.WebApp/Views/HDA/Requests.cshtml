@@ -112,7 +112,7 @@
 
                     <div id="requestStatusHistoryModalArea">
                     </div>
-                    
+
                     <div id="assignedUserHistoryModalArea">
                     </div>
 
@@ -151,45 +151,49 @@
                             <li class="nav-header">Actions</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequest.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestModal">Open request</a>
+                                    data-bind="click: openRequest.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestModal">Open request</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openAssignToUserModal.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#assignToUserModal">Assign request</a>
+                                    data-bind="click: openAssignToUserModal.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#assignToUserModal">Assign request</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: deleteRequest.bind($data)">Delete request</a>
+                                    data-bind="click: deleteRequest.bind($data)">Delete request</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openChangeRequestsStatusModal.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#changeRequestStatusModal">Change status</a>
+                                    data-bind="click: openChangeRequestsStatusModal.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#changeRequestStatusModal">Change status</a>
                             </li>
                             <li class="divider"></li>
                             <li class="nav-header">History</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequestStatusHistory.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestStatusHistoryModal">Request status history</a>
+                                    data-bind="click: openRequestStatusHistory.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestStatusHistoryModal">Request status history</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openAssignedUserHistory.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#assignedUserHistoryModal">Assigned user history</a>
+                                    data-bind="click: openAssignedUserHistory.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#assignedUserHistoryModal">Assigned user history</a>
                             </li>
-                            <li class="divider"></li>
-                            <li class="nav-header">Admin section</li>
-                            <li>
-                                <a href="#">User management</a>
-                            </li>
+                            <div class="visibility" data-bind="visible: loadAdminModule()">
+                                <li class="divider"></li>
+                                <li class="nav-header">Admin section</li>
+                                <li>
+                                    <a href="#">User management</a>
+                                </li>
+                            </div>
+
+
                         </ul>
                     </li>
                 </td>

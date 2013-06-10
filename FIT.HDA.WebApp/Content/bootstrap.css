@@ -3152,7 +3152,8 @@ table th[class*="span"],
   border-bottom: 1px solid #ffffff;
 }
 
-.dropdown-menu > li > a {
+/* Tweak to support visibility bind on <li> element inside <div> */
+.dropdown-menu > li > a, .visibility > li > a {
   display: block;
   padding: 3px 20px;
   clear: both;

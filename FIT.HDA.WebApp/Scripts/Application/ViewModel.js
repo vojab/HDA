@@ -134,6 +134,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 switch(userType) {
                     case 1: // ADMIN
                         that.currentPage("ADMIN");
+                        that.loadRequests();
                         break;
                     case 2: // HELP DESK
                         that.currentPage("HELPDESK");
