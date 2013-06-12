@@ -206,7 +206,7 @@
                                 <li class="nav-header">Help Desk section</li>
                                 <li>
                                     <a href="#"
-                                   data-bind="click: takeRequest.bind($data)"
+                                   data-bind="click: openTakeRequestModal.bind($data)"
                                    data-toggle="modal"
                                    data-target="#takeRequestModal">Take request</a>
                                 </li>
@@ -363,6 +363,8 @@
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: takeRequest.bind($data),
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 2">Take request</button>
         </div>
     </div>
 </script>

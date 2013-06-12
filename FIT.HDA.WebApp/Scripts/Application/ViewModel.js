@@ -461,15 +461,43 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //that.redirectToErrorPage();
             }
         };
-        
+
         takeRequest = function (currentData) {
-            //alert('Take request');
-            selectedRequest(currentData);
-            var selector = "#takeRequestModalArea";
-            $(selector).attr("data-bind", "template: { name: 'takeRequestModalTemplate' }");
-            ko.cleanNode($('#requestModalArea'));
-            ko.applyBindings(that.selectedRequest, document.getElementById("takeRequestModalArea"));
-            //$('#takeRequestModalArea').modal('show');
+            alert('Request TAKEN!!!');
+            
+            dataService.assigneduserchanges.saveAssignedUserChange({
+                success: function (message) {
+                    console.log(message);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.loggedInUser().UserId(), currentData.RequestId());
+            
+            dataService.requeststatuschanges.saveRequestStatusChange({
+                success: function (message) {
+                    console.log(message);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+                // TODO: Move hardcoded value 2 - ACCEPTED to the config
+            }, 2 /*ACCEPTED*/, currentData.RequestId());
+        };
+        
+        openTakeRequestModal = function (currentData) {
+            //try {
+                //alert('Take request');
+                selectedRequest(currentData);
+                var selector = "#takeRequestModalArea";
+                $(selector).attr("data-bind", "template: { name: 'takeRequestModalTemplate', data: selectedRequest }");
+                ko.cleanNode($('#requestModalArea'));
+                ko.applyBindings(that.selectedRequest, document.getElementById("takeRequestModalArea"));
+                //$('#takeRequestModalArea').modal('show');
+            //} catch(e) {
+            //    console.log('Exception was thrown - Could not render current request into modal');
+            //    //that.redirectToErrorPage();`
+            //} 
         };
 
         openRequest = function (currentData) {
@@ -539,8 +567,9 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         return {
             initialize: initialize,
             loadRequests: loadRequests,
-            takeRequest: takeRequest,
             openRequest: openRequest,
+            takeRequest: takeRequest,
+            openTakeRequestModal: openTakeRequestModal,
             openAssignToUserModal: openAssignToUserModal,
             openChangeRequestsStatusModal: openChangeRequestsStatusModal,
             openRequestStatusHistory: openRequestStatusHistory,
