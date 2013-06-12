@@ -99,7 +99,41 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         requestStatusOptions = ko.observableArray([]);
         selectedRequestStatusOption = ko.observable([]);
         selectedFilterRequestStatusOption = ko.observable([]);
+        
+        // User types logged in
+        
+        admin = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            // ADMIN
+            if (that.loggedInUser().UserTypeId() === 1) {
+                return true;
+            }
+        }, that);
 
+        client = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            // CLIENT
+            if (that.loggedInUser().UserTypeId() === 3) {
+                return true;
+            }
+        }, that);
+
+        business = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            // BUSINESS
+            if (that.loggedInUser().UserTypeId() === 4) {
+                return true;
+            }
+        }, that);
+
+        helpdesk = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            // HELP DESK
+            if (that.loggedInUser().UserTypeId() === 2) {
+                return true;
+            }
+        }, that);
+        
         // ----- --------------------------- -----
         
         // TODO: User will be loaded from Log In page - this is temporary for testing
@@ -134,24 +168,29 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 switch(userType) {
                     case 1: // ADMIN
                         that.currentPage("ADMIN");
+                        // TODO: Customize loading of requests for specific type of user
                         that.loadRequests();
                         break;
                     case 2: // HELP DESK
                         that.currentPage("HELPDESK");
+                        // TODO: Customize loading of requests for specific type of user
+                        that.loadRequests();
                         break;
                     case 3: // CLIENT
                         that.currentPage("CLIENT");
+                        // TODO: Customize loading of requests for specific type of user
                         that.loadRequests();
                         break;
                     case 4: // BUSINESS
                         that.currentPage("BUSINESS");
+                        // TODO: Customize loading of requests for specific type of user
+                        that.loadRequests();
                         break;
                     default: // UNKNOWN
                         alert('Unknown user type');
                 }
             }
             
-
             //that.renderRequests();
             //ko.applyBindings(that);
         };
@@ -422,6 +461,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //that.redirectToErrorPage();
             }
         };
+        
+        takeRequest = function (currentData) {
+            //alert('Take request');
+            selectedRequest(currentData);
+            var selector = "#takeRequestModalArea";
+            $(selector).attr("data-bind", "template: { name: 'takeRequestModalTemplate' }");
+            ko.cleanNode($('#requestModalArea'));
+            ko.applyBindings(that.selectedRequest, document.getElementById("takeRequestModalArea"));
+            //$('#takeRequestModalArea').modal('show');
+        };
 
         openRequest = function (currentData) {
             selectedRequest(currentData);
@@ -490,6 +539,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         return {
             initialize: initialize,
             loadRequests: loadRequests,
+            takeRequest: takeRequest,
             openRequest: openRequest,
             openAssignToUserModal: openAssignToUserModal,
             openChangeRequestsStatusModal: openChangeRequestsStatusModal,
@@ -523,6 +573,10 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             loadAdminModule: loadAdminModule,
             loadClientModule: loadClientModule,
             loadBusinessModule: loadBusinessModule,
-            loadHelpDeskModule: loadHelpDeskModule
+            loadHelpDeskModule: loadHelpDeskModule,
+            admin: admin,
+            client: client,
+            business: business,
+            helpdesk: helpdesk
         };
     });

@@ -115,6 +115,9 @@
 
                     <div id="assignedUserHistoryModalArea">
                     </div>
+                    
+                    <div id="takeRequestModalArea">
+                    </div>
 
                 </div>
 
@@ -151,49 +154,63 @@
                             <li class="nav-header">Actions</li>
                             <li>
                                 <a href="#"
-                                    data-bind="click: openRequest.bind($data)"
-                                    data-toggle="modal"
-                                    data-target="#requestModal">Open request</a>
+                                   data-bind="click: openRequest.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#requestModal">Open request</a>
                             </li>
-                            <li>
-                                <a href="#"
-                                    data-bind="click: openAssignToUserModal.bind($data)"
-                                    data-toggle="modal"
-                                    data-target="#assignToUserModal">Assign request</a>
+                            <div class="visibility" data-bind="visible: helpdesk() === true">
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: openAssignToUserModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#assignToUserModal">Assign request</a>
+                                </li>
+                            </div>
+                            <div class="visibility" data-bind="visible: admin() === true">
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: deleteRequest.bind($data)">Delete request</a>
                             </li>
-                            <li>
-                                <a href="#"
-                                    data-bind="click: deleteRequest.bind($data)">Delete request</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    data-bind="click: openChangeRequestsStatusModal.bind($data)"
-                                    data-toggle="modal"
-                                    data-target="#changeRequestStatusModal">Change status</a>
-                            </li>
+                            </div>
+                            <div class="visibility" data-bind="visible: admin() === true || business() === true">
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: openChangeRequestsStatusModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#changeRequestStatusModal">Change status</a>
+                                </li>
+                            </div>
                             <li class="divider"></li>
                             <li class="nav-header">History</li>
                             <li>
                                 <a href="#"
-                                    data-bind="click: openRequestStatusHistory.bind($data)"
-                                    data-toggle="modal"
-                                    data-target="#requestStatusHistoryModal">Request status history</a>
+                                   data-bind="click: openRequestStatusHistory.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#requestStatusHistoryModal">Request status history</a>
                             </li>
                             <li>
                                 <a href="#"
-                                    data-bind="click: openAssignedUserHistory.bind($data)"
-                                    data-toggle="modal"
-                                    data-target="#assignedUserHistoryModal">Assigned user history</a>
+                                   data-bind="click: openAssignedUserHistory.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#assignedUserHistoryModal">Assigned user history</a>
                             </li>
-                            <div class="visibility" data-bind="visible: loadAdminModule()">
+                            <div class="visibility" data-bind="visible: admin() === true">
                                 <li class="divider"></li>
                                 <li class="nav-header">Admin section</li>
                                 <li>
                                     <a href="#">User management</a>
                                 </li>
                             </div>
-
-
+                            <div class="visibility" data-bind="visible: helpdesk() === true">
+                                <li class="divider"></li>
+                                <li class="nav-header">Help Desk section</li>
+                                <li>
+                                    <a href="#"
+                                   data-bind="click: takeRequest.bind($data)"
+                                   data-toggle="modal"
+                                   data-target="#takeRequestModal">Take request</a>
+                                </li>
+                            </div>
                         </ul>
                     </li>
                 </td>
@@ -296,11 +313,11 @@
 
 <script type="text/html" id="newRequestModalTemplate">
     <div id="newRequestModal"
-        class="modal hide fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="newRequestModalLabel"
-        aria-hidden="true">
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="newRequestModalLabel"
+         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="newRequestModalLabel">New Help Desk Request</h3>
@@ -316,16 +333,36 @@
             </select>
             <label>Help desk request details:</label>
             <textarea id="requestDescription"
-                name="requestDescription"
-                cols="40"
-                style="width: 300px; height: 100px;"
-                data-bind="nicedit: newRequest().RequestDescription"></textarea>
+                      name="requestDescription"
+                      cols="40"
+                      style="width: 300px; height: 100px;"
+                      data-bind="nicedit: newRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button data-bind="click: saveRequest"
-                class="btn btn-primary">
+                    class="btn btn-primary">
                 Save new help desk request</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="takeRequestModalTemplate">
+    <div id="takeRequestModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="takeRequestModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="takeRequestModalLabel">Take request</h3>
+        </div>
+        <div class="modal-body">
+            <p>Take request</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
         </div>
     </div>
 </script>
