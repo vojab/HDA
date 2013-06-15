@@ -25,6 +25,7 @@
 
         self.CurrentRequestStatus = ko.observable(new requestStatus(object.currentRequestStatus));
         self.CurrentAssignedUser = ko.observable(new user(object.currentAssignedUser));
+        self.FirstAssignedUser = ko.observable(new user(object.firstAssignedUser));
     };
 
     var product = function (object) {

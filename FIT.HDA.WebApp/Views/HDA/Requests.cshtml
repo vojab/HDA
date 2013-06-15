@@ -118,6 +118,18 @@
                     
                     <div id="takeRequestModalArea">
                     </div>
+                    
+                    <div id="closeRequestModalArea">
+                    </div>
+                    
+                    <div id="reopenRequestModalArea">
+                    </div>
+                    
+                    <div id="denyRequestModalArea">
+                    </div>
+
+                    <div id="finishRequestModalArea">
+                    </div>
 
                 </div>
 
@@ -158,6 +170,22 @@
                                    data-toggle="modal"
                                    data-target="#requestModal">Open request</a>
                             </li>
+                            <div class="visibility" data-bind="visible: client() === true">
+                                <li class="divider"></li>
+                                <li class="nav-header">Client section</li>
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: openCloseRequestModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#closeRequestModal">Close request</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: openReopenRequestModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#reopenRequestModal">Re-Open request</a>
+                                </li>
+                            </div>
                             <div class="visibility" data-bind="visible: admin() === true || helpdesk() === true">
                                 <li>
                                     <a href="#"
@@ -166,11 +194,11 @@
                                        data-target="#assignToUserModal">Assign request</a>
                                 </li>
                             </div>
-                            <div class="visibility" data-bind="visible: admin() === true">
+                            <div class="visibility" data-bind="visible: admin() === true || client() === true">
                                 <li>
                                     <a href="#"
                                        data-bind="click: deleteRequest.bind($data)">Delete request</a>
-                            </li>
+                                </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || business() === true">
                                 <li>
@@ -206,9 +234,25 @@
                                 <li class="nav-header">Help Desk section</li>
                                 <li>
                                     <a href="#"
-                                   data-bind="click: openTakeRequestModal.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#takeRequestModal">Take request</a>
+                                       data-bind="click: openTakeRequestModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#takeRequestModal">Take request</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: openDenyRequestModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#denyRequestModal">Deny request</a>
+                                </li>
+                            </div>
+                            <div class="visibility" data-bind="visible: business() === true">
+                                <li class="divider"></li>
+                                <li class="nav-header">Business section</li>
+                                <li>
+                                    <a href="#"
+                                       data-bind="click: openFinishRequestModal.bind($data)"
+                                       data-toggle="modal"
+                                       data-target="#finishRequestModal">Finish request</a>
                                 </li>
                             </div>
                         </ul>
@@ -364,7 +408,95 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: takeRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 2">Take request</button>
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 1">Take request</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="closeRequestModalTemplate">
+    <div id="closeRequestModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="closeRequestModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="closeRequestModalLabel">Close request</h3>
+        </div>
+        <div class="modal-body">
+            <p>Close request</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: closeRequest.bind($data),
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 6">Close request</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="reopenRequestModalTemplate">
+    <div id="reopenRequestModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="reopenRequestModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="reopenRequestModalLabel">Re-Open request</h3>
+        </div>
+        <div class="modal-body">
+            <p>Re-Open request</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: reopenRequest.bind($data),
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 1">Re-open request</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="denyRequestModalTemplate">
+    <div id="denyRequestModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="denyRequestModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="denyRequestModalLabel">Deny request</h3>
+        </div>
+        <div class="modal-body">
+            <p>Deny request</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: denyRequest.bind($data),
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 2">Deny request</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="finishRequestModalTemplate">
+    <div id="finishRequestModal"
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="finishRequestModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="finishRequestModalLabel">Finish request</h3>
+        </div>
+        <div class="modal-body">
+            <p>Deny request</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary" data-bind="click: finishRequest.bind($data),
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 3">Finish request</button>
         </div>
     </div>
 </script>
