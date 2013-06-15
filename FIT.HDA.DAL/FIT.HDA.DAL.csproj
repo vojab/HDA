@@ -59,6 +59,10 @@
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FIT.HDA.BL\FIT.HDA.BL.csproj">
+      <Project>{f38d36e3-115a-4084-a34c-203fe25ece18}</Project>
+      <Name>FIT.HDA.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FIT.HDA.Models\FIT.HDA.Models.csproj">
       <Project>{4d24d3ce-4acf-49e2-b31a-2bc039f5e489}</Project>
       <Name>FIT.HDA.Models</Name>

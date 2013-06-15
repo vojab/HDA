@@ -179,7 +179,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                     case 3: // CLIENT
                         that.currentPage("CLIENT");
                         // TODO: Customize loading of requests for specific type of user
-                        that.loadRequests();
+                        that.loadRequestsByUserId();
                         break;
                     case 4: // BUSINESS
                         that.currentPage("BUSINESS");
@@ -265,6 +265,18 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
             //that.renderRequests();
             ko.applyBindings(that);
+        };
+        
+        loadRequestsByUserId = function () {
+            dataService.request.getRequestsByUserId({
+                success: function (result) {
+                    //alert(result);
+                    that.bindRequestData(result);
+                },
+                error: function () {
+                    alert('Error');
+                }
+            }, that.loggedInUser().UserId());
         };
         
         loadRequests = function () {

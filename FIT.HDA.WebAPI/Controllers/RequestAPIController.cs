@@ -37,6 +37,63 @@ namespace FIT.HDA.API.Controllers
             return requests;
         }
 
+        [System.Web.Http.ActionName("GetRequestsByUserId")]
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Request> GetRequestsByUserId(string userid)
+        {
+            IEnumerable<Request> requests;
+
+            try
+            {
+                // TODO: Be defensive here - try parse int first
+                requests = _requestRepository.GetRequestsByUserId(Int32.Parse(userid));
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+
+            return requests;
+        }
+
+        [System.Web.Http.ActionName("GetRequestsByRequestStatusId")]
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Request> GetRequestsByRequestStatusId(string requeststatusid)
+        {
+            IEnumerable<Request> requests;
+
+            try
+            {
+                // TODO: Be defensive here - try parse int first
+                requests = _requestRepository.GetRequestsByRequestStatusId(Int32.Parse(requeststatusid));
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+
+            return requests;
+        }
+
+        //[System.Web.Http.ActionName("GetRequestsForHelpDeskUsers")]
+        //[System.Web.Http.HttpGet]
+        //public IEnumerable<Request> GetRequestsForHelpDeskUsers(string userid)
+        //{
+        //    IEnumerable<Request> requests;
+
+        //    try
+        //    {
+        //        // TODO: Be defensive here - try parse int first
+        //        requests = _requestRepository.GetRequestsForHelpDeskUsers(Int32.Parse(userid));
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+        //    }
+
+        //    return requests;
+        //}
+
         //// GET api/requestapi
         //public IEnumerable<string> Get()
         //{
