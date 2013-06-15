@@ -21,15 +21,15 @@ namespace FIT.HDA.DAL.Repositories
             return _context.Requests.AsEnumerable();
         }
 
-        public IEnumerable<Request> GetRequestsByUserId(int userId)
+        public IEnumerable<Request> GetRequestsOpenedByClientId(int userId)
         {
             return _context.Requests.Where(r => r.AssignedUserChanges.FirstOrDefault().UserId == userId).Select(r => r).AsEnumerable();
         }
 
         public IEnumerable<Request> GetRequestsByRequestStatusId(int requestStatusId)
         {
-            return _context.Requests.Where(r => 
-                r.RequestStatusChanges.LastOrDefault().RequestStatusId == requestStatusId).Select(r => r).AsEnumerable();
+            return _context.Requests.Where(r =>
+                r.RequestStatusChanges.FirstOrDefault().RequestStatusId == requestStatusId).Select(r => r).AsEnumerable();
         }
 
         // This method will return all help desk requests for help desk personell
@@ -37,7 +37,7 @@ namespace FIT.HDA.DAL.Repositories
         // 2) All requests in status OPEN - 1
         public IEnumerable<Request> GetRequestsForHelpDeskUsers(int userId)
         {
-            return _context.Requests.Where(r => r.AssignedUserChanges.LastOrDefault().UserId == userId || 
+            return _context.Requests.Where(r => r.AssignedUserChanges.FirstOrDefault().UserId == userId || 
                 r.RequestStatusChanges.LastOrDefault().RequestStatusId == (int)HelpDeskEnums.RequestStatus.Open).Select(r => r).AsEnumerable();
         }
 

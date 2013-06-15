@@ -37,7 +37,7 @@ namespace FIT.HDA.API.Controllers
             return requests;
         }
 
-        [System.Web.Http.ActionName("GetRequestsByUserId")]
+        [System.Web.Http.ActionName("GetRequestsOpenedByClientId")]
         [System.Web.Http.HttpGet]
         public IEnumerable<Request> GetRequestsByUserId(string userid)
         {
@@ -46,7 +46,7 @@ namespace FIT.HDA.API.Controllers
             try
             {
                 // TODO: Be defensive here - try parse int first
-                requests = _requestRepository.GetRequestsByUserId(Int32.Parse(userid));
+                requests = _requestRepository.GetRequestsOpenedByClientId(Int32.Parse(userid));
             }
             catch (Exception)
             {

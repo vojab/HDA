@@ -21,7 +21,7 @@ namespace FIT.HDA.API.Controllers
             _userRepository = new UserRepository();
         }
 
-        public IEnumerable<User> GetRequests()
+        public IEnumerable<User> GetUsers()
         {
             IEnumerable<User> users;
 

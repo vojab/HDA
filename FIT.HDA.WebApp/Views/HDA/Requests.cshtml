@@ -31,7 +31,7 @@
                 <input class="input-block-level" type="text" placeholder="User Name"
                     name="username" data-bind="value: userName">
                 <input class="input-block-level" type="password" placeholder="Password"
-                    name="password" data-bind="value: password">
+                    name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
                 <button class="btn btn-large btn-primary" type="submit"
                     data-bind="click: loadUser">
                     Sign in</button>
@@ -158,7 +158,7 @@
                                    data-toggle="modal"
                                    data-target="#requestModal">Open request</a>
                             </li>
-                            <div class="visibility" data-bind="visible: helpdesk() === true">
+                            <div class="visibility" data-bind="visible: admin() === true || helpdesk() === true">
                                 <li>
                                     <a href="#"
                                        data-bind="click: openAssignToUserModal.bind($data)"

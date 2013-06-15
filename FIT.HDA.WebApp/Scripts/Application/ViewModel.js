@@ -39,6 +39,20 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
         };
         
+        ko.bindingHandlers.executeOnEnter = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                var allBindings = allBindingsAccessor();
+                $(element).keypress(function (event) {
+                    var keyCode = (event.which ? event.which : event.keyCode);
+                    if (keyCode === 13) {
+                        allBindings.executeOnEnter.call(viewModel);
+                        return false;
+                    }
+                    return true;
+                });
+            }
+        };
+        
         // ----- --------------------------- -----
         
         // ----- Knockout Observable Section -----
@@ -174,17 +188,25 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                     case 2: // HELP DESK
                         that.currentPage("HELPDESK");
                         // TODO: Customize loading of requests for specific type of user
-                        that.loadRequests();
+                        that.loadRequests("HELPDESK");
+                        
+                        // 1)Filter loaded users by user type
+                        // help desk needs to see only business providers on assign user modal
+                        
+                        // 2) Load only help desk requests by help desk user id
+                        
+                        // 3) Load only help desk requests in status "OPEN"
+                        
                         break;
                     case 3: // CLIENT
                         that.currentPage("CLIENT");
                         // TODO: Customize loading of requests for specific type of user
-                        that.loadRequestsByUserId();
+                        that.loadRequestsOpenedByClient();
                         break;
                     case 4: // BUSINESS
                         that.currentPage("BUSINESS");
                         // TODO: Customize loading of requests for specific type of user
-                        that.loadRequests();
+                        that.loadRequests("BUSINESS");
                         break;
                     default: // UNKNOWN
                         alert('Unknown user type');
@@ -267,8 +289,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             ko.applyBindings(that);
         };
         
-        loadRequestsByUserId = function () {
-            dataService.request.getRequestsByUserId({
+        loadRequestsOpenedByClient = function () {
+            dataService.request.getRequestsOpenedByClientId({
                 success: function (result) {
                     //alert(result);
                     that.bindRequestData(result);
@@ -279,11 +301,13 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }, that.loggedInUser().UserId());
         };
         
-        loadRequests = function () {
+        // Filter Type is mode for loading help desk requests by different parameters
+        // Specific Request Status, or for specific User ID
+        loadRequests = function (filterType) {
             dataService.request.getRequests({
                 success: function (result) {
                     //alert(result);
-                    that.bindRequestData(result);
+                    that.bindRequestData(result, filterType);
                 },
                 error: function () {
                     alert('Error');
@@ -292,7 +316,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         };
 
         // Function for binding JSON requests data to the knockout observable
-        bindRequestData = function (result) {
+        bindRequestData = function (result, filterType) {
             // Empty requests array and fill with new data
             //that.requests(ko.observableArray([]));
             for (var i = 0; i < result.length; i++) {
@@ -313,7 +337,27 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 currentRequest.currentAssignedUser = currentAssignedUserChangesObject.User;
                 
                 var currentRequestObservable = new model.request(currentRequest);
-                that.requests.push(currentRequestObservable);
+
+                // TODO: Move hardcoded values to the config
+                switch (filterType) {
+                    // For currently logged in help desk users load only help desk requests 
+                    // assigned to the currently logged in help desk personnel 
+                    // and all help desk requests in status OPEN
+                    case "HELPDESK":
+                        if (currentRequest.currentAssignedUser.UserId === that.loggedInUser().UserId() ||
+                            currentRequest.currentRequestStatus.RequestStatusName === "OPEN") {
+                            that.requests.push(currentRequestObservable);
+                        }
+                        break;
+                    case "BUSINESS":
+                        if (currentRequest.currentAssignedUser.UserId === that.loggedInUser().UserId()) {
+                            that.requests.push(currentRequestObservable);
+                        }
+                        break;
+                    default:
+                        that.requests.push(currentRequestObservable);
+                        break;
+                }
             }
             that.renderRequests();
             ko.applyBindings(that);

@@ -11,7 +11,7 @@
                 type: 'GET'
             });
             
-            amplify.request.define('GetRequestsByUserId', 'ajax', {
+            amplify.request.define('GetRequestsOpenedByClientId', 'ajax', {
                 // TODO: Move base url to the config file
                 url: 'http://localhost:3894/api/RequestAPI',
                 dataType: 'jsonp',
@@ -47,9 +47,9 @@
             });
         };
         
-        getRequestsByUserId = function (callbacks, userid) {
+        getRequestsOpenedByClientId = function (callbacks, userid) {
             return amplify.request({
-                resourceId: 'GetRequestsByUserId',
+                resourceId: 'GetRequestsOpenedByClientId',
                 data: {
                     userid: userid
                 },
@@ -87,7 +87,7 @@
 
         return {
             getRequests: getRequests,
-            getRequestsByUserId: getRequestsByUserId,
+            getRequestsOpenedByClientId: getRequestsOpenedByClientId,
             saveRequest: saveRequest,
             deleteRequest: deleteRequest
         };
