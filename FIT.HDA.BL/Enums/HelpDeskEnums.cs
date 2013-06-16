@@ -20,5 +20,11 @@
             HelpDeskPersonnel,
             Administrator
         }
+
+        public enum Status
+        {
+            Deleted = 0,
+            Active = 1
+        }
     }
 }

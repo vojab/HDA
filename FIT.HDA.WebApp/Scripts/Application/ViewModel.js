@@ -110,6 +110,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         selectedUser = ko.observable([]);
         userTypes = ko.observableArray([]);
         selectedUserType = ko.observable([]);
+        newProduct = ko.observable(new model.product());
         products = ko.observableArray([]);
         selectedProduct = ko.observable([]);
         requestStatusOptions = ko.observableArray([]);
@@ -296,7 +297,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                that.newUser().Password(),
                that.newUser().UserName());
         };
-        
+
         // Apply template to target div to render modal for creating new user
         openModalForNewUser = function () {
             try {
@@ -305,9 +306,9 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //$('#newRequestModal').modal('show');
                 ko.cleanNode($('#newUserModalArea'));
                 ko.applyBindings(that.newRequest, document.getElementById("newUserModalArea"));
-                nicEditors.allTextAreas();
+                //nicEditors.allTextAreas();
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
+                console.log('Exception was thrown - Could not open modal for the new user');
                 //that.redirectToErrorPage();
             }
         };
@@ -341,6 +342,38 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 $(selector).attr("data-bind", "template: { name: 'productsListTemplate' }");
             } catch (e) {
                 console.log('Exception was thrown - Could not render users');
+                //that.redirectToErrorPage();
+            }
+        };
+
+        saveProduct = function () {
+            alert('save product');
+            dataService.product.saveProduct({
+                success: function (message) {
+                    //TODO: toaster message here
+                    console.log(message);
+                    $('#newProductModal').modal('hide');
+                    that.products(ko.observableArray([]));
+                    that.loadProducts();
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.newProduct().ProductName(),
+               that.newProduct().ProductDescription());
+        };
+
+        // Apply template to target div to render modal for creating new product
+        openModalForNewProduct = function () {
+            try {
+                var selector = "#newProductModalArea";
+                $(selector).attr("data-bind", "template: { name: 'newProductModalTemplate' }");
+                //$('#newRequestModal').modal('show');
+                ko.cleanNode($('#newProductModalArea'));
+                ko.applyBindings(that.newRequest, document.getElementById("newProductModalArea"));
+                //nicEditors.allTextAreas();
+            } catch (e) {
+                console.log('Exception was thrown - Could not open modal for the new product');
                 //that.redirectToErrorPage();
             }
         };
@@ -580,7 +613,6 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
         // Create entry in AssignedUserChanges table with currently selected userid and requestid
         assignToUser = function () {
-
             if (that.loggedInUser().UserType().UserTypeId() === 2) { // 2 - Help Desk User - HDP TODO: Move to the config
                 if (that.selectedRequest().CurrentRequestStatus().RequestStatusName() !== "ACCEPTED") {
                     // TODO: Add toaster message here
@@ -956,7 +988,9 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             userTypes: userTypes,
             selectedUserType: selectedUserType,
             saveUser: saveUser,
+            saveProduct: saveProduct,
             products: products,
+            newProduct: newProduct,
             selectedProduct: selectedProduct,
             requestStatusOptions: requestStatusOptions,
             selectedRequestStatusOption: selectedRequestStatusOption,
@@ -968,6 +1002,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             renderRequestIntoModal: renderRequestIntoModal,
             openModalForNewRequest: openModalForNewRequest,
             openModalForNewUser: openModalForNewUser,
+            openModalForNewProduct: openModalForNewProduct,
             isUserAuthenticated: isUserAuthenticated,
             currentPage: currentPage,
             userName: userName,

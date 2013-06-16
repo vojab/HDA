@@ -29,9 +29,9 @@
 
                 <h2 class="form-signin-heading">Please sign in</h2>
                 <input class="input-block-level" type="text" placeholder="User Name"
-                    name="username" data-bind="value: userName">
+                       name="username" data-bind="value: userName">
                 <input class="input-block-level" type="password" placeholder="Password"
-                    name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
+                       name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
                 <button class="btn btn-large btn-primary" type="submit"
                     data-bind="click: loadUser">
                     Sign in</button>
@@ -50,15 +50,19 @@
                                         <ul class="nav">
                                             <li class="active">
                                                 <a>
+                                                    <i class="icon-search icon-white"></i>
                                                     <input data-bind="value: keywordFilter, valueUpdate: 'afterkeydown'"
-                                                        type="text" class="search-query" placeholder="Search"></a>
+                                                        type="text" class="search-query" placeholder="Search">
+                                                </a>
                                             </li>
                                             <li>
                                                 <a>
+                                                    <i class="icon-filter icon-white"></i>
                                                     <select class="span2" data-bind="options: requestStatusOptions,
     optionsText: 'RequestStatusName',
     value: selectedFilterRequestStatusOption">
-                                                    </select></a>
+                                                    </select>
+                                                </a>
                                             </li>
                                             <li id="createActions" class="dropdown actions">
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>ACTIONS</a>
@@ -69,7 +73,10 @@
                                                             href="#"
                                                             data-bind="click: openModalForNewRequest"
                                                             data-toggle="modal"
-                                                            data-target="#newRequestModal">Create Request</a>
+                                                            data-target="#newRequestModal">
+                                                            <i class="icon-file"></i>
+                                                            Create Request
+                                                        </a>
                                                     </div>
                                                     <div data-bind="visible: admin() === true">
                                                         <a id="newUser"
@@ -77,22 +84,27 @@
                                                             href="#"
                                                             data-bind="click: openModalForNewUser"
                                                             data-toggle="modal"
-                                                            data-target="#newUserModal">Create User</a>
+                                                            data-target="#newUserModal">
+                                                            <i class="icon-user"></i>
+                                                            Create User
+                                                        </a>
                                                     </div>
-@*                                                    <div data-bind="visible: admin() === true">
+                                                    <div data-bind="visible: admin() === true">
                                                         <a id="newProduct"
                                                             class="action"
                                                             href="#"
                                                             data-bind="click: openModalForNewProduct"
                                                             data-toggle="modal"
-                                                            data-target="#newProductModal">Create Product</a>
-                                                    </div>*@
+                                                            data-target="#newProductModal">
+                                                            <i class="icon-tag"></i>
+                                                            Create Product</a>
+                                                    </div>
                                                 </ul>
                                             </li>
                                         </ul>
                                     </div>
                                     <p class="navbar-text pull-right">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-user icon-white"></i>
                                         Welcome: 
                                 <a data-bind="text: loggedInUser().UserName()" class="navbar-link" href="#">Username</a>
                                     </p>
@@ -101,7 +113,7 @@
                         </div>
                     </div>
 
-@*                  <div id="adminModule" data-bind="visible: loadAdminModule()">
+                    @*                  <div id="adminModule" data-bind="visible: loadAdminModule()">
                         <p>Hello ADMIN</p>
                     </div>
 
@@ -122,11 +134,14 @@
 
                     <div id="usersArea">
                     </div>
-                    
+
                     <div id="newUserModalArea">
                     </div>
-                    
+
                     <div id="productsArea">
+                    </div>
+
+                    <div id="newProductModalArea">
                     </div>
 
                     <div id="requestModalArea">
@@ -194,7 +209,8 @@
     'success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
     'error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
     'warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
-    'info': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED'}">
+    'info': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED'
+}">
                 <td>
                     <li id="actions" class="dropdown actions">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
@@ -202,83 +218,96 @@
                             <li class="nav-header">Actions</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequest.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestModal">Open request</a>
+                                    data-bind="click: openRequest.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestModal">
+                                    <i class="icon-folder-open"></i>
+                                    Open request</a>
                             </li>
                             <div class="visibility" data-bind="visible: client() === true">
                                 <li class="divider"></li>
                                 <li class="nav-header">Client section</li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openCloseRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#closeRequestModal">Close request</a>
+                                        data-bind="click: openCloseRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#closeRequestModal">
+                                        <i class="icon-folder-close"></i>
+                                        Close request</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openReopenRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#reopenRequestModal">Re-Open request</a>
+                                        data-bind="click: openReopenRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#reopenRequestModal">
+                                        <i class="icon-repeat"></i>
+                                        Re-Open request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || helpdesk() === true">
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openAssignToUserModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#assignToUserModal">Assign request</a>
+                                        data-bind="click: openAssignToUserModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#assignToUserModal">
+                                        <i class="icon-share"></i>
+                                        Assign request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || client() === true">
                                 <li>
                                     <a href="#"
-                                       data-bind="click: deleteRequest.bind($data)">Delete request</a>
+                                        data-bind="click: deleteRequest.bind($data)">
+                                        <i class="icon-trash"></i>
+                                        Delete request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || business() === true">
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openChangeRequestsStatusModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#changeRequestStatusModal">Change status</a>
+                                        data-bind="click: openChangeRequestsStatusModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#changeRequestStatusModal">
+                                        <i class="icon-cog"></i>
+                                        Change status</a>
                                 </li>
                             </div>
                             <li class="divider"></li>
                             <li class="nav-header">History</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequestStatusHistory.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestStatusHistoryModal">Request status history</a>
+                                    data-bind="click: openRequestStatusHistory.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestStatusHistoryModal">
+                                    <i class="icon-tasks"></i>
+                                    Request status history</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openAssignedUserHistory.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#assignedUserHistoryModal">Assigned user history</a>
+                                    data-bind="click: openAssignedUserHistory.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#assignedUserHistoryModal">
+                                    <i class="icon-th"></i>
+                                    Assigned user history</a>
                             </li>
-                            <div class="visibility" data-bind="visible: admin() === true">
-                                <li class="divider"></li>
-                                <li class="nav-header">Admin section</li>
-                                <li>
-                                    <a href="#">User management</a>
-                                </li>
-                            </div>
                             <div class="visibility" data-bind="visible: helpdesk() === true">
                                 <li class="divider"></li>
                                 <li class="nav-header">Help Desk section</li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openTakeRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#takeRequestModal">Take request</a>
+                                        data-bind="click: openTakeRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#takeRequestModal">
+                                        <i class="icon-hand-up"></i>
+                                        Take request</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openDenyRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#denyRequestModal">Deny request</a>
+                                        data-bind="click: openDenyRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#denyRequestModal">
+                                        <i class="icon-minus-sign"></i>
+                                        Deny request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: business() === true">
@@ -286,9 +315,11 @@
                                 <li class="nav-header">Business section</li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openFinishRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#finishRequestModal">Finish request</a>
+                                        data-bind="click: openFinishRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#finishRequestModal">
+                                        <i class="icon-check"></i>
+                                        Finish request</a>
                                 </li>
                             </div>
                         </ul>
@@ -332,13 +363,17 @@
                             <li class="nav-header">User Actions</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequest.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestModal">Change user password</a>
+                                    data-bind="click: openRequest.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestModal">
+                                    <i class="icon-lock"></i>
+                                    Change user password</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequest.bind($data)">Delete user</a>
+                                    data-bind="click: openRequest.bind($data)">
+                                    <i class="icon-trash"></i>
+                                    Delete user</a>
                             </li>
                         </ul>
                     </li>
@@ -376,7 +411,9 @@
                             <li class="nav-header">Product Actions</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: deleteRequest.bind($data)">Delete product</a>
+                                    data-bind="click: deleteRequest.bind($data)">
+                                    <i class="icon-trash"></i>
+                                    Delete product</a>
                             </li>
                         </ul>
                     </li>
@@ -692,11 +729,11 @@
 
 <script type="text/html" id="newUserModalTemplate">
     <div id="newUserModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="newUserModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="newUserModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="newUserModalLabel">Add User</h3>
@@ -724,6 +761,37 @@
             <button data-bind="click: saveUser"
                 class="btn btn-primary">
                 Add new user</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="newProductModalTemplate">
+    <div id="newProductModal"
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="newProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="newProductModalLabel">Add User</h3>
+        </div>
+        <div class="modal-body">
+            <p>Please enter details about new product:</p>
+            <label>User Name:</label>
+            <input id="productName" name="userName" data-bind="value: newProduct().ProductName" type="text" />
+            <label>Product description:</label>
+            <textarea id="productDescription"
+                name="productDescription"
+                cols="40"
+                style="width: 300px; height: 100px;"
+                data-bind="nicedit: newProduct().ProductDescription"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button data-bind="click: saveProduct"
+                class="btn btn-primary">
+                Add new product</button>
         </div>
     </div>
 </script>

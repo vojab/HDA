@@ -38,6 +38,29 @@ namespace FIT.HDA.API.Controllers
             return products;
         }
 
+        [System.Web.Http.ActionName("save")]
+        [System.Web.Http.HttpGet]
+        public string SaveProduct(string productname,
+                                  string productdescription)
+        {
+            try
+            {
+                var product = new Product();
+
+                product.ProductName = productname;
+                product.ProductDescription = productdescription;
+                product.DateCreated = DateTime.Now;
+
+                _productRepository.SaveProduct(product);
+
+                return "success";
+            }
+            catch (Exception e)
+            {
+                return "error";
+            }
+        }
+
         // TODO: Implement endpoint for saving product
 
         // DELETE api/productapi/5
