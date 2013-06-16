@@ -8,12 +8,13 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
-li#actions {list-style-type: none;}
-
-a#newRequest {
-    /*border: 2px dotted red;*/
-    color: red;
+li.actions {
+    list-style-type: none;
 }
+
+/*a#newRequest {
+    color: red;
+}*/
 
 .clearfix {
   *zoom: 1;

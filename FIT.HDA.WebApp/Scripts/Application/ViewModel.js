@@ -184,6 +184,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                         // TODO: Customize loading of requests for specific type of user
                         that.loadRequests();
                         that.loadUsers();
+                        that.renderUsers();
                         break;
                     case 2: // HELP DESK
                         that.currentPage("HELPDESK");
@@ -240,9 +241,17 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                         break;
                 }
             }
-
-            //that.renderRequests();
-            //ko.applyBindings(that);
+        };
+        
+        // Apply template to target div and render requests data
+        renderUsers = function () {
+            try {
+                var selector = "#usersArea";
+                $(selector).attr("data-bind", "template: { name: 'usersListTemplate' }");
+            } catch (e) {
+                console.log('Exception was thrown - Could not render users');
+                //that.redirectToErrorPage();
+            }
         };
 
         loadProducts = function () {

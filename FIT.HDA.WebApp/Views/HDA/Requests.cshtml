@@ -60,12 +60,31 @@
     value: selectedFilterRequestStatusOption">
                                                     </select></a>
                                             </li>
-                                            <li>
-                                                <a id="newRequest"
-                                                    href="#"
-                                                    data-bind="click: openModalForNewRequest"
-                                                    data-toggle="modal"
-                                                    data-target="#newRequestModal">* NEW Help Desk Request</a>
+                                            <li id="createActions" class="dropdown actions">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>ACTIONS</a>
+                                                <ul class="dropdown-menu">
+                                                    <div data-bind="visible: admin() === true || client() === true">
+                                                        <a id="newRequest"
+                                                            href="#"
+                                                            data-bind="click: openModalForNewRequest"
+                                                            data-toggle="modal"
+                                                            data-target="#newRequestModal">* NEW Request</a>
+                                                    </div>
+@*                                                    <div data-bind="visible: admin() === true">
+                                                        <a id="newUser"
+                                                            href="#"
+                                                            data-bind="click: openModalForNewUser"
+                                                            data-toggle="modal"
+                                                            data-target="#newUserModal">* NEW User</a>
+                                                    </div>
+                                                    <div data-bind="visible: admin() === true">
+                                                        <a id="newProduct"
+                                                            href="#"
+                                                            data-bind="click: openModalForNewProduct"
+                                                            data-toggle="modal"
+                                                            data-target="#newProductModal">* NEW Product</a>
+                                                    </div>*@
+                                                </ul>
                                             </li>
                                         </ul>
                                     </div>
@@ -98,6 +117,9 @@
                     <div id="requestsArea">
                     </div>
 
+                    <div id="usersArea">
+                    </div>
+
                     <div id="requestModalArea">
                     </div>
 
@@ -115,16 +137,16 @@
 
                     <div id="assignedUserHistoryModalArea">
                     </div>
-                    
+
                     <div id="takeRequestModalArea">
                     </div>
-                    
+
                     <div id="closeRequestModalArea">
                     </div>
-                    
+
                     <div id="reopenRequestModalArea">
                     </div>
-                    
+
                     <div id="denyRequestModalArea">
                     </div>
 
@@ -142,6 +164,7 @@
 
 @*Templates section*@
 <script type="text/html" id="requestsListTemplate">
+    <p>Help Desk Requests</p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -160,67 +183,67 @@
         <tbody data-bind="foreach: filteredRequestsByRequestStatus">
             <tr>
                 <td>
-                    <li id="actions" class="dropdown">
+                    <li id="actions" class="dropdown actions">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li class="nav-header">Actions</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequest.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestModal">Open request</a>
+                                    data-bind="click: openRequest.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestModal">Open request</a>
                             </li>
                             <div class="visibility" data-bind="visible: client() === true">
                                 <li class="divider"></li>
                                 <li class="nav-header">Client section</li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openCloseRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#closeRequestModal">Close request</a>
+                                        data-bind="click: openCloseRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#closeRequestModal">Close request</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openReopenRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#reopenRequestModal">Re-Open request</a>
+                                        data-bind="click: openReopenRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#reopenRequestModal">Re-Open request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || helpdesk() === true">
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openAssignToUserModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#assignToUserModal">Assign request</a>
+                                        data-bind="click: openAssignToUserModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#assignToUserModal">Assign request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || client() === true">
                                 <li>
                                     <a href="#"
-                                       data-bind="click: deleteRequest.bind($data)">Delete request</a>
+                                        data-bind="click: deleteRequest.bind($data)">Delete request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: admin() === true || business() === true">
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openChangeRequestsStatusModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#changeRequestStatusModal">Change status</a>
+                                        data-bind="click: openChangeRequestsStatusModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#changeRequestStatusModal">Change status</a>
                                 </li>
                             </div>
                             <li class="divider"></li>
                             <li class="nav-header">History</li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openRequestStatusHistory.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#requestStatusHistoryModal">Request status history</a>
+                                    data-bind="click: openRequestStatusHistory.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestStatusHistoryModal">Request status history</a>
                             </li>
                             <li>
                                 <a href="#"
-                                   data-bind="click: openAssignedUserHistory.bind($data)"
-                                   data-toggle="modal"
-                                   data-target="#assignedUserHistoryModal">Assigned user history</a>
+                                    data-bind="click: openAssignedUserHistory.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#assignedUserHistoryModal">Assigned user history</a>
                             </li>
                             <div class="visibility" data-bind="visible: admin() === true">
                                 <li class="divider"></li>
@@ -234,15 +257,15 @@
                                 <li class="nav-header">Help Desk section</li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openTakeRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#takeRequestModal">Take request</a>
+                                        data-bind="click: openTakeRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#takeRequestModal">Take request</a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openDenyRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#denyRequestModal">Deny request</a>
+                                        data-bind="click: openDenyRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#denyRequestModal">Deny request</a>
                                 </li>
                             </div>
                             <div class="visibility" data-bind="visible: business() === true">
@@ -250,9 +273,9 @@
                                 <li class="nav-header">Business section</li>
                                 <li>
                                     <a href="#"
-                                       data-bind="click: openFinishRequestModal.bind($data)"
-                                       data-toggle="modal"
-                                       data-target="#finishRequestModal">Finish request</a>
+                                        data-bind="click: openFinishRequestModal.bind($data)"
+                                        data-toggle="modal"
+                                        data-target="#finishRequestModal">Finish request</a>
                                 </li>
                             </div>
                         </ul>
@@ -267,6 +290,55 @@
                 <td data-bind="text: CurrentAssignedUser().UserName()"></td>
                 <td data-bind="text: Product().ProductName()"></td>
                 <td data-bind="text: Product().ProductDescription()"></td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="usersListTemplate">
+    <p>Users</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>User Name</th>
+                <th>Password</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Type Description</th>
+                <th>Date Created</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: users">
+            <tr>
+                <td>
+                    <li id="userActions" class="dropdown actions">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-header">User Actions</li>
+                            <li>
+                                <a href="#"
+                                    data-bind="click: openRequest.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestModal">Change user password</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    data-bind="click: openRequest.bind($data)"
+                                    data-toggle="modal"
+                                    data-target="#requestModal">Delete user</a>
+                            </li>
+                        </ul>
+                    </li>
+                </td>
+                <td data-bind="text: UserId()"></td>
+                <td data-bind="text: UserName()"></td>
+                <td data-bind="text: Password()"></td>
+                <td data-bind="text: UserDescription()"></td>
+                <td data-bind="text: UserType().UserTypeName()"></td>
+                <td data-bind="text: UserType().UserTypeDescription()"></td>
+                <td data-bind="text: DateCreated().substring(0, 10)"></td>
             </tr>
         </tbody>
     </table>
@@ -357,11 +429,11 @@
 
 <script type="text/html" id="newRequestModalTemplate">
     <div id="newRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="newRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="newRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="newRequestModalLabel">New Help Desk Request</h3>
@@ -377,15 +449,15 @@
             </select>
             <label>Help desk request details:</label>
             <textarea id="requestDescription"
-                      name="requestDescription"
-                      cols="40"
-                      style="width: 300px; height: 100px;"
-                      data-bind="nicedit: newRequest().RequestDescription"></textarea>
+                name="requestDescription"
+                cols="40"
+                style="width: 300px; height: 100px;"
+                data-bind="nicedit: newRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button data-bind="click: saveRequest"
-                    class="btn btn-primary">
+                class="btn btn-primary">
                 Save new help desk request</button>
         </div>
     </div>
@@ -393,11 +465,11 @@
 
 <script type="text/html" id="takeRequestModalTemplate">
     <div id="takeRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="takeRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="takeRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="takeRequestModalLabel">Take request</h3>
@@ -408,18 +480,19 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: takeRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 1">Take request</button>
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 1">
+                Take request</button>
         </div>
     </div>
 </script>
 
 <script type="text/html" id="closeRequestModalTemplate">
     <div id="closeRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="closeRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="closeRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="closeRequestModalLabel">Close request</h3>
@@ -430,18 +503,19 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: closeRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 6">Close request</button>
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 6">
+                Close request</button>
         </div>
     </div>
 </script>
 
 <script type="text/html" id="reopenRequestModalTemplate">
     <div id="reopenRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="reopenRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="reopenRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="reopenRequestModalLabel">Re-Open request</h3>
@@ -452,18 +526,19 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: reopenRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 1">Re-open request</button>
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() !== 1">
+                Re-open request</button>
         </div>
     </div>
 </script>
 
 <script type="text/html" id="denyRequestModalTemplate">
     <div id="denyRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="denyRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="denyRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="denyRequestModalLabel">Deny request</h3>
@@ -474,18 +549,19 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: denyRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 2">Deny request</button>
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 2">
+                Deny request</button>
         </div>
     </div>
 </script>
 
 <script type="text/html" id="finishRequestModalTemplate">
     <div id="finishRequestModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="finishRequestModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="finishRequestModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="finishRequestModalLabel">Finish request</h3>
@@ -496,7 +572,8 @@
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: finishRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 3">Finish request</button>
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 3">
+                Finish request</button>
         </div>
     </div>
 </script>
