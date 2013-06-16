@@ -5,14 +5,16 @@
         'DataService.RequestStatus',
         'DataService.Product',
         'DataService.AssignedUserChanges',
-        'DataService.RequestStatusChanges'],
+        'DataService.RequestStatusChanges',
+        'DataService.UserType'],
     function (employee,
         request,
         user,
         requestStatus,
         product,
         assigneduserchanges,
-        requeststatuschanges) {
+        requeststatuschanges,
+        usertypes) {
         return {
             employee: employee,
             request: request,
@@ -20,6 +22,7 @@
             requestStatus: requestStatus,
             product: product,
             assigneduserchanges: assigneduserchanges,
-            requeststatuschanges: requeststatuschanges
+            requeststatuschanges: requeststatuschanges,
+            usertypes: usertypes
         };
     });

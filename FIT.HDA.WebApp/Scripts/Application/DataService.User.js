@@ -16,6 +16,12 @@
                 dataType: 'jsonp',
                 type: 'GET'
             });
+            
+            amplify.request.define('SaveUser', 'ajax', {
+                url: 'http://localhost:3894/api/UserAPI/save?userdescription={userdescription}&usertypeid={usertypeid}&password={password}&username={username}',
+                dataType: 'jsonp',
+                type: 'GET'
+            });
         },
             
         getUsers = function (callbacks) {
@@ -37,11 +43,26 @@
                 error: callbacks.error
             });
         };
+        
+        saveUser = function (callbacks, userdescription, usertypeid, password, username) {
+            return amplify.request({
+                resourceId: 'SaveUser',
+                data: {
+                    userdescription: userdescription,
+                    usertypeid: usertypeid,
+                    password: password,
+                    username: username
+                },
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
 
         init();
 
         return {
             getUsers: getUsers,
-            getUserByUserNameAndPassword: getUserByUserNameAndPassword
+            getUserByUserNameAndPassword: getUserByUserNameAndPassword,
+            saveUser: saveUser
         };
     });

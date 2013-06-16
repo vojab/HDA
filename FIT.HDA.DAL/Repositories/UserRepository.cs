@@ -25,6 +25,12 @@ namespace FIT.HDA.DAL.Repositories
                     FirstOrDefault();
         }
 
+        public void SaveUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+
         public void Dispose()
         {
             if (_context != null)

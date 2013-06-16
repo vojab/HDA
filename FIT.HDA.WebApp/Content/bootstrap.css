@@ -12,6 +12,16 @@ li.actions {
     list-style-type: none;
 }
 
+.action {
+    clear: both;
+    color: #333333;
+    display: block;
+    font-weight: normal;
+    line-height: 20px;
+    padding: 3px 20px;
+    white-space: nowrap;
+}
+
 /*a#newRequest {
     color: red;
 }*/
@@ -319,7 +329,7 @@ body {
 .carousel .container {
 }
 .carousel .item {
-    height: 300px;
+    height: 270px;
 }
 .carousel img {
     height: 300px;

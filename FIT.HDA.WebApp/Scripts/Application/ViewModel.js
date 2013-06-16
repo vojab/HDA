@@ -60,37 +60,37 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         isUserAuthenticated = ko.observable(false);
         currentPage = ko.observable();
 
-        loadAdminModule = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "ADMIN" && that.isUserAuthenticated() === true) {
-                $("#adminModule").fadeIn();
-                return true;
-            }
-        }, that);
+        //loadAdminModule = ko.computed(function () {
+        //    // TODO: Move hardcoded values to the config
+        //    if (that.currentPage() === "ADMIN" && that.isUserAuthenticated() === true) {
+        //        $("#adminModule").fadeIn();
+        //        return true;
+        //    }
+        //}, that);
 
-        loadClientModule = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "CLIENT" && that.isUserAuthenticated() === true) {
-                $("#clientModule").fadeIn();
-                return true;
-            }
-        }, that);
+        //loadClientModule = ko.computed(function () {
+        //    // TODO: Move hardcoded values to the config
+        //    if (that.currentPage() === "CLIENT" && that.isUserAuthenticated() === true) {
+        //        $("#clientModule").fadeIn();
+        //        return true;
+        //    }
+        //}, that);
 
-        loadBusinessModule = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "BUSINESS" && that.isUserAuthenticated() === true) {
-                $("#businessModule").fadeIn();
-                return true;
-            }
-        }, that);
+        //loadBusinessModule = ko.computed(function () {
+        //    // TODO: Move hardcoded values to the config
+        //    if (that.currentPage() === "BUSINESS" && that.isUserAuthenticated() === true) {
+        //        $("#businessModule").fadeIn();
+        //        return true;
+        //    }
+        //}, that);
 
-        loadHelpDeskModule = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "HELPDESK" && that.isUserAuthenticated() === true) {
-                $("#helpDeskModule").fadeIn();
-                return true;
-            }
-        }, that);
+        //loadHelpDeskModule = ko.computed(function () {
+        //    // TODO: Move hardcoded values to the config
+        //    if (that.currentPage() === "HELPDESK" && that.isUserAuthenticated() === true) {
+        //        $("#helpDeskModule").fadeIn();
+        //        return true;
+        //    }
+        //}, that);
 
         // Knockout Observable for authentication
         loggedInUser = ko.observable(new model.user());
@@ -105,8 +105,11 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         filteredRequestsByRequestStatus = ko.observableArray([]);
         keywordFilter = ko.observable("");
         requestStatusFilter = ko.observable("");
+        newUser = ko.observable(new model.user());
         users = ko.observableArray([]);
         selectedUser = ko.observable([]);
+        userTypes = ko.observableArray([]);
+        selectedUserType = ko.observable([]);
         products = ko.observableArray([]);
         selectedProduct = ko.observable([]);
         requestStatusOptions = ko.observableArray([]);
@@ -183,8 +186,10 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                         that.currentPage("ADMIN");
                         // TODO: Customize loading of requests for specific type of user
                         that.loadRequests();
+                        that.loadUserTypes();
                         that.loadUsers();
                         that.renderUsers();
+                        that.renderProducts();
                         break;
                     case 2: // HELP DESK
                         that.currentPage("HELPDESK");
@@ -211,6 +216,25 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             //ko.applyBindings(that);
         };
 
+        loadUserTypes = function () {
+            dataService.usertypes.getUserTypes({
+                success: function (result) {
+                    that.bindUserTypesData(result);
+                    //console.log(result);
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            });
+        };
+
+        bindUserTypesData = function (result) {
+            for (var i = 0; i < result.length; i++) {
+                var currentUserType = new model.userType(result[i]);
+                that.userTypes.push(currentUserType);
+            }
+        };
+
         loadUsers = function (filterType) {
             dataService.user.getUsers({
                 success: function (result) {
@@ -226,7 +250,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         bindUsersData = function (result, filterType) {
             for (var i = 0; i < result.length; i++) {
                 var currentUser = new model.user(result[i]);
-                
+
                 // TODO: Move hardcoded values to the config
                 switch (filterType) {
                     // For currently logged in help desk users load only business provider type of users
@@ -242,14 +266,48 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 }
             }
         };
-        
-        // Apply template to target div and render requests data
+
+        // Apply template to target div and render users data
         renderUsers = function () {
             try {
                 var selector = "#usersArea";
                 $(selector).attr("data-bind", "template: { name: 'usersListTemplate' }");
             } catch (e) {
                 console.log('Exception was thrown - Could not render users');
+                //that.redirectToErrorPage();
+            }
+        };
+
+        saveUser = function () {
+            alert('save user');
+            dataService.user.saveUser({
+                success: function (message) {
+                    //TODO: toaster message here
+                    console.log(message);
+                    $('#newUserModal').modal('hide');
+                    that.users(ko.observableArray([]));
+                    that.loadUsers();
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.newUser().UserDescription(),
+               that.selectedUserType().UserTypeId(),
+               that.newUser().Password(),
+               that.newUser().UserName());
+        };
+        
+        // Apply template to target div to render modal for creating new user
+        openModalForNewUser = function () {
+            try {
+                var selector = "#newUserModalArea";
+                $(selector).attr("data-bind", "template: { name: 'newUserModalTemplate' }");
+                //$('#newRequestModal').modal('show');
+                ko.cleanNode($('#newUserModalArea'));
+                ko.applyBindings(that.newRequest, document.getElementById("newUserModalArea"));
+                nicEditors.allTextAreas();
+            } catch (e) {
+                console.log('Exception was thrown - Could not render current request into modal');
                 //that.redirectToErrorPage();
             }
         };
@@ -274,6 +332,17 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
             //that.renderRequests();
             //ko.applyBindings(that);
+        };
+
+        // Apply template to target div and render products data
+        renderProducts = function () {
+            try {
+                var selector = "#productsArea";
+                $(selector).attr("data-bind", "template: { name: 'productsListTemplate' }");
+            } catch (e) {
+                console.log('Exception was thrown - Could not render users');
+                //that.redirectToErrorPage();
+            }
         };
 
         loadRequestStatusOptions = function () {
@@ -336,7 +405,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             //that.requests(ko.observableArray([]));
             for (var i = 0; i < result.length; i++) {
                 var currentRequest = result[i];
-                
+
                 // ------------------------ SETUP OF REQUESTS ----------------------------
 
                 // Find request status in request status changes with highest id (that is latest and current)
@@ -352,14 +421,14 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                         return assignedUserChangesObject.AssignedUserChangesId;
                     });
                 currentRequest.currentAssignedUser = currentAssignedUserChangesObject.User;
-                
+
                 // Find first user in assigned user changes with lowest id (that is first user (client) who opened request)
                 var firstAssignedUserChangesObject =
                     _.min(currentRequest.AssignedUserChanges, function (assignedUserChangesObject) {
                         return assignedUserChangesObject.AssignedUserChangesId;
                     });
                 currentRequest.firstAssignedUser = firstAssignedUserChangesObject.User;
-                
+
                 // -----------------------------------------------------------------------
 
                 var currentRequestObservable = new model.request(currentRequest);
@@ -375,7 +444,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                             that.requests.push(currentRequestObservable);
                         }
                         break;
-                    // For business users load only requests assigned to currently logged in business user
+                        // For business users load only requests assigned to currently logged in business user
                     case "BUSINESS":
                         if (currentRequest.currentAssignedUser.UserId === that.loggedInUser().UserId()) {
                             that.requests.push(currentRequestObservable);
@@ -511,7 +580,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
         // Create entry in AssignedUserChanges table with currently selected userid and requestid
         assignToUser = function () {
-            
+
             if (that.loggedInUser().UserType().UserTypeId() === 2) { // 2 - Help Desk User - HDP TODO: Move to the config
                 if (that.selectedRequest().CurrentRequestStatus().RequestStatusName() !== "ACCEPTED") {
                     // TODO: Add toaster message here
@@ -529,7 +598,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                     // TODO: Move hardcoded value 3 - PROCESSED to the config
                 }, 3 /*PROCESSED*/, that.selectedRequest().RequestId());
             }
-            
+
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
                     console.log(message);
@@ -751,7 +820,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //that.redirectToErrorPage();`
             }
         };
-        
+
         finishRequest = function (currentData) {
             // Validation
             // TODO: Move hardcoded value to the config
@@ -782,7 +851,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 // TODO: Move hardcoded value 4 - FINISHED to the config
             }, 4 /*FINISHED*/, currentData.RequestId());
         };
-        
+
         openFinishRequestModal = function (currentData) {
             try {
                 selectedRequest(currentData);
@@ -881,8 +950,12 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             newRequest: newRequest,
             requests: requests,
             loggedInUser: loggedInUser,
+            newUser: newUser,
             users: users,
             selectedUser: selectedUser,
+            userTypes: userTypes,
+            selectedUserType: selectedUserType,
+            saveUser: saveUser,
             products: products,
             selectedProduct: selectedProduct,
             requestStatusOptions: requestStatusOptions,
@@ -894,14 +967,15 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             filteredRequestsByRequestStatus: filteredRequestsByRequestStatus,
             renderRequestIntoModal: renderRequestIntoModal,
             openModalForNewRequest: openModalForNewRequest,
+            openModalForNewUser: openModalForNewUser,
             isUserAuthenticated: isUserAuthenticated,
             currentPage: currentPage,
             userName: userName,
             password: password,
-            loadAdminModule: loadAdminModule,
-            loadClientModule: loadClientModule,
-            loadBusinessModule: loadBusinessModule,
-            loadHelpDeskModule: loadHelpDeskModule,
+            //loadAdminModule: loadAdminModule,
+            //loadClientModule: loadClientModule,
+            //loadBusinessModule: loadBusinessModule,
+            //loadHelpDeskModule: loadHelpDeskModule,
             admin: admin,
             client: client,
             business: business,

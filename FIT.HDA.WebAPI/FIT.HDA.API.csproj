@@ -39,6 +39,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AttributeRouting">
+      <HintPath>..\packages\AttributeRouting.Core.3.5.6\lib\net40\AttributeRouting.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web">
+      <HintPath>..\packages\AttributeRouting.Core.Web.3.5.6\lib\net40\AttributeRouting.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Http">
+      <HintPath>..\packages\AttributeRouting.Core.Http.3.5.6\lib\net40\AttributeRouting.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Http.SelfHost">
+      <HintPath>..\packages\AttributeRouting.WebApi.Hosted.3.5.6\lib\net40\AttributeRouting.Web.Http.SelfHost.dll</HintPath>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Http.WebHost">
+      <HintPath>..\packages\AttributeRouting.WebApi.3.5.6\lib\net40\AttributeRouting.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -55,6 +70,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -111,6 +129,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -121,10 +142,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AttributeRoutingHttpConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AttributeRoutingConfig.cs" />
     <Compile Include="Controllers\AssignedUserChangesAPIController.cs" />
     <Compile Include="Controllers\EmployeeAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -133,6 +156,7 @@
     <Compile Include="Controllers\RequestStatusAPIController.cs" />
     <Compile Include="Controllers\RequestStatusChangesAPIController.cs" />
     <Compile Include="Controllers\UserAPIController.cs" />
+    <Compile Include="Controllers\UserTypeAPIController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Formatters\HTTPContentWrapper.cs" />
     <Compile Include="Formatters\JsonpFormatter.cs" />
