@@ -11,6 +11,8 @@ namespace FIT.HDA.Models
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
 
+        public int ProductStatus { get; set; }
+
         public DateTime DateCreated { get; set; }
     }
 }

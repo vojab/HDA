@@ -15,6 +15,12 @@
                 dataType: 'jsonp',
                 type: 'GET'
             });
+            
+            amplify.request.define('DeleteProduct', 'ajax', {
+                url: 'http://localhost:3894/api/ProductAPI',
+                dataType: 'jsonp',
+                type: 'GET'
+            });
         },
 
         getProducts = function (callbacks) {
@@ -36,11 +42,23 @@
                 error: callbacks.error
             });
         };
+        
+        deleteProduct = function (callbacks, productid) {
+            return amplify.request({
+                resourceId: 'DeleteProduct',
+                data: {
+                    productid: productid
+                },
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
 
         init();
 
         return {
             getProducts: getProducts,
-            saveProduct: saveProduct
+            saveProduct: saveProduct,
+            deleteProduct: deleteProduct
         };
     });

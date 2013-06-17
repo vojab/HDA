@@ -312,6 +312,20 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 //that.redirectToErrorPage();
             }
         };
+        
+        deleteUser = function (currentData) {
+            dataService.user.deleteUser({
+                success: function (message) {
+                    //TODO: toaster message here
+                    console.log(message);
+                    that.users(ko.observableArray([]));
+                    that.loadUsers();
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, currentData.UserId());
+        };
 
         loadProducts = function () {
             dataService.product.getProducts({
@@ -376,6 +390,20 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 console.log('Exception was thrown - Could not open modal for the new product');
                 //that.redirectToErrorPage();
             }
+        };
+        
+        deleteProduct = function (currentData) {
+            dataService.product.deleteProduct({
+                success: function (message) {
+                    //TODO: toaster message here
+                    console.log(message);
+                    that.products(ko.observableArray([]));
+                    that.loadProducts();
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, currentData.ProductId());
         };
 
         loadRequestStatusOptions = function () {
@@ -983,6 +1011,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             requests: requests,
             loggedInUser: loggedInUser,
             newUser: newUser,
+            deleteUser: deleteUser,
             users: users,
             selectedUser: selectedUser,
             userTypes: userTypes,
@@ -991,6 +1020,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             saveProduct: saveProduct,
             products: products,
             newProduct: newProduct,
+            deleteProduct: deleteProduct,
             selectedProduct: selectedProduct,
             requestStatusOptions: requestStatusOptions,
             selectedRequestStatusOption: selectedRequestStatusOption,

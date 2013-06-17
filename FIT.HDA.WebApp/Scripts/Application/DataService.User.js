@@ -22,6 +22,12 @@
                 dataType: 'jsonp',
                 type: 'GET'
             });
+            
+            amplify.request.define('DeleteUser', 'ajax', {
+                url: 'http://localhost:3894/api/UserAPI',
+                dataType: 'jsonp',
+                type: 'GET'
+            });
         },
             
         getUsers = function (callbacks) {
@@ -57,12 +63,24 @@
                 error: callbacks.error
             });
         };
+        
+        deleteUser = function (callbacks, userid) {
+            return amplify.request({
+                resourceId: 'DeleteUser',
+                data: {
+                    userid: userid
+                },
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
 
         init();
 
         return {
             getUsers: getUsers,
             getUserByUserNameAndPassword: getUserByUserNameAndPassword,
-            saveUser: saveUser
+            saveUser: saveUser,
+            deleteUser: deleteUser
         };
     });

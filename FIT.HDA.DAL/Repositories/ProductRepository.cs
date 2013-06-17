@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FIT.HDA.Models;
+using FIT.HDA.BL.Enums;
 
 namespace FIT.HDA.DAL.Repositories
 {
@@ -14,7 +15,7 @@ namespace FIT.HDA.DAL.Repositories
 
         public IEnumerable<Product> GetAll()
         {
-            return _context.Products.AsEnumerable();
+            return _context.Products.Where(r => r.ProductStatus != (int)HelpDeskEnums.Status.Deleted).AsEnumerable();
         }
 
         public void SaveProduct(Product product)
@@ -23,14 +24,27 @@ namespace FIT.HDA.DAL.Repositories
             _context.SaveChanges();
         }
 
+        //public void DeleteProduct(int productId)
+        //{
+        //    var product = _context.Products.
+        //        FirstOrDefault(r => r.ProductId == productId);
+
+        //    _context.Products.Remove(product);
+
+        //    _context.SaveChanges();
+        //}
+
+        // Method doesn not delete product but only update product status to Deleted - 0
         public void DeleteProduct(int productId)
         {
-            var product = _context.Products.
-                FirstOrDefault(r => r.ProductId == productId);
+            var product = _context.Products.First(r => r.ProductId == productId);
 
-            _context.Products.Remove(product);
+            if (product != null)
+            {
+                product.ProductStatus = (int)HelpDeskEnums.Status.Deleted;
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
         }
 
         public void Dispose()

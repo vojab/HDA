@@ -371,7 +371,7 @@
                             </li>
                             <li>
                                 <a href="#"
-                                    data-bind="click: openRequest.bind($data)">
+                                    data-bind="click: deleteUser.bind($data)">
                                     <i class="icon-trash"></i>
                                     Delete user</a>
                             </li>
@@ -411,7 +411,7 @@
                             <li class="nav-header">Product Actions</li>
                             <li>
                                 <a href="#"
-                                    data-bind="click: deleteRequest.bind($data)">
+                                    data-bind="click: deleteProduct.bind($data)">
                                     <i class="icon-trash"></i>
                                     Delete product</a>
                             </li>
@@ -774,12 +774,12 @@
         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="newProductModalLabel">Add User</h3>
+            <h3 id="newProductModalLabel">Add product</h3>
         </div>
         <div class="modal-body">
             <p>Please enter details about new product:</p>
-            <label>User Name:</label>
-            <input id="productName" name="userName" data-bind="value: newProduct().ProductName" type="text" />
+            <label>Product Name:</label>
+            <input id="productName" name="productName" data-bind="value: newProduct().ProductName" type="text" />
             <label>Product description:</label>
             <textarea id="productDescription"
                 name="productDescription"

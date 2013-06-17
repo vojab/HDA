@@ -12,6 +12,8 @@ namespace FIT.HDA.Models
         public string Password { get; set; }
         public string UserDescription { get; set; }
 
+        public int UserStatus { get; set; }
+
         public int? UserTypeId { get; set; }
         [ForeignKey("UserTypeId")]
         public virtual UserType UserType { get; set; }

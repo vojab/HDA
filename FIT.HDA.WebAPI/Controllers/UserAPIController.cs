@@ -90,5 +90,23 @@ namespace FIT.HDA.API.Controllers
                 return "error";
             }
         }
+
+        [System.Web.Http.ActionName("DeleteUser")]
+        [System.Web.Http.HttpGet]
+        public string DeleteUser(string userid)
+        {
+            try
+            {
+                // TODO: Be defensive here - cannot parse string to int!
+                _userRepository.DeleteUser(Int32.Parse(userid));
+
+                // TODO: Handle responses from Web API
+                return "deleted";
+            }
+            catch (Exception e)
+            {
+                return "error";
+            }
+        }
     }
 }
