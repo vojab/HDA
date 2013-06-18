@@ -79,6 +79,7 @@ namespace FIT.HDA.API.Controllers
                 user.UserDescription = userdescription;
                 // TODO: Be defensive here - parse to int problem?
                 user.UserTypeId = Int32.Parse(usertypeid);
+                user.UserStatus = (int)HelpDeskEnums.Status.Active;
                 user.DateCreated = DateTime.Now;
 
                 _userRepository.SaveUser(user);
@@ -102,6 +103,24 @@ namespace FIT.HDA.API.Controllers
 
                 // TODO: Handle responses from Web API
                 return "deleted";
+            }
+            catch (Exception e)
+            {
+                return "error";
+            }
+        }
+
+        [System.Web.Http.ActionName("ChangePassword")]
+        [System.Web.Http.HttpGet]
+        public string ChangePassword(string userid, string newpassword)
+        {
+            try
+            {
+                // TODO: Be defensive here - cannot parse string to int!
+                _userRepository.ChangePassword(Int32.Parse(userid), newpassword);
+
+                // TODO: Handle responses from Web API
+                return "password changed";
             }
             catch (Exception e)
             {

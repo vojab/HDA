@@ -96,6 +96,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         loggedInUser = ko.observable(new model.user());
         userName = ko.observable();
         password = ko.observable();
+        newPassword = ko.observable();
 
         // Knockout Observable for Help Desk Requests
         selectedRequest = ko.observable(new model.request());
@@ -325,6 +326,37 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                     console.log('error !');
                 }
             }, currentData.UserId());
+        };
+        
+        openChangePasswordModal = function (currentData) {
+            try {
+                selectedUser(currentData);
+                var selector = "#changePasswordModalArea";
+                $(selector).attr("data-bind", "template: { name: 'changePasswordModalTemplate', data: selectedUser }");
+                ko.cleanNode($('#changePasswordModalArea'));
+                ko.applyBindings(that.selectedRequest, document.getElementById("changePasswordModalArea"));
+                //$('#closeRequestModalArea').modal('show');
+            } catch (e) {
+                console.log('Exception was thrown - Could not render current user into modal');
+                //that.redirectToErrorPage();`
+            }
+        };
+        
+        changePassword = function () {
+            //alert(that.newPassword());
+            //alert(that.selectedUser().UserName());
+
+            dataService.user.changePassword({
+                success: function (message) {
+                    //TODO: toaster message here
+                    console.log(message);
+                    //that.users(ko.observableArray([]));
+                    //that.loadUsers();
+                },
+                error: function () {
+                    console.log('error !');
+                }
+            }, that.selectedUser().UserId(), that.newPassword());
         };
 
         loadProducts = function () {
@@ -1032,11 +1064,13 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             renderRequestIntoModal: renderRequestIntoModal,
             openModalForNewRequest: openModalForNewRequest,
             openModalForNewUser: openModalForNewUser,
+            openChangePasswordModal: openChangePasswordModal,
             openModalForNewProduct: openModalForNewProduct,
             isUserAuthenticated: isUserAuthenticated,
             currentPage: currentPage,
             userName: userName,
             password: password,
+            newPassword: newPassword,
             //loadAdminModule: loadAdminModule,
             //loadClientModule: loadClientModule,
             //loadBusinessModule: loadBusinessModule,

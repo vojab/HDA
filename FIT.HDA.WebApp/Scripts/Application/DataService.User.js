@@ -28,6 +28,12 @@
                 dataType: 'jsonp',
                 type: 'GET'
             });
+            
+            amplify.request.define('ChangePassword', 'ajax', {
+                url: 'http://localhost:3894/api/UserAPI',
+                dataType: 'jsonp',
+                type: 'GET'
+            });
         },
             
         getUsers = function (callbacks) {
@@ -74,6 +80,18 @@
                 error: callbacks.error
             });
         };
+        
+        changePassword = function (callbacks, userid, newpassword) {
+            return amplify.request({
+                resourceId: 'ChangePassword',
+                data: {
+                    userid: userid,
+                    newpassword: newpassword
+                },
+                success: callbacks.success,
+                error: callbacks.error
+            });
+        };
 
         init();
 
@@ -81,6 +99,7 @@
             getUsers: getUsers,
             getUserByUserNameAndPassword: getUserByUserNameAndPassword,
             saveUser: saveUser,
-            deleteUser: deleteUser
+            deleteUser: deleteUser,
+            changePassword: changePassword
         };
     });

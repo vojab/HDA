@@ -32,7 +32,7 @@ namespace FIT.HDA.DAL.Repositories
             _context.SaveChanges();
         }
 
-        // Method doesn not delete user but only update user status to Deleted - 0
+        // Method doesn't not delete user but only update user status to Deleted - 0
         public void DeleteUser(int userId)
         {
             var user = _context.Users.First(r => r.UserId == userId);
@@ -40,6 +40,18 @@ namespace FIT.HDA.DAL.Repositories
             if (user != null)
             {
                 user.UserStatus = (int)HelpDeskEnums.Status.Deleted;
+
+                _context.SaveChanges();
+            }
+        }
+
+        public void ChangePassword(int userId, string newPassword)
+        {
+            var user = _context.Users.First(r => r.UserId == userId);
+
+            if (user != null)
+            {
+                user.Password = newPassword;
 
                 _context.SaveChanges();
             }
