@@ -18,6 +18,7 @@
         define('model', [], function () { return main.model; });
         define('bootstrap', [], function () { return main.bootstrap; });
         define('nicEdit', [], function () { return main.nicEdit; });
+        define('toastr', [], function () { return main.toastr; });
     }
 
     function boot() {

@@ -42,16 +42,23 @@ namespace FIT.HDA.API.Controllers
         [System.Web.Http.HttpGet]
         public string SaveAssignedUserChange(string userid, string requestid)
         {
-            var assignedUserChange = new AssignedUserChanges();
+            try
+            {
+                var assignedUserChange = new AssignedUserChanges();
 
-            assignedUserChange.UserId = Int32.Parse(userid);
-            assignedUserChange.RequestId = Int32.Parse(requestid);
-            assignedUserChange.DateCreated = DateTime.Now;
+                assignedUserChange.UserId = Int32.Parse(userid);
+                assignedUserChange.RequestId = Int32.Parse(requestid);
+                assignedUserChange.DateCreated = DateTime.Now;
 
-            _assignedUserChangesRepository.SaveAssignedUserChanges(assignedUserChange);
+                _assignedUserChangesRepository.SaveAssignedUserChanges(assignedUserChange);
 
-            // TODO: Handle response
-            return "ta-ra";
+                // TODO: Move response to the constants
+                return "Saved Assigned User Change - Success";
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
     }
 }

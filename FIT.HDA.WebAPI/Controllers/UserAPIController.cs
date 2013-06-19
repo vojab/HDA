@@ -29,7 +29,6 @@ namespace FIT.HDA.API.Controllers
             try
             {
                 users = _userRepository.GetAll();
-
             }
             catch (Exception)
             {
@@ -48,14 +47,8 @@ namespace FIT.HDA.API.Controllers
             try
             {
                 user = _userRepository.GetUserByUserNameAndPassword(username, password);
-                if (user != null)
-                {
-                    return Newtonsoft.Json.JsonConvert.SerializeObject(user);
-                } else
-                {
-                    return "badcredientials";
-                }
-
+                // TODO: Move response message to the constants file
+                return user != null ? Newtonsoft.Json.JsonConvert.SerializeObject(user) : "Wrong Credientials";
             }
             catch (Exception)
             {
@@ -65,7 +58,7 @@ namespace FIT.HDA.API.Controllers
 
         [System.Web.Http.ActionName("save")]
         [System.Web.Http.HttpGet]
-        public string SaveRequest(string userdescription,
+        public string SaveUser(string userdescription,
                                   string usertypeid,
                                   string password,
                                   string username)
@@ -84,11 +77,12 @@ namespace FIT.HDA.API.Controllers
 
                 _userRepository.SaveUser(user);
 
-                return "success";
+                // TODO: Move response message to the constants file
+                return "Saved User - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
 
@@ -101,12 +95,12 @@ namespace FIT.HDA.API.Controllers
                 // TODO: Be defensive here - cannot parse string to int!
                 _userRepository.DeleteUser(Int32.Parse(userid));
 
-                // TODO: Handle responses from Web API
-                return "deleted";
+                // TODO: Move response message to the constants file
+                return "Deleted User - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
 
@@ -119,12 +113,12 @@ namespace FIT.HDA.API.Controllers
                 // TODO: Be defensive here - cannot parse string to int!
                 _userRepository.ChangePassword(Int32.Parse(userid), newpassword);
 
-                // TODO: Handle responses from Web API
-                return "password changed";
+                // TODO: Move response message to the constants file
+                return "Password Changed - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
     }

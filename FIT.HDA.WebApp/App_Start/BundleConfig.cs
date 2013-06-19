@@ -22,7 +22,8 @@ namespace HDA.App_Start
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/Libraries/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css",
+                                                                 "~/Content/toastr.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
@@ -55,7 +56,8 @@ namespace HDA.App_Start
                     "~/Scripts/Libraries/cookie.js",
                     "~/Scripts/Libraries/bootstrap.js",
                     "~/Scripts/Libraries/require.js",
-                    "~/Scripts/Libraries/nicEdit.js"
+                    "~/Scripts/Libraries/nicEdit.js",
+                    "~/Scripts/Libraries/toastr.js"
                     ));
         }
     }

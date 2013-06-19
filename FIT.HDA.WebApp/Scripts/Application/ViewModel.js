@@ -1,42 +1,42 @@
 ﻿/****** VIEWMODEL SECTION *******/
-define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sammy', 'model', 'bootstrap', 'nicEdit'],
-    function ($, ko, cookie, dataService, underscore, sammy, model, bootstrap, nicEdit) {
+define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sammy', 'model', 'bootstrap', 'nicEdit', 'toastr'],
+    function ($, ko, cookie, dataService, underscore, sammy, model, bootstrap, nicEdit, toastr) {
         var that = this;
 
         initialize = function () {
+            toastr.info('Up and running!');
             // Load lookup data
             that.loadProducts();
             that.loadRequestStatusOptions();
-
-            // TODO: Implement this line at the end
-            //ko.applyBindings(that);
         };
 
         // ----- Knockout Custom Binders Section -----
 
-        ko.bindingHandlers.nicedit = {
-            init: function (element, valueAccessor) {
-                var value = valueAccessor();
-                var area = new nicEditor({ fullPanel: true }).panelInstance(element.id, { hasPanel: true });
-                $(element).text(ko.utils.unwrapObservable(value));
+        // ************* NICEDIT BINDING HABDLER *************
+        
+        //ko.bindingHandlers.nicedit = {
+        //    init: function (element, valueAccessor) {
+        //        var value = valueAccessor();
+        //        var area = new nicEditor({ fullPanel: true }).panelInstance(element.id, { hasPanel: true });
+        //        $(element).text(ko.utils.unwrapObservable(value));
 
-                // Function for updating the right element whenever something changes
-                var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
-                var areachangefc = function () {
-                    value(textAreaContentElement.html());
-                };
+        //        // Function for updating the right element whenever something changes
+        //        var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
+        //        var areachangefc = function () {
+        //            value(textAreaContentElement.html());
+        //        };
 
-                // Make sure we update on both a text change, and when some HTML has been added/removed
-                // (like for example a text being set to "bold")
-                $(element).prev().keyup(areachangefc);
-                $(element).prev().bind('DOMNodeInserted DOMNodeRemoved', areachangefc);
-            },
-            update: function (element, valueAccessor) {
-                var value = valueAccessor();
-                var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
-                textAreaContentElement.html(value());
-            }
-        };
+        //        // Make sure we update on both a text change, and when some HTML has been added/removed
+        //        // (like for example a text being set to "bold")
+        //        $(element).prev().keyup(areachangefc);
+        //        $(element).prev().bind('DOMNodeInserted DOMNodeRemoved', areachangefc);
+        //    },
+        //    update: function (element, valueAccessor) {
+        //        var value = valueAccessor();
+        //        var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
+        //        textAreaContentElement.html(value());
+        //    }
+        //};
 
         ko.bindingHandlers.executeOnEnter = {
             init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -59,6 +59,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         // Knockout Observable for pages handling
         isUserAuthenticated = ko.observable(false);
         currentPage = ko.observable();
+
+        // ******* TEMPORARY SECTION FOR FUTURE RELEASE *******
 
         //loadAdminModule = ko.computed(function () {
         //    // TODO: Move hardcoded values to the config
@@ -91,6 +93,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         //        return true;
         //    }
         //}, that);
+        
+        // ****************************************************
 
         // Knockout Observable for authentication
         loggedInUser = ko.observable(new model.user());
@@ -154,24 +158,22 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
         // ----- --------------------------- -----
 
-        // TODO: User will be loaded from Log In page - this is temporary for testing
         loadUser = function () {
             dataService.user.getUserByUserNameAndPassword({
                 success: function (result) {
                     that.bindUserData(result);
-                    //console.log(result);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in loadUser method');
                 }
             }, that.userName(), that.password());
         };
 
         // Function for binding JSON requests data to the knockout observable
-        // TODO: Move hardcoded values to the config
         bindUserData = function (result) {
-            if (result === 'badcredientials') {
-                alert('Wrong Credientials');
+            // TODO: Move hardcoded values to the config
+            if (result === 'Wrong Credientials') {
+                toastr.error('Wrong Credientials');
                 that.isUserAuthenticated(false);
             }
             else {
@@ -186,51 +188,49 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 switch (userType) {
                     case 1: // ADMIN
                         that.currentPage("ADMIN");
-                        // TODO: Customize loading of requests for specific type of user
                         that.loadRequests();
                         that.loadUserTypes();
                         that.loadUsers();
                         that.renderUsers();
                         that.renderProducts();
+                        toastr.success('ADMIN type of user logged in');
                         break;
                     case 2: // HELP DESK
                         that.currentPage("HELPDESK");
-                        // TODO: Customize loading of requests for specific type of user
                         that.loadRequests("HELPDESK");
                         that.loadUsers("HELPDESK");
+                        toastr.success('HELPDESK type of user logged in');
                         break;
                     case 3: // CLIENT
                         that.currentPage("CLIENT");
-                        // TODO: Customize loading of requests for specific type of user
                         that.loadRequestsOpenedByClient();
+                        toastr.success('CLIENT type of user logged in');
                         break;
                     case 4: // BUSINESS
+                        //that.filterRequestStatusOptions();
                         that.currentPage("BUSINESS");
-                        // TODO: Customize loading of requests for specific type of user
                         that.loadRequests("BUSINESS");
+                        toastr.success('BUSINESS type of user logged in');
                         break;
                     default: // UNKNOWN
-                        alert('Unknown user type');
+                        toastr.error('Unknown user type');
                 }
             }
-
-            //that.renderRequests();
-            //ko.applyBindings(that);
         };
 
         loadUserTypes = function () {
             dataService.usertypes.getUserTypes({
                 success: function (result) {
                     that.bindUserTypesData(result);
-                    //console.log(result);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error');
                 }
             });
         };
 
         bindUserTypesData = function (result) {
+            that.userTypes.removeAll();
             for (var i = 0; i < result.length; i++) {
                 var currentUserType = new model.userType(result[i]);
                 that.userTypes.push(currentUserType);
@@ -241,15 +241,15 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             dataService.user.getUsers({
                 success: function (result) {
                     that.bindUsersData(result, filterType);
-                    //console.log(result);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error');
                 }
             });
         };
 
         bindUsersData = function (result, filterType) {
+            that.users.removeAll();
             for (var i = 0; i < result.length; i++) {
                 var currentUser = new model.user(result[i]);
 
@@ -275,28 +275,28 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 var selector = "#usersArea";
                 $(selector).attr("data-bind", "template: { name: 'usersListTemplate' }");
             } catch (e) {
-                console.log('Exception was thrown - Could not render users');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render users');
             }
         };
 
         saveUser = function () {
-            alert('save user');
             dataService.user.saveUser({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
+                    toastr.success(message);
                     $('#newUserModal').modal('hide');
-                    that.users(ko.observableArray([]));
                     that.loadUsers();
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error');
                 }
             }, that.newUser().UserDescription(),
                that.selectedUserType().UserTypeId(),
                that.newUser().Password(),
                that.newUser().UserName());
+
+            that.newUser().Password('');
+            that.newUser().UserName('');
+            that.newUser().UserDescription('');
         };
 
         // Apply template to target div to render modal for creating new user
@@ -304,26 +304,21 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             try {
                 var selector = "#newUserModalArea";
                 $(selector).attr("data-bind", "template: { name: 'newUserModalTemplate' }");
-                //$('#newRequestModal').modal('show');
                 ko.cleanNode($('#newUserModalArea'));
                 ko.applyBindings(that.newRequest, document.getElementById("newUserModalArea"));
-                //nicEditors.allTextAreas();
             } catch (e) {
-                console.log('Exception was thrown - Could not open modal for the new user');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not open modal for the new user');
             }
         };
         
         deleteUser = function (currentData) {
             dataService.user.deleteUser({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
-                    that.users(ko.observableArray([]));
                     that.loadUsers();
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in deleteUser method');
                 }
             }, currentData.UserId());
         };
@@ -335,26 +330,20 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 $(selector).attr("data-bind", "template: { name: 'changePasswordModalTemplate', data: selectedUser }");
                 ko.cleanNode($('#changePasswordModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("changePasswordModalArea"));
-                //$('#closeRequestModalArea').modal('show');
             } catch (e) {
-                console.log('Exception was thrown - Could not render current user into modal');
-                //that.redirectToErrorPage();`
+                toastr.error('Exception was thrown - Could not render current user into modal');
             }
         };
         
         changePassword = function () {
-            //alert(that.newPassword());
-            //alert(that.selectedUser().UserName());
-
             dataService.user.changePassword({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
-                    //that.users(ko.observableArray([]));
-                    //that.loadUsers();
+                    that.loadUsers();
+                    $('#changePasswordModal').modal('hide');
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in changePassword method');
                 }
             }, that.selectedUser().UserId(), that.newPassword());
         };
@@ -363,22 +352,19 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             dataService.product.getProducts({
                 success: function (result) {
                     that.bindProductsData(result);
-                    //console.log(result);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in loadProducts method');
                 }
             });
         };
 
         bindProductsData = function (result) {
+            that.products.removeAll();
             for (var i = 0; i < result.length; i++) {
                 var currentProduct = new model.product(result[i]);
                 that.products.push(currentProduct);
             }
-
-            //that.renderRequests();
-            //ko.applyBindings(that);
         };
 
         // Apply template to target div and render products data
@@ -387,26 +373,25 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 var selector = "#productsArea";
                 $(selector).attr("data-bind", "template: { name: 'productsListTemplate' }");
             } catch (e) {
-                console.log('Exception was thrown - Could not render users');
-                //that.redirectToErrorPage();
+                toastr.error('Unknown error in renderProducts method');
             }
         };
 
         saveProduct = function () {
-            alert('save product');
             dataService.product.saveProduct({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
+                    toastr.success(message);
                     $('#newProductModal').modal('hide');
-                    that.products(ko.observableArray([]));
                     that.loadProducts();
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in saveProduct method');
                 }
             }, that.newProduct().ProductName(),
                that.newProduct().ProductDescription());
+
+            that.newProduct().ProductName('');
+            that.newProduct().ProductDescription('');
         };
 
         // Apply template to target div to render modal for creating new product
@@ -414,66 +399,85 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             try {
                 var selector = "#newProductModalArea";
                 $(selector).attr("data-bind", "template: { name: 'newProductModalTemplate' }");
-                //$('#newRequestModal').modal('show');
                 ko.cleanNode($('#newProductModalArea'));
                 ko.applyBindings(that.newRequest, document.getElementById("newProductModalArea"));
-                //nicEditors.allTextAreas();
             } catch (e) {
-                console.log('Exception was thrown - Could not open modal for the new product');
-                //that.redirectToErrorPage();
+                toastr.error('Unknown error in openModalForNewProduct method');
             }
         };
         
         deleteProduct = function (currentData) {
             dataService.product.deleteProduct({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
-                    that.products(ko.observableArray([]));
+                    toastr.success(message);
                     that.loadProducts();
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in deleteProduct method');
                 }
             }, currentData.ProductId());
         };
 
-        loadRequestStatusOptions = function () {
+        loadRequestStatusOptions = function (filterType) {
             dataService.requestStatus.getRequestStatusOptions({
                 success: function (result) {
-                    that.bindRequestStatusOptionsData(result);
-                    //console.log(result);
+                    that.bindRequestStatusOptionsData(result, filterType);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in loadRequestStatusOptions method');
                 }
             });
         };
 
-        bindRequestStatusOptionsData = function (result) {
+        bindRequestStatusOptionsData = function (result, filterType) {
             // Add to the top ALL options for all request status
             var allRequestStatusOption = new model.requestStatus();
             allRequestStatusOption.RequestStatusId(0);
             allRequestStatusOption.RequestStatusValue(0);
             allRequestStatusOption.RequestStatusName("ALL");
             that.requestStatusOptions.push(allRequestStatusOption);
+            
             for (var i = 0; i < result.length; i++) {
                 var currentRequestStatusOption = new model.requestStatus(result[i]);
                 that.requestStatusOptions.push(currentRequestStatusOption);
+                
+                // *********** FILTER LOGIC ***********
+                
+                //// TODO: Move hardcoded values to the config
+                //switch (filterType) {
+                //    // For currently logged in business users load only FINISHED request status
+                //    case "BUSINESS":
+                //        // TODO: Move to the config
+                //        if (currentRequestStatusOption.RequestStatusName() === 'FINISHED') {
+                //            that.requestStatusOptions.push(currentRequestStatusOption);
+                //        }
+                //        break;
+                //    default:
+                //        that.requestStatusOptions.push(currentRequestStatusOption);
+                //        break;
+                //}
+                
+                // ***********************************
+                
             }
-
-            //that.renderRequests();
             ko.applyBindings(that);
+        };
+        
+        // Show only FINISHED request status for business users
+        filterRequestStatusOptions = function () {
+
+            that.requestStatusOptions(_.filter(that.requestStatusOptions(), function(currentRequestStatusOption) {
+                return currentRequestStatusOption.RequestStatusName() === 'FINISHED';
+            }));
         };
 
         loadRequestsOpenedByClient = function () {
             dataService.request.getRequestsOpenedByClientId({
                 success: function (result) {
-                    //alert(result);
                     that.bindRequestData(result);
                 },
                 error: function () {
-                    alert('Error');
+                    toastr.error('Unknown error in loadRequestsOpenedByClient method');
                 }
             }, that.loggedInUser().UserId());
         };
@@ -483,19 +487,18 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         loadRequests = function (filterType) {
             dataService.request.getRequests({
                 success: function (result) {
-                    //alert(result);
                     that.bindRequestData(result, filterType);
                 },
                 error: function () {
-                    alert('Error');
+                    toastr.error('Unknown error in loadRequests method');
                 }
             });
         };
 
         // Function for binding JSON requests data to the knockout observable
         bindRequestData = function (result, filterType) {
+            that.requests.removeAll();
             // Empty requests array and fill with new data
-            //that.requests(ko.observableArray([]));
             for (var i = 0; i < result.length; i++) {
                 var currentRequest = result[i];
 
@@ -558,37 +561,41 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 var selector = "#requestsArea";
                 $(selector).attr("data-bind", "template: { name: 'requestsListTemplate' }");
             } catch (e) {
-                console.log('Exception was thrown - Could not render requests');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render requests');
             }
         };
 
         saveRequest = function () {
             dataService.request.saveRequest({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
+                    toastr.success(message);
                     $('#newRequestModal').modal('hide');
-                    that.requests(ko.observableArray([]));
-                    that.loadRequests();
+                    if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                        that.loadRequestsOpenedByClient();
+                    }
+                    else {
+                        that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+                    }
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in saveRequest method');
                 }
             }, that.newRequest().RequestSubject(),
                that.newRequest().RequestDescription(),
                that.selectedProduct().ProductId(),
                that.loggedInUser().UserId());
+
+            that.newRequest().RequestSubject('');
+            that.newRequest().RequestDescription('');
         };
 
         deleteRequest = function (currentData) {
             // Validation
             switch (that.loggedInUser().UserType().UserTypeName()) {
-                // TODO: moveBy hardcoded values to the config
+                // TODO: move hardcoded values to the config
                 case "CLIENT":
                     if (currentData.CurrentRequestStatus().RequestStatusName() !== 'OPEN') {
-                        // TODO: Implement toaster message here
-                        alert('You cannot delete request that is processed!');
+                        toastr.warning('You cannot delete request that is processed!');
                         return;
                     }
                     break;
@@ -598,13 +605,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
             dataService.request.deleteRequest({
                 success: function (message) {
-                    //TODO: toaster message here
-                    console.log(message);
-                    that.requests(ko.observableArray([]));
-                    that.loadRequests();
+                    toastr.success(message);
+                    if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                        that.loadRequestsOpenedByClient();
+                    }
+                    else {
+                        that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+                    }
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in deleteRequest method');
                 }
             }, currentData.RequestId());
         };
@@ -629,8 +639,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 ko.cleanNode($('#changeRequestStatusModalArea'));
                 ko.applyBindings(that.requestStatusOptions, document.getElementById("changeRequestStatusModalArea"));
             } catch (e) {
-                console.log('Exception was thrown - Could not render requests status options into modal');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render requests status options into modal');
             }
         };
 
@@ -638,18 +647,38 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         changeRequestStatus = function () {
             // TODO: Move hardcoded value to the config
             if (selectedRequestStatusOption().RequestStatusName().toLowerCase() !== 'all') {
+                
+                // ********** VALIDATION SECTION ***********
+                //// Validation - business users can only chose requet status - FINISHED
+                //if (that.loggedInUser().UserType().UserTypeName() === 'BUSINESS' &&
+                //    selectedRequestStatusOption().RequestStatusName().toLowerCase() !== 'finished') {
+                //    toastr.warning('Business users can only chose FINISHED status!');
+                //    return;
+                //}
+                // *****************************************
+
                 dataService.requeststatuschanges.saveRequestStatusChange({
                     success: function (message) {
-                        console.log(message);
+                        toastr.success(message);
+                        
+                        $('#changeRequestStatusModal').modal('hide');
+                        
+                        toastr.success('Request status is changed');
+
+                        if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                            that.loadRequestsOpenedByClient();
+                        }
+                        else {
+                            that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+                        }
                     },
                     error: function () {
-                        console.log('error !');
+                        toastr.error('Unknown error in changeRequestStatus method');
                     }
                 }, that.selectedRequestStatusOption().RequestStatusId(), that.selectedRequest().RequestId());
             }
             else {
-                // TODO: Implement toaster message
-                alert('Chose one of the valid status!');
+                toastr.warning('Chose one of the valid status!');
             }
         };
 
@@ -666,8 +695,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 ko.cleanNode($('#assignToUserModalArea'));
                 ko.applyBindings(that.users, document.getElementById("assignToUserModalArea"));
             } catch (e) {
-                console.log('Exception was thrown - Could not render current users into modal');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render current users into modal');
             }
         };
 
@@ -675,17 +703,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
         assignToUser = function () {
             if (that.loggedInUser().UserType().UserTypeId() === 2) { // 2 - Help Desk User - HDP TODO: Move to the config
                 if (that.selectedRequest().CurrentRequestStatus().RequestStatusName() !== "ACCEPTED") {
-                    // TODO: Add toaster message here
-                    alert('You cannot assign request to the business provider if request is not in status ACCEPTED. Please first Take Request!');
+                    toastr.warning('You cannot assign request to the business provider if request is not in status ACCEPTED. Please first Take Request!');
                     return;
                 }
                 // In case help desk user assigned request, change status of request to PROCESSED
                 dataService.requeststatuschanges.saveRequestStatusChange({
                     success: function (message) {
-                        console.log(message);
+                        toastr.success(message);
                     },
                     error: function () {
-                        console.log('error !');
+                        toastr.error('Unknown error in assignToUser method');
                     }
                     // TODO: Move hardcoded value 3 - PROCESSED to the config
                 }, 3 /*PROCESSED*/, that.selectedRequest().RequestId());
@@ -693,15 +720,22 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
 
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in assignToUser method');
                 }
             }, that.selectedUser().UserId(), that.selectedRequest().RequestId());
+            
+            $('#assignToUserModal').modal('hide');
+            
+            if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                that.loadRequestsOpenedByClient();
+            }
+            else {
+                that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+            }
         };
-
-        // HELPER FUNCTION SECTION TODO: Extract to separate module
 
         openAssignedUserHistory = function (currentData) {
             selectedRequest(currentData);
@@ -716,8 +750,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 ko.cleanNode($('#assignedUserHistoryModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("assignedUserHistoryModalArea"));
             } catch (e) {
-                console.log('Exception was thrown - Could not render assigned users history into modal');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render assigned users history into modal');
             }
         };
 
@@ -734,47 +767,52 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 ko.cleanNode($('#requestStatusHistoryModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("requestStatusHistoryModalArea"));
             } catch (e) {
-                console.log('Exception was thrown - Could not render request status history into modal');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render request status history into modal');
             }
         };
 
         takeRequest = function (currentData) {
-            // TODO: Replace alert with toaster message
-            alert('Request TAKEN!!!');
-
+            
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in takeRequest method');
                 }
             }, that.loggedInUser().UserId(), currentData.RequestId());
 
             dataService.requeststatuschanges.saveRequestStatusChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in takeRequest method');
                 }
                 // TODO: Move hardcoded value 2 - ACCEPTED to the config
             }, 2 /*ACCEPTED*/, currentData.RequestId());
+            
+            $('#takeRequestModal').modal('hide');
+            
+            toastr.success('Requests is taken');
+            
+            if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                that.loadRequestsOpenedByClient();
+            }
+            else {
+                that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+            }
         };
 
         openTakeRequestModal = function (currentData) {
             try {
-                //alert('Take request');
                 selectedRequest(currentData);
                 var selector = "#takeRequestModalArea";
                 $(selector).attr("data-bind", "template: { name: 'takeRequestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#takeRequestModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("takeRequestModalArea"));
-                //$('#takeRequestModalArea').modal('show');
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();`
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
@@ -782,31 +820,39 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             // Validation
             // TODO: Move hardcoded value to the config
             if (currentData.CurrentRequestStatus().RequestStatusName() !== "FINISHED") {
-                alert('Cannot close request that is currently processed, you can close only requests that are only in status FINISHED');
+                toastr.warning('Cannot close request that is currently processed, you can close only requests that are only in status FINISHED');
                 return;
             }
 
-            // TODO: Replace alert with toaster message
-            alert('Request CLOSED!!!');
-
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in closeRequest method');
                 }
             }, that.loggedInUser().UserId(), currentData.RequestId());
 
             dataService.requeststatuschanges.saveRequestStatusChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in closeRequest method');
                 }
                 // TODO: Move hardcoded value 6 - CLOSED to the config
             }, 6 /*CLOSED*/, currentData.RequestId());
+            
+            $('#closeRequestModal').modal('hide');
+            
+            toastr.success('Request is closed');
+            
+            if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                that.loadRequestsOpenedByClient();
+            }
+            else {
+                that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+            }
         };
 
         openCloseRequestModal = function (currentData) {
@@ -816,10 +862,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 $(selector).attr("data-bind", "template: { name: 'closeRequestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#closeRequestModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("closeRequestModalArea"));
-                //$('#closeRequestModalArea').modal('show');
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();`
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
@@ -827,31 +871,39 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             // Validation
             // TODO: Move hardcoded value to the config
             if (currentData.CurrentRequestStatus().RequestStatusName() !== "FINISHED") {
-                alert('Cannot reopen request that is currently processed, you can reopen only requests that are only in status FINISHED');
+                toastr.warning('Cannot reopen request that is currently processed, you can reopen only requests that are only in status FINISHED');
                 return;
             }
-
-            // TODO: Replace alert with toaster message
-            alert('Request REOPENED!!!');
-
+           
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in reopenRequest method');
                 }
             }, that.loggedInUser().UserId(), currentData.RequestId());
 
             dataService.requeststatuschanges.saveRequestStatusChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in reopenRequest method');
                 }
                 // TODO: Move hardcoded value 1 - OPEN to the config
             }, 1 /*OPEN*/, currentData.RequestId());
+            
+            $('#reopenRequestModal').modal('hide');
+            
+            toastr.success('Request is reopened');
+            
+            if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                that.loadRequestsOpenedByClient();
+            }
+            else {
+                that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+            }
         };
 
         openReopenRequestModal = function (currentData) {
@@ -861,42 +913,48 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 $(selector).attr("data-bind", "template: { name: 'reopenRequestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#reopenRequestModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("reopenRequestModalArea"));
-                //$('#closeRequestModalArea').modal('show');
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();`
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
         denyRequest = function (currentData) {
             // Validation
             // TODO: Move hardcoded value to the config
-            if (currentData.CurrentRequestStatus().RequestStatusName() !== "ACCEPTED") {
-                alert('Cannot deny request that is not accepted, you can deny only requests that are only in status ACCEPTED');
+            if (currentData.CurrentRequestStatus().RequestStatusName() !== "OPEN") {
+                toastr.warning('You can deny only opened requests - that are in status OPEN');
                 return;
             }
 
-            // TODO: Replace alert with toaster message
-            alert('Request DENIED!!!');
-
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in denyRequest method');
                 }
             }, currentData.FirstAssignedUser().UserId(), currentData.RequestId());
 
             dataService.requeststatuschanges.saveRequestStatusChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in denyRequest method');
                 }
                 // TODO: Move hardcoded value 5 - DENIED to the config
             }, 5 /*DENIED*/, currentData.RequestId());
+            
+            $('#denyRequestModal').modal('hide');
+            
+            toastr.success('Request is denied');
+            
+            if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                that.loadRequestsOpenedByClient();
+            }
+            else {
+                that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+            }
         };
 
         openDenyRequestModal = function (currentData) {
@@ -906,10 +964,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 $(selector).attr("data-bind", "template: { name: 'denyRequestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#denyRequestModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("denyRequestModalArea"));
-                //$('#closeRequestModalArea').modal('show');
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();`
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
@@ -917,31 +973,39 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             // Validation
             // TODO: Move hardcoded value to the config
             if (currentData.CurrentRequestStatus().RequestStatusName() !== "PROCESSED") {
-                alert('Cannot finish request that is not processed, you can finish only requests that are only in status PROCESSED');
+                toastr.warning('Cannot finish request that is not processed, you can finish only requests that are only in status PROCESSED');
                 return;
             }
 
-            // TODO: Replace alert with toaster message
-            alert('Request FINISHED!!!');
-
             dataService.assigneduserchanges.saveAssignedUserChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in finishRequest method');
                 }
             }, currentData.FirstAssignedUser().UserId(), currentData.RequestId());
 
             dataService.requeststatuschanges.saveRequestStatusChange({
                 success: function (message) {
-                    console.log(message);
+                    toastr.success(message);
                 },
                 error: function () {
-                    console.log('error !');
+                    toastr.error('Unknown error in finishRequest method');
                 }
                 // TODO: Move hardcoded value 4 - FINISHED to the config
             }, 4 /*FINISHED*/, currentData.RequestId());
+            
+            $('#finishRequestModal').modal('hide');
+            
+            toastr.success('Request is finished');
+            
+            if (that.loggedInUser().UserType().UserTypeName() === 'CLIENT') {
+                that.loadRequestsOpenedByClient();
+            }
+            else {
+                that.loadRequests(that.loggedInUser().UserType().UserTypeName());
+            }
         };
 
         openFinishRequestModal = function (currentData) {
@@ -951,17 +1015,14 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 $(selector).attr("data-bind", "template: { name: 'finishRequestModalTemplate', data: selectedRequest }");
                 ko.cleanNode($('#finishRequestModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("finishRequestModalArea"));
-                //$('#closeRequestModalArea').modal('show');
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();`
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
         openRequest = function (currentData) {
             selectedRequest(currentData);
             renderRequestIntoModal();
-            //$('#requestModal').modal('show');
         };
 
         // Apply template to target div and render requests data
@@ -972,8 +1033,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 ko.cleanNode($('#requestModalArea'));
                 ko.applyBindings(that.selectedRequest, document.getElementById("requestModalArea"));
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
@@ -982,13 +1042,11 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             try {
                 var selector = "#newRequestModalArea";
                 $(selector).attr("data-bind", "template: { name: 'newRequestModalTemplate' }");
-                //$('#newRequestModal').modal('show');
                 ko.cleanNode($('#newRequestModalArea'));
                 ko.applyBindings(that.newRequest, document.getElementById("newRequestModalArea"));
-                nicEditors.allTextAreas();
+                //nicEditors.allTextAreas();
             } catch (e) {
-                console.log('Exception was thrown - Could not render current request into modal');
-                //that.redirectToErrorPage();
+                toastr.error('Exception was thrown - Could not render current request into modal');
             }
         };
 
@@ -999,7 +1057,7 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 return that.requests();
             } else {
                 return ko.utils.arrayFilter(that.requests(), function (request) {
-                    return ko.utils.stringStartsWith(request.RequestDescription().toLowerCase(), keywordFilter);
+                    return ko.utils.stringStartsWith(request.RequestSubject().toLowerCase(), keywordFilter);
                 });
             }
         }, that);
@@ -1019,8 +1077,6 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
                 });
             }
         }, that);
-
-        // UTIL FUNCTION SECTION TODO: Extract to separate module
 
         return {
             initialize: initialize,
@@ -1071,13 +1127,16 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             userName: userName,
             password: password,
             newPassword: newPassword,
-            //loadAdminModule: loadAdminModule,
-            //loadClientModule: loadClientModule,
-            //loadBusinessModule: loadBusinessModule,
-            //loadHelpDeskModule: loadHelpDeskModule,
             admin: admin,
             client: client,
             business: business,
             helpdesk: helpdesk
+            
+            // ****** Feature release variables *******
+            //loadAdminModule: loadAdminModule,
+            //loadClientModule: loadClientModule,
+            //loadBusinessModule: loadBusinessModule,
+            //loadHelpDeskModule: loadHelpDeskModule,
+            // ****************************************
         };
     });

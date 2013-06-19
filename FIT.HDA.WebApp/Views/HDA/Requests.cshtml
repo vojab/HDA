@@ -65,7 +65,7 @@
                                                 </a>
                                             </li>
                                             <li id="createActions" class="dropdown actions">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>ACTIONS</a>
+                                                <a data-bind="visible: helpdesk() !== true" href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>ACTIONS</a>
                                                 <ul class="dropdown-menu">
                                                     <div data-bind="visible: admin() === true || client() === true">
                                                         <a id="newRequest"
@@ -265,7 +265,7 @@
                                         Delete request</a>
                                 </li>
                             </div>
-                            <div class="visibility" data-bind="visible: admin() === true || business() === true">
+                            <div class="visibility" data-bind="visible: admin() === true">
                                 <li>
                                     <a href="#"
                                         data-bind="click: openChangeRequestsStatusModal.bind($data)"
@@ -504,11 +504,11 @@
             <textarea id="requestDetailsDescription" name="requestDetailsDescription"
                 cols="40"
                 style="width: 300px; height: 100px;"
-                data-bind="nicedit: selectedRequest().RequestDescription"></textarea>
+                data-bind="value: selectedRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary">Save help desk request</button>
+@*            <button class="btn btn-primary">Save help desk request</button>*@
         </div>
     </div>
 </script>
@@ -538,7 +538,7 @@
                 name="requestDescription"
                 cols="40"
                 style="width: 300px; height: 100px;"
-                data-bind="nicedit: newRequest().RequestDescription"></textarea>
+                data-bind="value: newRequest().RequestDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -561,7 +561,7 @@
             <h3 id="takeRequestModalLabel">Take request</h3>
         </div>
         <div class="modal-body">
-            <p>Take request</p>
+            <p class="text-info">You can take only requests that are in status OPEN.</p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -584,7 +584,7 @@
             <h3 id="closeRequestModalLabel">Close request</h3>
         </div>
         <div class="modal-body">
-            <p>Close request</p>
+            <p class="text-info">You can close requests only if they are in status FINISHED.</p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -607,7 +607,7 @@
             <h3 id="reopenRequestModalLabel">Re-Open request</h3>
         </div>
         <div class="modal-body">
-            <p>Re-Open request</p>
+            <p class="text-info">You can open requests only if they are in status FINISHED.</p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -630,12 +630,12 @@
             <h3 id="denyRequestModalLabel">Deny request</h3>
         </div>
         <div class="modal-body">
-            <p>Deny request</p>
+            <p class="text-info">You can deny requests only if they are in status OPEN.</p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button class="btn btn-primary" data-bind="click: denyRequest.bind($data),
-    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 2">
+    visible: selectedRequest().CurrentRequestStatus().RequestStatusId() === 1">
                 Deny request</button>
         </div>
     </div>
@@ -653,7 +653,7 @@
             <h3 id="finishRequestModalLabel">Finish request</h3>
         </div>
         <div class="modal-body">
-            <p>Deny request</p>
+            <p class="text-info">You can finish requests only if they are in status PROCESSED.</p>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -699,11 +699,11 @@
 
 <script type="text/html" id="assignedUserHistoryModalTemplate">
     <div id="assignedUserHistoryModal"
-        class="modal hide fade"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="assignedUserHistoryModalLabel"
-        aria-hidden="true">
+         class="modal hide fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="assignedUserHistoryModalLabel"
+         aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="assignedUserHistoryModalLabel">Assigned users history</h3>
@@ -713,12 +713,14 @@
                 <thead>
                     <tr>
                         <th>User Name</th>
+                        <th>User Type</th>
                         <th>Date/Time Changed</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: selectedRequest().AssignedUserChanges()">
                     <tr>
                         <td data-bind="text: User().UserName()"></td>
+                        <td data-bind="text: User().UserType().UserTypeName()"></td>
                         <td data-bind="text: DateCreated()"></td>
                     </tr>
                 </tbody>
@@ -757,7 +759,7 @@
                       name="userDescription"
                       cols="40"
                       style="width: 300px; height: 100px;"
-                      data-bind="nicedit: newUser().UserDescription"></textarea>
+                      data-bind="value: newUser().UserDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -812,7 +814,7 @@
                 name="productDescription"
                 cols="40"
                 style="width: 300px; height: 100px;"
-                data-bind="nicedit: newProduct().ProductDescription"></textarea>
+                data-bind="value: newProduct().ProductDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

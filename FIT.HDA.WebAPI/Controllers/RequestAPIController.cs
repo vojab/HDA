@@ -142,11 +142,12 @@ namespace FIT.HDA.API.Controllers
 
                 _requestRepository.SaveRequest(request);
 
-                return "success";
+                // TODO: Move response message to the constants file
+                return "Saved Request - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
 
@@ -186,11 +187,12 @@ namespace FIT.HDA.API.Controllers
                 // TODO: Be defensive here - cannot parse string to int!
                 _requestRepository.DeleteRequest(Int32.Parse(requestid));
 
-                return "deleted";
+                // TODO: Move response message to the constants file
+                return "Deleted Request - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
 

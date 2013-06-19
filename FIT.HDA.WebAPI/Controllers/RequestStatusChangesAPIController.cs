@@ -25,17 +25,24 @@ namespace FIT.HDA.API.Controllers
         [System.Web.Http.HttpGet]
         public string SaveRequestStatusChange(string requeststatusid, string requestid)
         {
-            var requestStatusChange = new RequestStatusChanges();
+            try
+            {
+                var requestStatusChange = new RequestStatusChanges();
 
-            // TODO: Be defensive about parsing strings to int!
-            requestStatusChange.RequestStatusId = Int32.Parse(requeststatusid);
-            requestStatusChange.RequestId = Int32.Parse(requestid);
-            requestStatusChange.DateCreated = DateTime.Now;
+                // TODO: Be defensive about parsing strings to int!
+                requestStatusChange.RequestStatusId = Int32.Parse(requeststatusid);
+                requestStatusChange.RequestId = Int32.Parse(requestid);
+                requestStatusChange.DateCreated = DateTime.Now;
 
-            _requestStatusChangesRepository.SaveRequestStatusChanges(requestStatusChange);
+                _requestStatusChangesRepository.SaveRequestStatusChanges(requestStatusChange);
 
-            // TODO: Handle response
-            return "ta-ra";
+                // TODO: Move response message to the constants file
+                return "Saved Request Status Change - Success";
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
     }
 }

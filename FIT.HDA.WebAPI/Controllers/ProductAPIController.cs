@@ -55,22 +55,14 @@ namespace FIT.HDA.API.Controllers
 
                 _productRepository.SaveProduct(product);
 
-                return "success";
+                // TODO: Move response message to the constants file
+                return "Saved Product - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
-
-        // TODO: Implement endpoint for saving product
-
-        //// DELETE api/productapi/5
-        //[System.Web.Http.HttpDelete]
-        //public void Delete(int id)
-        //{
-        //    _productRepository.DeleteProduct(id);
-        //}
 
         [System.Web.Http.ActionName("DeleteProduct")]
         [System.Web.Http.HttpGet]
@@ -81,12 +73,12 @@ namespace FIT.HDA.API.Controllers
                 // TODO: Be defensive here - cannot parse string to int!
                 _productRepository.DeleteProduct(Int32.Parse(productid));
 
-                // TODO: Handle responses from Web API
-                return "deleted";
+                // TODO: Move response message to the constants file
+                return "Deleted Product - Success";
             }
             catch (Exception e)
             {
-                return "error";
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
         }
     }

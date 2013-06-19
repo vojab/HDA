@@ -22,7 +22,14 @@ namespace FIT.HDA.API.Controllers
 
         public IEnumerable<Employee> GetEmployees()
         {
-            return _employeeList;
+            try
+            {
+                return _employeeList;
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
 
         //// GET api/EmployeeAPI
@@ -46,8 +53,14 @@ namespace FIT.HDA.API.Controllers
         // GET api/EmployeeAPI/5
         public Employee GetEmployee(int id)
         {
-            return _employeeList.Find(e => e.EmployeeId == id);
-
+            try
+            {
+                return _employeeList.Find(e => e.EmployeeId == id);
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
 
         // POST api/EmployeeAPI

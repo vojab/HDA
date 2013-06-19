@@ -255,6 +255,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\blue-abstract-header.jpg" />
@@ -279,6 +281,7 @@
     <Content Include="Scripts\Libraries\bootstrap.js" />
     <Content Include="Scripts\Libraries\bootstrap.min.js" />
     <Content Include="Scripts\Libraries\cookie.js" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\Libraries\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.min.js" />
