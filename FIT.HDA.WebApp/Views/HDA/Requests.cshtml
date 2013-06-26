@@ -106,7 +106,9 @@
                                     <p class="navbar-text pull-right">
                                         <i class="icon-user icon-white"></i>
                                         Welcome: 
-                                <a data-bind="text: loggedInUser().UserName()" class="navbar-link" href="#">Username</a>
+                                        <a data-bind="text: loggedInUser().UserName()" class="navbar-link" href="#">Username</a> |
+                                        <a data-bind="click: signOut" class="navbar-link" href="#">Sign Out</a>
+                                        <i class="icon-off icon-white"></i>
                                     </p>
                                 </div>
                             </div>

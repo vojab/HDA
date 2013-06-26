@@ -1078,6 +1078,10 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             }
         }, that);
 
+        signOut = function() {
+            window.location.reload(false);
+        };
+
         return {
             initialize: initialize,
             loadRequests: loadRequests,
@@ -1130,7 +1134,8 @@ define('ViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore', 'sam
             admin: admin,
             client: client,
             business: business,
-            helpdesk: helpdesk
+            helpdesk: helpdesk,
+            signOut: signOut
             
             // ****** Feature release variables *******
             //loadAdminModule: loadAdminModule,
