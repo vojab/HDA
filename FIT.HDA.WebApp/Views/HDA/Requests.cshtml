@@ -65,7 +65,7 @@
                                                 </a>
                                             </li>
                                             <li id="createActions" class="dropdown actions">
-                                                <a data-bind="visible: helpdesk() !== true" href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>ACTIONS</a>
+                                                <a data-bind="visible: admin() == true || client() === true" href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>ACTIONS</a>
                                                 <ul class="dropdown-menu">
                                                     <div data-bind="visible: admin() === true || client() === true">
                                                         <a id="newRequest"
