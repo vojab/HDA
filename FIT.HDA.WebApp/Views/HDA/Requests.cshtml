@@ -1,6 +1,12 @@
 ﻿@{
     ViewBag.Title = "Help Desk Requests";
 }
+
+<script type="text/javascript">
+    var HDA = {};
+    HDA.TargetDevice = "DESKTOP";
+</script>
+
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
@@ -29,9 +35,9 @@
 
                 <h2 class="form-signin-heading">Please sign in</h2>
                 <input class="input-block-level" type="text" placeholder="User Name"
-                       name="username" data-bind="value: userName">
+                    name="username" data-bind="value: userName">
                 <input class="input-block-level" type="password" placeholder="Password"
-                       name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
+                    name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
                 <button class="btn btn-large btn-primary" type="submit"
                     data-bind="click: loadUser">
                     Sign in</button>
@@ -154,7 +160,7 @@
 
                     <div id="assignToUserModalArea">
                     </div>
-                    
+
                     <div id="changePasswordModalArea">
                     </div>
 
@@ -510,7 +516,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-@*            <button class="btn btn-primary">Save help desk request</button>*@
+            @*            <button class="btn btn-primary">Save help desk request</button>*@
         </div>
     </div>
 </script>
@@ -701,11 +707,11 @@
 
 <script type="text/html" id="assignedUserHistoryModalTemplate">
     <div id="assignedUserHistoryModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="assignedUserHistoryModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="assignedUserHistoryModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="assignedUserHistoryModalLabel">Assigned users history</h3>
@@ -736,11 +742,11 @@
 
 <script type="text/html" id="newUserModalTemplate">
     <div id="newUserModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="newUserModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="newUserModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="newUserModalLabel">Add User</h3>
@@ -758,15 +764,15 @@
             </select>
             <label>User details:</label>
             <textarea id="userDescription"
-                      name="userDescription"
-                      cols="40"
-                      style="width: 300px; height: 100px;"
-                      data-bind="value: newUser().UserDescription"></textarea>
+                name="userDescription"
+                cols="40"
+                style="width: 300px; height: 100px;"
+                data-bind="value: newUser().UserDescription"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
             <button data-bind="click: saveUser"
-                    class="btn btn-primary">
+                class="btn btn-primary">
                 Add new user</button>
         </div>
     </div>
@@ -774,11 +780,11 @@
 
 <script type="text/html" id="changePasswordModalTemplate">
     <div id="changePasswordModal"
-         class="modal hide fade"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="changePasswordModalLabel"
-         aria-hidden="true">
+        class="modal hide fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="changePasswordModalLabel"
+        aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="changePasswordModalLabel">Change user password</h3>

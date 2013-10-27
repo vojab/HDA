@@ -1,10 +1,21 @@
 ﻿define('Bootstrapper',
-['jquery', 'ViewModel'],
-function ($, viewmodel) {
+['jquery', 'ViewModel', 'MobileViewModel'],
+function ($, viewmodel, mobileviewmodel) {
     var
         run = function () {
             //routes.register();
-            viewmodel.initialize();
+
+            // Switch global TargetDevice variable under HDA namespace
+            switch (HDA.TargetDevice) {
+                case "DESKTOP":
+                    viewmodel.initialize();
+                    break;
+                case "MOBILE":
+                    mobileviewmodel.initialize();
+                    break;
+                default: // UNKNOWN
+                    toastr.error('Unknown target device');
+            }
         };
 
     return {

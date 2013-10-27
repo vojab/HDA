@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Help Desk Requests - Mobile";
+}
+
+<script type="text/javascript">
+    var HDA = {};
+    HDA.TargetDevice = "MOBILE";
+</script>
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+
+            <div id="myCarousel" class="carousel">
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="~/Images/blue-abstract-header.jpg" alt="" />
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1>Help Desk Mobile Application.</h1>
+                                <p class="lead">
+                                    Offers a high quality, efficient support service 24 hours a day to the customers, regardless of their geographical location.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loginArea" class="form-signin" data-bind="visible: isUserAuthenticated() === false">
+
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <input class="input-block-level" type="text" placeholder="User Name"
+                    name="username" data-bind="value: userName">
+                <input class="input-block-level" type="password" placeholder="Password"
+                    name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
+                <button class="btn btn-large btn-primary" type="submit"
+                    data-bind="click: loadUser">
+                    Sign in</button>
+
+            </div>
+
+            <div id="authorizedArea" class="hero-unit" data-bind="visible: isUserAuthenticated() === true">
+
+                <div id="requestsArea">
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+}
+@*HDA MOBILE SPA Entry Point*@
+<script src="~/Scripts/Main.js"></script>
+
+@*Templates section*@
+<script type="text/html" id="requestsListTemplate">
+    <h4 class="text-info">Help Desk Requests:</h4>
+    <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
+        <a class="list-group-item" data-bind="css: {
+        'success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
+        'error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
+        'warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
+        'info': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED'
+    }">
+            <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
+            <i class="icon-tasks text-right"></i>
+            <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+        </a>
+    </div>
+
+</script>

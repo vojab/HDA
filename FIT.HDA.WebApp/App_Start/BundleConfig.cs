@@ -10,6 +10,9 @@ namespace HDA.App_Start
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/Libraries/jquery-{version}.js"));
 
+            //bundles.Add(new ScriptBundle("~/bundles/jquery.mobile").Include(
+            //            "~/Scripts/Libraries/jquery.mobile-{version}.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/Libraries/jquery-ui-{version}.js"));
 
@@ -22,7 +25,9 @@ namespace HDA.App_Start
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/Libraries/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css",
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                                                                 "~/Content/bootstrap.css",
+                                                                 //"~/Content/jquery.mobile-1.3.2.css",
                                                                  "~/Content/toastr.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

@@ -202,6 +202,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery.mobile-1.3.2.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -276,6 +277,7 @@
     <Content Include="Scripts\Application\DataService.User.js" />
     <Content Include="Scripts\Application\DataService.UserType.js" />
     <Content Include="Scripts\Application\HelpDeskModel.js" />
+    <Content Include="Scripts\Application\MobileViewModel.js" />
     <Content Include="Scripts\Application\ViewModel.js" />
     <Content Include="Scripts\Libraries\activity-indicator.js" />
     <Content Include="Scripts\Libraries\amplify.js" />
@@ -288,6 +290,7 @@
     <Content Include="Scripts\Libraries\jquery-1.7.1.min.js" />
     <Content Include="Scripts\Libraries\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\Libraries\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\Libraries\jquery.mobile-1.3.2.js" />
     <Content Include="Scripts\Libraries\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\Libraries\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\Libraries\jquery.validate-vsdoc.js" />
@@ -349,6 +352,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\HDA\Requests.cshtml" />
+    <Content Include="Views\HDA\RequestsMobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
