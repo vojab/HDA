@@ -59,6 +59,24 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
         // Knockout Observable for pages handling
         isUserAuthenticated = ko.observable(false);
         currentPage = ko.observable();
+        
+        helpDeskRequestDetailsPage = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "helpDeskRequestDetails" && that.isUserAuthenticated() === true) {
+                $("#helpDeskRequestDetails").fadeIn();
+                return true;
+            }
+        }, that);
+        
+        helpDeskRequestGridPage = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "helpDeskRequestGrid" && that.isUserAuthenticated() === true) {
+                $("#requestsArea").fadeIn();
+                return true;
+            }
+        }, that);
+        
+        
 
         // ******* TEMPORARY SECTION FOR FUTURE RELEASE *******
 
@@ -215,6 +233,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                     default: // UNKNOWN
                         toastr.error('Unknown user type');
                 }
+                that.currentPage("helpDeskRequestGrid");
             }
         };
 
@@ -1081,6 +1100,22 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
         signOut = function () {
             window.location.reload(false);
         };
+        
+        // ****************************************
+        
+        loadHelpDeskRequest = function (currentData) {
+            try {
+                that.currentPage("helpDeskRequestDetails");
+                selectedRequest(currentData);
+                var selector = "#helpDeskRequestDetails";
+                $(selector).attr("data-bind", "template: { name: 'helpDeskRequestDetailsTemplate', data: selectedRequest }");
+                ko.cleanNode($('#helpDeskRequestDetails'));
+                //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
+                ko.applyBindings(that);
+            } catch (e) {
+                toastr.error('Exception was thrown - Could not render current request');
+            }
+        };
 
         return {
             initialize: initialize,
@@ -1135,13 +1170,10 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             client: client,
             business: business,
             helpdesk: helpdesk,
-            signOut: signOut
-
-            // ****** Feature release variables *******
-            //loadAdminModule: loadAdminModule,
-            //loadClientModule: loadClientModule,
-            //loadBusinessModule: loadBusinessModule,
-            //loadHelpDeskModule: loadHelpDeskModule,
+            signOut: signOut,
             // ****************************************
+            loadHelpDeskRequest: loadHelpDeskRequest,
+            helpDeskRequestDetailsPage: helpDeskRequestDetailsPage,
+            helpDeskRequestGridPage: helpDeskRequestGridPage
         };
     });

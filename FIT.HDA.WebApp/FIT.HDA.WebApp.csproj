@@ -198,10 +198,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-responsive.css" />
-    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap-responsive_old.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap_old.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\jquery.mobile-1.3.2.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -282,9 +282,12 @@
     <Content Include="Scripts\Libraries\activity-indicator.js" />
     <Content Include="Scripts\Libraries\amplify.js" />
     <Content Include="Scripts\Libraries\bootstrap.js" />
-    <Content Include="Scripts\Libraries\bootstrap.min.js" />
+    <Content Include="Scripts\Libraries\bootstrap_old.js" />
     <Content Include="Scripts\Libraries\cookie.js" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\Libraries\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.min.js" />

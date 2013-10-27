@@ -8,46 +8,34 @@
 </script>
 
 @section featured {
+
     <section class="featured">
-        <div class="content-wrapper">
 
-            <div id="myCarousel" class="carousel">
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="~/Images/blue-abstract-header.jpg" alt="" />
-                        <div class="container">
-                            <div class="carousel-caption">
-                                <h1>Help Desk Mobile Application.</h1>
-                                <p class="lead">
-                                    Offers a high quality, efficient support service 24 hours a day to the customers, regardless of their geographical location.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Help Desk Mobile Application.</h1>
+                <p>Offers a high quality, efficient support service 24 hours a day to the customers, regardless of their geographical location.</p>
+                <div id="loginArea" class="jumbotron" data-bind="visible: isUserAuthenticated() === false">
+                    <form class="form-signin">
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <input type="text" class="form-control" placeholder="User Name" autofocus="" name="username" data-bind="value: userName">
+                        <input type="password" class="form-control" placeholder="Password" name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadUser">Sign in</button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div id="loginArea" class="form-signin" data-bind="visible: isUserAuthenticated() === false">
+        <div id="authorizedArea" class="hero-unit" data-bind="visible: isUserAuthenticated() === true">
 
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <input class="input-block-level" type="text" placeholder="User Name"
-                    name="username" data-bind="value: userName">
-                <input class="input-block-level" type="password" placeholder="Password"
-                    name="password" data-bind="value: password, valueUpdate: 'afterkeydown', executeOnEnter: loadUser">
-                <button class="btn btn-large btn-primary" type="submit"
-                    data-bind="click: loadUser">
-                    Sign in</button>
-
+            <div id="requestsArea">
             </div>
 
-            <div id="authorizedArea" class="hero-unit" data-bind="visible: isUserAuthenticated() === true">
-
-                <div id="requestsArea">
-                </div>
-
+            <div id="helpDeskRequestDetails">
             </div>
 
         </div>
+
     </section>
 }
 @*HDA MOBILE SPA Entry Point*@
@@ -55,18 +43,33 @@
 
 @*Templates section*@
 <script type="text/html" id="requestsListTemplate">
-    <h4 class="text-info">Help Desk Requests:</h4>
-    <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
-        <a class="list-group-item" data-bind="css: {
-        'success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
-        'error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
-        'warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
-        'info': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED'
+    <div data-bind="visible: helpDeskRequestGridPage()">
+        <h4 class="text-info">Help Desk Requests:</h4>
+        <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
+            <a class="list-group-item"
+                data-bind=" click: loadHelpDeskRequest.bind($data),
+    css: {
+        'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
+        'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
+        'alert-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
+        'alert-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
     }">
-            <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
-            <i class="icon-tasks text-right"></i>
-            <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
-        </a>
+                <div class="row">
+                    <div class="col-xs-10">
+                        <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
+                        <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+                    </div>
+                    <div class="text-right col-xs-2">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
+</script>
 
+<script type="text/html" id="helpDeskRequestDetailsTemplate">
+    <div data-bind="visible: helpDeskRequestDetailsPage()">
+        <h4>Help Desk Request Details:</h4>
+    </div>
 </script>
