@@ -63,7 +63,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
         helpDeskRequestDetailsPage = ko.computed(function () {
             // TODO: Move hardcoded values to the config
             if (that.currentPage() === "helpDeskRequestDetails" && that.isUserAuthenticated() === true) {
-                $("#helpDeskRequestDetails").fadeIn();
+                //$("#helpDeskRequestDetails").fadeIn();
                 return true;
             }
         }, that);
@@ -71,7 +71,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
         helpDeskRequestGridPage = ko.computed(function () {
             // TODO: Move hardcoded values to the config
             if (that.currentPage() === "helpDeskRequestGrid" && that.isUserAuthenticated() === true) {
-                $("#requestsArea").fadeIn();
+                //$("#requestsArea").fadeIn();
                 return true;
             }
         }, that);
@@ -1107,10 +1107,21 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             try {
                 that.currentPage("helpDeskRequestDetails");
                 selectedRequest(currentData);
-                var selector = "#helpDeskRequestDetails";
+                var selector = "#helpDeskRequestDetailsArea";
                 $(selector).attr("data-bind", "template: { name: 'helpDeskRequestDetailsTemplate', data: selectedRequest }");
-                ko.cleanNode($('#helpDeskRequestDetails'));
+                ko.cleanNode($('#helpDeskRequestDetailsArea'));
                 //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
+                ko.applyBindings(that);
+                // TODO: Find a way to append actions at the bottom
+                //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
+            } catch (e) {
+                toastr.error('Exception was thrown - Could not render current request');
+            }
+        };
+        
+        loadHelpDeskRequestGrid = function (currentData) {
+            try {
+                that.currentPage("helpDeskRequestGrid");
                 ko.applyBindings(that);
             } catch (e) {
                 toastr.error('Exception was thrown - Could not render current request');
@@ -1174,6 +1185,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             // ****************************************
             loadHelpDeskRequest: loadHelpDeskRequest,
             helpDeskRequestDetailsPage: helpDeskRequestDetailsPage,
+            loadHelpDeskRequestGrid: loadHelpDeskRequestGrid,
             helpDeskRequestGridPage: helpDeskRequestGridPage
         };
     });

@@ -31,7 +31,7 @@
             <div id="requestsArea">
             </div>
 
-            <div id="helpDeskRequestDetails">
+            <div class="jumbotron" id="helpDeskRequestDetailsArea">
             </div>
 
         </div>
@@ -43,11 +43,11 @@
 
 @*Templates section*@
 <script type="text/html" id="requestsListTemplate">
-    <div data-bind="visible: helpDeskRequestGridPage()">
+    <div class="container" data-bind="visible: helpDeskRequestGridPage()">
         <h4 class="text-info">Help Desk Requests:</h4>
         <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
             <a class="list-group-item"
-                data-bind=" click: loadHelpDeskRequest.bind($data),
+               data-bind=" click: loadHelpDeskRequest.bind($data),
     css: {
         'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
         'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
@@ -69,7 +69,102 @@
 </script>
 
 <script type="text/html" id="helpDeskRequestDetailsTemplate">
-    <div data-bind="visible: helpDeskRequestDetailsPage()">
-        <h4>Help Desk Request Details:</h4>
+    <div class="container" data-bind="visible: helpDeskRequestDetailsPage()">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadHelpDeskRequestGrid">BACK</button>
+        <h2>Help Desk Request Details:</h2>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>ID: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: RequestId()"></b></h4>
+                
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Status: </h4>
+            </div>
+            <div class="col-xs-6 text-right" data-bind="css: {
+    'text-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
+    'text-danger': CurrentRequestStatus().RequestStatusName() === 'DENIED',
+    'text-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
+    'text-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
+                                             }">
+                <h4><b data-bind="text: CurrentRequestStatus().RequestStatusName()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Subject: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: RequestSubject()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Open Date: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: RequestOpenDate().substring(0, 10)"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Closed Date: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: RequestClosedDate().substring(0, 10)"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Product: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: Product().ProductDescription()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Product Name: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: Product().ProductName()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-6">
+                <h4>Assigned to: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: CurrentAssignedUser().UserName()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-12">
+                <h4>Description: </h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-12">
+                <h4><b data-bind="text: RequestDescription()"></b></h4>
+            </div>
+        </div>
     </div>
 </script>
+
+@*<script type="text/html" id="adminActionsTemplate">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <h4>Details</h4>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4>Change Password</h4>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4>Delete</h4>
+        </div>
+    </div>
+</script>*@
