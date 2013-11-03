@@ -27,11 +27,36 @@
         </div>
 
         <div id="authorizedArea" class="hero-unit" data-bind="visible: isUserAuthenticated() === true">
+            <div class="jumbotron">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-4 text-center">
+                            <h4>
+                                <button data-bind="click: loadHelpDeskRequestsGrid" class="btn btn-lg btn-default btn-block">Help Desk Requests</button></h4>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <h4>
+                                <button data-bind="click: loadProductsGrid" class="btn btn-lg btn-default btn-block">Products</button></h4>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <h4>
+                                <button data-bind="click: loadUsersGrid" class="btn btn-lg btn-default btn-block">Users</button></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div id="requestsArea">
             </div>
 
             <div class="jumbotron" id="helpDeskRequestDetailsArea">
+            </div>
+            
+            <div class="jumbotron" id="productsDetailsArea">
+            </div>
+            
+            <div class="jumbotron" id="usersDetailsArea">
             </div>
 
         </div>
@@ -42,9 +67,10 @@
 <script src="~/Scripts/Main.js"></script>
 
 @*Templates section*@
+
 <script type="text/html" id="requestsListTemplate">
     <div class="container" data-bind="visible: helpDeskRequestGridPage()">
-        <h4 class="text-info">Help Desk Requests:</h4>
+        @*<h4 class="text-info">Help Desk Requests:</h4>*@
         <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
             <a class="list-group-item"
                data-bind=" click: loadHelpDeskRequest.bind($data),
@@ -68,20 +94,72 @@
     </div>
 </script>
 
+<script type="text/html" id="productsListTemplate">
+    <div class="container" data-bind="visible: productsGridPage()">
+        <h4 class="text-info">Products:</h4>
+        @*<div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
+            <a class="list-group-item"
+                data-bind=" click: loadHelpDeskRequest.bind($data),
+    css: {
+        'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
+        'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
+        'alert-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
+        'alert-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
+    }">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
+                        <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+                    </div>
+                    <div class="text-right col-xs-2">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </div>
+                </div>
+            </a>
+        </div>*@
+    </div>
+</script>
+
+<script type="text/html" id="usersListTemplate">
+    <div class="container" data-bind="visible: usersGridPage()">
+        <h4 class="text-info">Users:</h4>
+        @*<div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
+            <a class="list-group-item"
+                data-bind=" click: loadHelpDeskRequest.bind($data),
+    css: {
+        'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
+        'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
+        'alert-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
+        'alert-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
+    }">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
+                        <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+                    </div>
+                    <div class="text-right col-xs-2">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </div>
+                </div>
+            </a>
+        </div>*@
+    </div>
+</script>
+
 <script type="text/html" id="helpDeskRequestDetailsTemplate">
     <div class="container" data-bind="visible: helpDeskRequestDetailsPage()">
         <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadHelpDeskRequestGrid">BACK</button>
-        <h2>Help Desk Request Details:</h2>
-        <div class="row table-bordered">
+        @*<h2>Help Desk Request Details:</h2>*@
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>ID: </h4>
             </div>
             <div class="col-xs-6 text-right">
                 <h4><b data-bind="text: RequestId()"></b></h4>
-                
+
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Status: </h4>
             </div>
@@ -90,11 +168,11 @@
     'text-danger': CurrentRequestStatus().RequestStatusName() === 'DENIED',
     'text-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
     'text-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
-                                             }">
+}">
                 <h4><b data-bind="text: CurrentRequestStatus().RequestStatusName()"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Subject: </h4>
             </div>
@@ -102,7 +180,7 @@
                 <h4><b data-bind="text: RequestSubject()"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Open Date: </h4>
             </div>
@@ -110,7 +188,7 @@
                 <h4><b data-bind="text: RequestOpenDate().substring(0, 10)"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Closed Date: </h4>
             </div>
@@ -118,7 +196,7 @@
                 <h4><b data-bind="text: RequestClosedDate().substring(0, 10)"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Product: </h4>
             </div>
@@ -126,7 +204,7 @@
                 <h4><b data-bind="text: Product().ProductDescription()"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Product Name: </h4>
             </div>
@@ -134,7 +212,7 @@
                 <h4><b data-bind="text: Product().ProductName()"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-6">
                 <h4>Assigned to: </h4>
             </div>
@@ -142,7 +220,7 @@
                 <h4><b data-bind="text: CurrentAssignedUser().UserName()"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered">
+        <div class="row table-bordered table-striped">
             <div class="col-xs-12">
                 <h4>Description: </h4>
             </div>

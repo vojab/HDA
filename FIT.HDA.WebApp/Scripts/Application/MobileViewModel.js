@@ -12,32 +12,6 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
 
         // ----- Knockout Custom Binders Section -----
 
-        // ************* NICEDIT BINDING HABDLER *************
-
-        //ko.bindingHandlers.nicedit = {
-        //    init: function (element, valueAccessor) {
-        //        var value = valueAccessor();
-        //        var area = new nicEditor({ fullPanel: true }).panelInstance(element.id, { hasPanel: true });
-        //        $(element).text(ko.utils.unwrapObservable(value));
-
-        //        // Function for updating the right element whenever something changes
-        //        var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
-        //        var areachangefc = function () {
-        //            value(textAreaContentElement.html());
-        //        };
-
-        //        // Make sure we update on both a text change, and when some HTML has been added/removed
-        //        // (like for example a text being set to "bold")
-        //        $(element).prev().keyup(areachangefc);
-        //        $(element).prev().bind('DOMNodeInserted DOMNodeRemoved', areachangefc);
-        //    },
-        //    update: function (element, valueAccessor) {
-        //        var value = valueAccessor();
-        //        var textAreaContentElement = $($(element).prev()[0].childNodes[0]);
-        //        textAreaContentElement.html(value());
-        //    }
-        //};
-
         ko.bindingHandlers.executeOnEnter = {
             init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
                 var allBindings = allBindingsAccessor();
@@ -76,43 +50,21 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             }
         }, that);
         
+        productsGridPage = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "productsGrid" && that.isUserAuthenticated() === true) {
+                //$("#requestsArea").fadeIn();
+                return true;
+            }
+        }, that);
         
-
-        // ******* TEMPORARY SECTION FOR FUTURE RELEASE *******
-
-        //loadAdminModule = ko.computed(function () {
-        //    // TODO: Move hardcoded values to the config
-        //    if (that.currentPage() === "ADMIN" && that.isUserAuthenticated() === true) {
-        //        $("#adminModule").fadeIn();
-        //        return true;
-        //    }
-        //}, that);
-
-        //loadClientModule = ko.computed(function () {
-        //    // TODO: Move hardcoded values to the config
-        //    if (that.currentPage() === "CLIENT" && that.isUserAuthenticated() === true) {
-        //        $("#clientModule").fadeIn();
-        //        return true;
-        //    }
-        //}, that);
-
-        //loadBusinessModule = ko.computed(function () {
-        //    // TODO: Move hardcoded values to the config
-        //    if (that.currentPage() === "BUSINESS" && that.isUserAuthenticated() === true) {
-        //        $("#businessModule").fadeIn();
-        //        return true;
-        //    }
-        //}, that);
-
-        //loadHelpDeskModule = ko.computed(function () {
-        //    // TODO: Move hardcoded values to the config
-        //    if (that.currentPage() === "HELPDESK" && that.isUserAuthenticated() === true) {
-        //        $("#helpDeskModule").fadeIn();
-        //        return true;
-        //    }
-        //}, that);
-
-        // ****************************************************
+        usersGridPage = ko.computed(function () {
+            // TODO: Move hardcoded values to the config
+            if (that.currentPage() === "usersGrid" && that.isUserAuthenticated() === true) {
+                //$("#requestsArea").fadeIn();
+                return true;
+            }
+        }, that);
 
         // Knockout Observable for authentication
         loggedInUser = ko.observable(new model.user());
@@ -1119,12 +1071,39 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             }
         };
         
-        loadHelpDeskRequestGrid = function (currentData) {
+        loadHelpDeskRequestsGrid = function () {
             try {
                 that.currentPage("helpDeskRequestGrid");
+                //var selector = "#helpDeskRequestDetailsArea";
+                //$(selector).attr("data-bind", "template: { name: 'helpDeskRequestDetailsTemplate', data: selectedRequest }");
+                //ko.cleanNode($('#helpDeskRequestDetailsArea'));
+                //ko.applyBindings(that);
+            } catch (e) {
+                toastr.error('Exception was thrown');
+            }
+        };
+        
+        loadProductsGrid = function () {
+            try {
+                that.currentPage("productsGrid");
+                var selector = "#productsDetailsArea";
+                $(selector).attr("data-bind", "template: { name: 'productsListTemplate' }");
+                ko.cleanNode($('#productsDetailsArea'));
                 ko.applyBindings(that);
             } catch (e) {
-                toastr.error('Exception was thrown - Could not render current request');
+                toastr.error('Exception was thrown');
+            }
+        };
+        
+        loadUsersGrid = function () {
+            try {
+                that.currentPage("usersGrid");
+                var selector = "#usersDetailsArea";
+                $(selector).attr("data-bind", "template: { name: 'usersListTemplate' }");
+                ko.cleanNode($('#usersDetailsArea'));
+                ko.applyBindings(that);
+            } catch (e) {
+                toastr.error('Exception was thrown');
             }
         };
 
@@ -1185,7 +1164,11 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             // ****************************************
             loadHelpDeskRequest: loadHelpDeskRequest,
             helpDeskRequestDetailsPage: helpDeskRequestDetailsPage,
-            loadHelpDeskRequestGrid: loadHelpDeskRequestGrid,
-            helpDeskRequestGridPage: helpDeskRequestGridPage
+            loadHelpDeskRequestsGrid: loadHelpDeskRequestsGrid,
+            helpDeskRequestGridPage: helpDeskRequestGridPage,
+            loadProductsGrid: loadProductsGrid,
+            productsGridPage: productsGridPage,
+            loadUsersGrid: loadUsersGrid,
+            usersGridPage: usersGridPage
         };
     });
