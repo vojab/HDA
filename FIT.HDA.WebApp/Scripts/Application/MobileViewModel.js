@@ -163,6 +163,8 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                         that.loadUsers();
                         that.renderUsers();
                         that.renderProducts();
+                        // Mark help desk request grid button as clicked
+                        $("#helpDeskRequestGridButton").click();
                         toastr.success('ADMIN type of user logged in');
                         break;
                     case 2: // HELP DESK
@@ -185,7 +187,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                     default: // UNKNOWN
                         toastr.error('Unknown user type');
                 }
-                that.currentPage("helpDeskRequestGrid");
+                //that.currentPage("helpDeskRequestGrid");
             }
         };
 
@@ -1078,6 +1080,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 //$(selector).attr("data-bind", "template: { name: 'helpDeskRequestDetailsTemplate', data: selectedRequest }");
                 //ko.cleanNode($('#helpDeskRequestDetailsArea'));
                 //ko.applyBindings(that);
+                ko.applyBindings(that.requests, document.getElementById("helpDeskRequestDetailsArea"));
             } catch (e) {
                 toastr.error('Exception was thrown');
             }
@@ -1089,7 +1092,8 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 var selector = "#productsDetailsArea";
                 $(selector).attr("data-bind", "template: { name: 'productsListTemplate' }");
                 ko.cleanNode($('#productsDetailsArea'));
-                ko.applyBindings(that);
+                //ko.applyBindings(that);
+                ko.applyBindings(that.products, document.getElementById("productsDetailsArea"));
             } catch (e) {
                 toastr.error('Exception was thrown');
             }
@@ -1101,7 +1105,8 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 var selector = "#usersDetailsArea";
                 $(selector).attr("data-bind", "template: { name: 'usersListTemplate' }");
                 ko.cleanNode($('#usersDetailsArea'));
-                ko.applyBindings(that);
+                //ko.applyBindings(that);
+                ko.applyBindings(that.users, document.getElementById("usersDetailsArea"));
             } catch (e) {
                 toastr.error('Exception was thrown');
             }

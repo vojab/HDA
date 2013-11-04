@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-xs-4 text-center">
                             <h4>
-                                <button data-bind="click: loadHelpDeskRequestsGrid" class="btn btn-lg btn-default btn-block">Help Desk Requests</button></h4>
+                                <button id="helpDeskRequestGridButton" data-bind="click: loadHelpDeskRequestsGrid" class="btn btn-lg btn-default btn-block">Help Desk Requests</button></h4>
                         </div>
                         <div class="col-xs-4 text-center">
                             <h4>
@@ -70,7 +70,6 @@
 
 <script type="text/html" id="requestsListTemplate">
     <div class="container" data-bind="visible: helpDeskRequestGridPage()">
-        @*<h4 class="text-info">Help Desk Requests:</h4>*@
         <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
             <a class="list-group-item"
                data-bind=" click: loadHelpDeskRequest.bind($data),
@@ -83,7 +82,8 @@
                 <div class="row">
                     <div class="col-xs-10">
                         <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
-                        <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+                        <blockquote>
+                            <small class="list-group-item-text" data-bind="text: RequestDescription()"></small></blockquote>
                     </div>
                     <div class="text-right col-xs-2">
                         <span class="glyphicon glyphicon-play"></span>
@@ -96,53 +96,39 @@
 
 <script type="text/html" id="productsListTemplate">
     <div class="container" data-bind="visible: productsGridPage()">
-        <h4 class="text-info">Products:</h4>
-        @*<div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
-            <a class="list-group-item"
-                data-bind=" click: loadHelpDeskRequest.bind($data),
-    css: {
-        'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
-        'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
-        'alert-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
-        'alert-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
-    }">
+        <div class="list-group" data-bind="foreach: products">
+            <a class="list-group-item">
                 <div class="row">
                     <div class="col-xs-10">
-                        <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
-                        <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+                        <h4 class="list-group-item-heading" data-bind="text: ProductName()"></h4>
+                        <blockquote>
+                            <small class="list-group-item-text" data-bind="text: ProductDescription()"></small></blockquote>
                     </div>
                     <div class="text-right col-xs-2">
                         <span class="glyphicon glyphicon-play"></span>
                     </div>
                 </div>
             </a>
-        </div>*@
+        </div>
     </div>
 </script>
 
 <script type="text/html" id="usersListTemplate">
     <div class="container" data-bind="visible: usersGridPage()">
-        <h4 class="text-info">Users:</h4>
-        @*<div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
-            <a class="list-group-item"
-                data-bind=" click: loadHelpDeskRequest.bind($data),
-    css: {
-        'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
-        'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
-        'alert-warning': CurrentRequestStatus().RequestStatusName() === 'PROCESSED',
-        'alert-info': CurrentRequestStatus().RequestStatusName() === 'FINISHED'
-    }">
+        <div class="list-group" data-bind="foreach: users">
+            <a class="list-group-item">
                 <div class="row">
                     <div class="col-xs-10">
-                        <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
-                        <p class="list-group-item-text" data-bind="text: RequestDescription()"></p>
+                        <h4 class="list-group-item-heading" data-bind="text: UserName()"></h4>
+                        <blockquote>
+                            <small class="list-group-item-text" data-bind="text: UserDescription()"></small></blockquote>
                     </div>
                     <div class="text-right col-xs-2">
                         <span class="glyphicon glyphicon-play"></span>
                     </div>
                 </div>
             </a>
-        </div>*@
+        </div>
     </div>
 </script>
 
