@@ -30,42 +30,6 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
 
         // ----- Knockout Observable Section -----
 
-        // Knockout Observable for pages handling
-        isUserAuthenticated = ko.observable(false);
-        currentPage = ko.observable();
-        
-        helpDeskRequestDetailsPage = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "helpDeskRequestDetails" && that.isUserAuthenticated() === true) {
-                //$("#helpDeskRequestDetails").fadeIn();
-                return true;
-            }
-        }, that);
-        
-        helpDeskRequestGridPage = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "helpDeskRequestGrid" && that.isUserAuthenticated() === true) {
-                //$("#requestsArea").fadeIn();
-                return true;
-            }
-        }, that);
-        
-        productsGridPage = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "productsGrid" && that.isUserAuthenticated() === true) {
-                //$("#requestsArea").fadeIn();
-                return true;
-            }
-        }, that);
-        
-        usersGridPage = ko.computed(function () {
-            // TODO: Move hardcoded values to the config
-            if (that.currentPage() === "usersGrid" && that.isUserAuthenticated() === true) {
-                //$("#requestsArea").fadeIn();
-                return true;
-            }
-        }, that);
-
         // Knockout Observable for authentication
         loggedInUser = ko.observable(new model.user());
         userName = ko.observable();
@@ -1057,6 +1021,48 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
         
         // ****************************************
         
+        // Knockout Observable for pages handling
+        isUserAuthenticated = ko.observable(false);
+        currentPage = ko.observable();
+
+        helpDeskRequestDetailsPage = ko.computed(function () {
+            if (that.currentPage() === "helpDeskRequestDetails" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
+
+        helpDeskRequestGridPage = ko.computed(function () {
+            if (that.currentPage() === "helpDeskRequestGrid" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
+        
+        productDetailsPage = ko.computed(function () {
+            if (that.currentPage() === "productDetails" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
+
+        productsGridPage = ko.computed(function () {
+            if (that.currentPage() === "productsGrid" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
+        
+        userDetailsPage = ko.computed(function () {
+            if (that.currentPage() === "userDetails" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
+
+        usersGridPage = ko.computed(function () {
+            if (that.currentPage() === "usersGrid" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
+        
+        // ****************************************
+        
         loadHelpDeskRequest = function (currentData) {
             try {
                 that.currentPage("helpDeskRequestDetails");
@@ -1086,6 +1092,38 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             }
         };
         
+        loadHelpDeskRequestDetails = function (currentData) {
+            try {
+                that.currentPage("helpDeskRequestDetails");
+                selectedRequest(currentData);
+                var selector = "#helpDeskRequestDetailsArea";
+                $(selector).attr("data-bind", "template: { name: 'helpDeskRequestDetailsTemplate', data: selectedRequest }");
+                ko.cleanNode($('#helpDeskRequestDetailsArea'));
+                //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
+                ko.applyBindings(that);
+                // TODO: Find a way to append actions at the bottom
+                //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
+            } catch (e) {
+                toastr.error('Exception was thrown - Could not render current request');
+            }
+        };
+        
+        loadProductDetails = function (currentData) {
+            try {
+                that.currentPage("productDetails");
+                selectedProduct(currentData);
+                var selector = "#productsDetailsArea";
+                $(selector).attr("data-bind", "template: { name: 'productDetailsTemplate', data: selectedProduct }");
+                ko.cleanNode($('#productsDetailsArea'));
+                //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
+                ko.applyBindings(that);
+                // TODO: Find a way to append actions at the bottom
+                //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
+            } catch (e) {
+                toastr.error('Exception was thrown - Could not render current request');
+            }
+        };
+        
         loadProductsGrid = function () {
             try {
                 that.currentPage("productsGrid");
@@ -1096,6 +1134,22 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 ko.applyBindings(that.products, document.getElementById("productsDetailsArea"));
             } catch (e) {
                 toastr.error('Exception was thrown');
+            }
+        };
+        
+        loadUserDetails = function (currentData) {
+            try {
+                that.currentPage("userDetails");
+                selectedUser(currentData);
+                var selector = "#usersDetailsArea";
+                $(selector).attr("data-bind", "template: { name: 'userDetailsTemplate', data: selectedUser }");
+                ko.cleanNode($('#usersDetailsArea'));
+                //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
+                ko.applyBindings(that);
+                // TODO: Find a way to append actions at the bottom
+                //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
+            } catch (e) {
+                toastr.error('Exception was thrown - Could not render current request');
             }
         };
         
@@ -1111,8 +1165,27 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 toastr.error('Exception was thrown');
             }
         };
+        
+        // ****************************************
 
         return {
+            loadHelpDeskRequestDetails: loadHelpDeskRequestDetails,
+            helpDeskRequestDetailsPage: helpDeskRequestDetailsPage,
+            loadHelpDeskRequestsGrid: loadHelpDeskRequestsGrid,
+            helpDeskRequestGridPage: helpDeskRequestGridPage,
+            
+            loadProductDetails: loadProductDetails,
+            productDetailsPage: productDetailsPage,
+            loadProductsGrid: loadProductsGrid,
+            productsGridPage: productsGridPage,
+            
+            loadUserDetails: loadUserDetails,
+            userDetailsPage: userDetailsPage,
+            loadUsersGrid: loadUsersGrid,
+            usersGridPage: usersGridPage,
+            
+            // ****************************************
+            
             initialize: initialize,
             loadRequests: loadRequests,
             openRequest: openRequest,
@@ -1165,15 +1238,6 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             client: client,
             business: business,
             helpdesk: helpdesk,
-            signOut: signOut,
-            // ****************************************
-            loadHelpDeskRequest: loadHelpDeskRequest,
-            helpDeskRequestDetailsPage: helpDeskRequestDetailsPage,
-            loadHelpDeskRequestsGrid: loadHelpDeskRequestsGrid,
-            helpDeskRequestGridPage: helpDeskRequestGridPage,
-            loadProductsGrid: loadProductsGrid,
-            productsGridPage: productsGridPage,
-            loadUsersGrid: loadUsersGrid,
-            usersGridPage: usersGridPage
+            signOut: signOut
         };
     });

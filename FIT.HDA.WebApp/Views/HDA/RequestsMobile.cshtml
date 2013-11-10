@@ -52,10 +52,10 @@
 
             <div class="jumbotron" id="helpDeskRequestDetailsArea">
             </div>
-            
+
             <div class="jumbotron" id="productsDetailsArea">
             </div>
-            
+
             <div class="jumbotron" id="usersDetailsArea">
             </div>
 
@@ -72,7 +72,7 @@
     <div class="container" data-bind="visible: helpDeskRequestGridPage()">
         <div class="list-group" data-bind="foreach: filteredRequestsByRequestStatus">
             <a class="list-group-item"
-               data-bind=" click: loadHelpDeskRequest.bind($data),
+                data-bind=" click: loadHelpDeskRequestDetails.bind($data),
     css: {
         'alert-success': CurrentRequestStatus().RequestStatusName() === 'ACCEPTED',
         'alert-error': CurrentRequestStatus().RequestStatusName() === 'DENIED',
@@ -83,7 +83,8 @@
                     <div class="col-xs-10">
                         <h4 class="list-group-item-heading" data-bind="text: RequestSubject()"></h4>
                         <blockquote>
-                            <small class="list-group-item-text" data-bind="text: RequestDescription()"></small></blockquote>
+                            <small class="list-group-item-text" data-bind="text: RequestDescription()"></small>
+                        </blockquote>
                     </div>
                     <div class="text-right col-xs-2">
                         <span class="glyphicon glyphicon-play"></span>
@@ -97,12 +98,14 @@
 <script type="text/html" id="productsListTemplate">
     <div class="container" data-bind="visible: productsGridPage()">
         <div class="list-group" data-bind="foreach: products">
-            <a class="list-group-item">
+            <a class="list-group-item"
+                data-bind="click: loadProductDetails.bind($data)">
                 <div class="row">
                     <div class="col-xs-10">
                         <h4 class="list-group-item-heading" data-bind="text: ProductName()"></h4>
                         <blockquote>
-                            <small class="list-group-item-text" data-bind="text: ProductDescription()"></small></blockquote>
+                            <small class="list-group-item-text" data-bind="text: ProductDescription()"></small>
+                        </blockquote>
                     </div>
                     <div class="text-right col-xs-2">
                         <span class="glyphicon glyphicon-play"></span>
@@ -116,12 +119,14 @@
 <script type="text/html" id="usersListTemplate">
     <div class="container" data-bind="visible: usersGridPage()">
         <div class="list-group" data-bind="foreach: users">
-            <a class="list-group-item">
+            <a class="list-group-item"
+                data-bind="click: loadUserDetails.bind($data)">
                 <div class="row">
                     <div class="col-xs-10">
                         <h4 class="list-group-item-heading" data-bind="text: UserName()"></h4>
                         <blockquote>
-                            <small class="list-group-item-text" data-bind="text: UserDescription()"></small></blockquote>
+                            <small class="list-group-item-text" data-bind="text: UserDescription()"></small>
+                        </blockquote>
                     </div>
                     <div class="text-right col-xs-2">
                         <span class="glyphicon glyphicon-play"></span>
@@ -134,7 +139,7 @@
 
 <script type="text/html" id="helpDeskRequestDetailsTemplate">
     <div class="container" data-bind="visible: helpDeskRequestDetailsPage()">
-        <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadHelpDeskRequestGrid">BACK</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadHelpDeskRequestsGrid">BACK</button>
         @*<h2>Help Desk Request Details:</h2>*@
         <div class="row table-bordered table-striped">
             <div class="col-xs-6">
@@ -214,6 +219,116 @@
         <div class="row table-bordered">
             <div class="col-xs-12">
                 <h4><b data-bind="text: RequestDescription()"></b></h4>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="productDetailsTemplate">
+    <div class="container" data-bind="visible: productDetailsPage()">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadProductsGrid">BACK</button>
+        @*<h2>Product Details:</h2>*@
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>ID: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: ProductId()"></b></h4>
+
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Name: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: ProductName()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-12">
+                <h4>Description: </h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-12">
+                <h4><b data-bind="text: ProductDescription()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>DateCreated: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: DateCreated().substring(0, 10)"></b></h4>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="userDetailsTemplate">
+    <div class="container" data-bind="visible: userDetailsPage()">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" data-bind="click: loadUsersGrid">BACK</button>
+        @*<h2>User Details:</h2>*@
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>ID: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: UserId()"></b></h4>
+
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Username: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: UserName()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Password: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: Password()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>User type: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: UserType().UserTypeName()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-12">
+                <h4>User type description: </h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-12">
+                <h4><b data-bind="text: UserType().UserTypeDescription()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-12">
+                <h4>User description: </h4>
+            </div>
+        </div>
+        <div class="row table-bordered">
+            <div class="col-xs-12">
+                <h4><b data-bind="text: UserDescription()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>DateCreated: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: DateCreated().substring(0, 10)"></b></h4>
             </div>
         </div>
     </div>
