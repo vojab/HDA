@@ -6803,3 +6803,12 @@ td.visible-print {
     display: none !important;
   }
 }
+
+/*Custom CSS*/
+.actions-grid {
+    height: 200px;
+}
+
+.actions-grid-text {
+    line-height: 160px;
+}

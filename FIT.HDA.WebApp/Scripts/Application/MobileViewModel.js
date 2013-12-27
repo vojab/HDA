@@ -586,7 +586,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             if (selectedRequestStatusOption().RequestStatusName().toLowerCase() !== 'all') {
 
                 // ********** VALIDATION SECTION ***********
-                //// Validation - business users can only chose requet status - FINISHED
+                //// Validation - business users can only chose request status - FINISHED
                 //if (that.loggedInUser().UserType().UserTypeName() === 'BUSINESS' &&
                 //    selectedRequestStatusOption().RequestStatusName().toLowerCase() !== 'finished') {
                 //    toastr.warning('Business users can only chose FINISHED status!');
@@ -1036,6 +1036,12 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 return true;
             }
         }, that);
+
+        newHelpDeskRequestPage = ko.computed(function () {
+            if (that.currentPage() === "newHelpDeskRequest" && that.isUserAuthenticated() === true) {
+                return true;
+            }
+        }, that);
         
         productDetailsPage = ko.computed(function () {
             if (that.currentPage() === "productDetails" && that.isUserAuthenticated() === true) {
@@ -1075,7 +1081,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 // TODO: Find a way to append actions at the bottom
                 //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
             } catch (e) {
-                toastr.error('Exception was thrown - Could not render current request');
+                toastr.error('Exception was thrown');
             }
         };
         
@@ -1104,8 +1110,19 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 // TODO: Find a way to append actions at the bottom
                 //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
             } catch (e) {
-                toastr.error('Exception was thrown - Could not render current request');
+                toastr.error('Exception was thrown');
             }
+        };
+
+        loadNewHelpDeskRequestPage = function () {
+            //try {
+                that.currentPage("newHelpDeskRequest");
+                var selector = "#newHelpDeskRequestArea";
+                $(selector).attr("data-bind", "template: { name: 'newHelpDeskRequestTemplate' }");
+                ko.applyBindings(that);
+            //} catch (e) {
+                //toastr.error('Exception was thrown');
+            //}
         };
         
         loadProductDetails = function (currentData) {
@@ -1120,7 +1137,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 // TODO: Find a way to append actions at the bottom
                 //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
             } catch (e) {
-                toastr.error('Exception was thrown - Could not render current request');
+                toastr.error('Exception was thrown');
             }
         };
         
@@ -1173,6 +1190,8 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             helpDeskRequestDetailsPage: helpDeskRequestDetailsPage,
             loadHelpDeskRequestsGrid: loadHelpDeskRequestsGrid,
             helpDeskRequestGridPage: helpDeskRequestGridPage,
+            loadNewHelpDeskRequestPage: loadNewHelpDeskRequestPage,
+            newHelpDeskRequestPage: newHelpDeskRequestPage,
             
             loadProductDetails: loadProductDetails,
             productDetailsPage: productDetailsPage,
