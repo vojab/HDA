@@ -16,6 +16,8 @@ namespace FIT.HDA.Models
         public bool RequestReadyForArchive { get; set; }
         public DateTime RequestOpenDate { get; set; }
         public DateTime RequestClosedDate { get; set; }
+        public int? Estimated { get; set; }
+        public int? Logged { get; set; }
 
         public int? ProductId { get; set; }
         [ForeignKey("ProductId")]

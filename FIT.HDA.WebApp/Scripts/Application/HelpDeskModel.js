@@ -6,6 +6,8 @@
         self.RequestSubject = ko.observable(object.RequestSubject);
         self.RequestDescription = ko.observable(object.RequestDescription);
         self.RequestReadyForArchive = ko.observable(object.RequestReadyForArchive);
+        self.Estimated = ko.observable(object.Estimated);
+        self.Logged = ko.observable(object.Logged);
         self.RequestOpenDate = ko.observable(object.RequestOpenDate);
         self.RequestClosedDate = ko.observable(object.RequestClosedDate);
         self.DateCreated = ko.observable(object.DateCreated);
