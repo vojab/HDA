@@ -462,6 +462,14 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                     });
                 currentRequest.firstAssignedUser = firstAssignedUserChangesObject.User;
 
+                // Parse estimated value given in milliseconds
+                currentRequest.EstimatedValue = currentRequest.Estimated;
+                currentRequest.HumanizedEstimatedValue = currentRequest.Estimated ? moment.duration(currentRequest.Estimated).humanize() : "";
+
+                // Parse logged value given in milliseconds
+                currentRequest.LoggedValue = currentRequest.Logged;
+                currentRequest.HumanizedLoggedValue = currentRequest.Logged ? moment.duration(currentRequest.Logged).humanize() : "";
+
                 // -----------------------------------------------------------------------
 
                 var currentRequestObservable = new model.request(currentRequest);
@@ -520,10 +528,16 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             }, that.newRequest().RequestSubject(),
                that.newRequest().RequestDescription(),
                that.selectedProduct().ProductId(),
-               that.loggedInUser().UserId());
+               that.loggedInUser().UserId(),
+            // Parse estimation into milliseconds
+               that.newRequest().Estimated().EstimatedValue(),
+               that.newRequest().Logged().LoggedValue()
+            );
 
             that.newRequest().RequestSubject('');
             that.newRequest().RequestDescription('');
+            that.newRequest().Estimated().EstimatedValue('');
+            that.newRequest().Logged().LoggedValue('');
         };
 
         deleteRequest = function (currentData) {

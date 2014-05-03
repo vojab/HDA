@@ -130,6 +130,22 @@
                         data-bind="value: newRequest().RequestDescription">
                 </textarea>
             </div>
+            <div class="form-group">
+                <label for="requestDescription">Estimated:</label>
+                <input id="requestEstimation"
+                        class="form-control"
+                        name="requestEstimation"
+                        data-bind="value: newRequest().Estimated().EstimatedValue"
+                        type="text" />
+            </div>
+            <div class="form-group">
+                <label for="requestDescription">Logged:</label>
+                <input id="requestLogged"
+                        class="form-control"
+                        name="requestLogged"
+                        data-bind="value: newRequest().Logged().LoggedValue"
+                        type="text" />
+            </div>
         </div>
         <hr />
         <div>
@@ -217,22 +233,6 @@
         </div>
         <div class="row table-bordered table-striped">
             <div class="col-xs-6">
-                <h4>Open Date: </h4>
-            </div>
-            <div class="col-xs-6 text-right">
-                <h4><b data-bind="text: RequestOpenDate().substring(0, 10)"></b></h4>
-            </div>
-        </div>
-        <div class="row table-bordered table-striped">
-            <div class="col-xs-6">
-                <h4>Closed Date: </h4>
-            </div>
-            <div class="col-xs-6 text-right">
-                <h4><b data-bind="text: RequestClosedDate().substring(0, 10)"></b></h4>
-            </div>
-        </div>
-        <div class="row table-bordered table-striped">
-            <div class="col-xs-6">
                 <h4>Product: </h4>
             </div>
             <div class="col-xs-6 text-right">
@@ -265,26 +265,37 @@
                 <h4><b data-bind="text: RequestDescription()"></b></h4>
             </div>
         </div>
-        <div id="actions-up" class="row">
-            <div class="actions-grid table-bordered text-center col-xs-4">
-                <h3 class="actions-grid-text">Assign</h3>
+        <h4 class="text-info"><b>Time management:</b></h4>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Open Date: </h4>
             </div>
-            <div class="actions-grid table-bordered text-center col-xs-4">
-                <h3 class="actions-grid-text">Change Status</h3>
-            </div>
-            <div class="actions-grid table-bordered text-center col-xs-4">
-                <h3 class="actions-grid-text">Delete</h3>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: RequestOpenDate().substring(0, 10)"></b></h4>
             </div>
         </div>
-        <div id="actions-down" class="row">
-            <div class="actions-grid table-bordered text-center col-xs-4">
-                <h3 class="actions-grid-text">Status History</h3>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Closed Date: </h4>
             </div>
-            <div class="actions-grid table-bordered text-center col-xs-4">
-                <h3 class="actions-grid-text">User History</h3>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: RequestClosedDate().substring(0, 10)"></b></h4>
             </div>
-            <div class="actions-grid table-bordered text-center col-xs-4">
-                <h3 class="actions-grid-text">Details</h3>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Estimated: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: Estimated().HumanizedEstimatedValue()"></b></h4>
+            </div>
+        </div>
+        <div class="row table-bordered table-striped">
+            <div class="col-xs-6">
+                <h4>Logged: </h4>
+            </div>
+            <div class="col-xs-6 text-right">
+                <h4><b data-bind="text: Logged().HumanizedLoggedValue()"></b></h4>
             </div>
         </div>
     </div>

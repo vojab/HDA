@@ -26,7 +26,7 @@
             });
             
             amplify.request.define('SaveRequest', 'ajax', {
-                url: 'http://localhost:3894/api/RequestAPI/save?requestsubject={requestsubject}&requestdescription={requestdescription}&productid={productid}&userid={userid}',
+                url: 'http://localhost:3894/api/RequestAPI/save?requestsubject={requestsubject}&requestdescription={requestdescription}&productid={productid}&userid={userid}&estimated={estimated}&logged={logged}',
                 dataType: 'jsonp',
                 type: 'GET'
             });
@@ -58,14 +58,16 @@
             });
         };
 
-        saveRequest = function (callbacks, requestsubject, requestdescription, productid, userid) {
+        saveRequest = function (callbacks, requestsubject, requestdescription, productid, userid, estimated, logged) {
             return amplify.request({
                 resourceId: 'SaveRequest',
                 data: {
                     requestsubject: requestsubject,
                     requestdescription: requestdescription,
                     productid: productid,
-                    userid: userid
+                    userid: userid,
+                    estimated: estimated,
+                    logged: logged
                 },
                 success: callbacks.success,
                 error: callbacks.error

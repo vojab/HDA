@@ -6,11 +6,12 @@
         self.RequestSubject = ko.observable(object.RequestSubject);
         self.RequestDescription = ko.observable(object.RequestDescription);
         self.RequestReadyForArchive = ko.observable(object.RequestReadyForArchive);
-        self.Estimated = ko.observable(object.Estimated);
-        self.Logged = ko.observable(object.Logged);
         self.RequestOpenDate = ko.observable(object.RequestOpenDate);
         self.RequestClosedDate = ko.observable(object.RequestClosedDate);
         self.DateCreated = ko.observable(object.DateCreated);
+
+        self.Estimated = ko.observable(new estimated(object));
+        self.Logged = ko.observable(new logged(object));
         
         self.ProductId = ko.observable(object.ProductId);
         self.Product = ko.observable(new product(object.Product));
@@ -92,6 +93,20 @@
         self.DateCreated = ko.observable(object.DateCreated);
     };
 
+    var estimated = function (object) {
+        var self = this;
+        object = object || {};
+        self.EstimatedValue = ko.observable(object.EstimatedValue);
+        self.HumanizedEstimatedValue = ko.observable(object.HumanizedEstimatedValue);
+    };
+
+    var logged = function (object) {
+        var self = this;
+        object = object || {};
+        self.LoggedValue = ko.observable(object.LoggedValue);
+        self.HumanizedLoggedValue = ko.observable(object.HumanizedLoggedValue);
+    };
+
     return {
         request: request,
         requestStatus: requestStatus,
@@ -99,6 +114,8 @@
         assignedUserChanges: assignedUserChanges,
         user: user,
         userType: userType,
-        product: product
+        product: product,
+        estimated: estimated,
+        logged: logged
     };
 });

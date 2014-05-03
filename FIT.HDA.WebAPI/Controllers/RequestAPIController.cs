@@ -111,7 +111,9 @@ namespace FIT.HDA.API.Controllers
         public string SaveRequest(string requestsubject, 
                                   string requestdescription, 
                                   string productid, 
-                                  string userid)
+                                  string userid,
+                                  string estimated,
+                                  string logged)
         {
             try
             {
@@ -121,6 +123,8 @@ namespace FIT.HDA.API.Controllers
                 request.RequestDescription = requestdescription;
                 request.ProductId = Int32.Parse(productid);
                 request.RequestReadyForArchive = false;
+                request.Estimated = Int32.Parse(estimated);
+                request.Logged = Int32.Parse(logged);
                 request.RequestOpenDate = DateTime.Now;
                 request.RequestClosedDate = DateTime.Now;
                 request.DateCreated = DateTime.Now;
