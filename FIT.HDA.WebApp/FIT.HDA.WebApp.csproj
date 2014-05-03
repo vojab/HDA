@@ -202,6 +202,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap_old.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\jquery.jqplot.css" />
     <Content Include="Content\jquery.mobile-1.3.2.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -289,10 +290,12 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\Libraries\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\Libraries\jqplot.pieRenderer.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.js" />
     <Content Include="Scripts\Libraries\jquery-1.7.1.min.js" />
     <Content Include="Scripts\Libraries\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\Libraries\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\Libraries\jquery.jqplot.js" />
     <Content Include="Scripts\Libraries\jquery.mobile-1.3.2.js" />
     <Content Include="Scripts\Libraries\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\Libraries\jquery.unobtrusive-ajax.min.js" />

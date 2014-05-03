@@ -498,6 +498,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             }
             that.renderRequests();
             ko.applyBindings(that);
+
         };
 
         // Apply template to target div and render requests data
@@ -1113,7 +1114,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
         };
         
         loadHelpDeskRequestDetails = function (currentData) {
-            try {
+            //try {
                 that.currentPage("helpDeskRequestDetails");
                 selectedRequest(currentData);
                 var selector = "#helpDeskRequestDetailsArea";
@@ -1121,10 +1122,52 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 ko.cleanNode($('#helpDeskRequestDetailsArea'));
                 //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
                 ko.applyBindings(that);
+
+                var data = [
+                   ['Heavy Industry', 12], ['Retail', 9], ['Light Industry', 14],
+                   ['Out of home', 16], ['Commuting', 7], ['Orientation', 9]
+                ];
+                var plot1 = jQuery.jqplot('piechart', [data],
+                  {
+                      seriesDefaults: {
+                          // Make this a pie chart.
+                          renderer: jQuery.jqplot.PieRenderer,
+                          rendererOptions: {
+                              // Put data labels on the pie slices.
+                              // By default, labels show the percentage of the slice.
+                              showDataLabels: true
+                          }
+                      },
+                      legend: { show: true, location: 'e' }
+                  }
+                );
+
                 // TODO: Find a way to append actions at the bottom
                 //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
+            //} catch (e) {
+            //    toastr.error('Exception was thrown');
+            //}
+        };
+
+        drawChart = function () {
+            try {
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                  ['Work', 11],
+                  ['Eat', 2],
+                  ['Commute', 2],
+                  ['Watch TV', 2],
+                  ['Sleep', 7]
+                ]);
+
+                var options = {
+                    title: 'My Daily Activities'
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
             } catch (e) {
-                toastr.error('Exception was thrown');
+                toastr.error('Exception was thrown - Could not draw pie chart');
             }
         };
 
@@ -1271,6 +1314,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             client: client,
             business: business,
             helpdesk: helpdesk,
-            signOut: signOut
+            signOut: signOut,
+            drawChart: drawChart
         };
     });

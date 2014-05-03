@@ -19,6 +19,7 @@
         define('bootstrap', [], function () { return main.bootstrap; });
         define('nicEdit', [], function () { return main.nicEdit; });
         define('toastr', [], function () { return main.toastr; });
+        define('jquery.jqplot', [], function () { return main.jquery.jqplot; });
     }
 
     function boot() {

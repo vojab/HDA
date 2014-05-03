@@ -62,7 +62,9 @@ namespace HDA.App_Start
                     "~/Scripts/Libraries/bootstrap.js",
                     "~/Scripts/Libraries/require.js",
                     "~/Scripts/Libraries/nicEdit.js",
-                    "~/Scripts/Libraries/toastr.js"
+                    "~/Scripts/Libraries/toastr.js",
+                    "~/Scripts/Libraries/jquery.jqplot.js",
+                    "~/Scripts/Libraries/jqplot.pieRenderer.js"
                     ));
         }
     }
