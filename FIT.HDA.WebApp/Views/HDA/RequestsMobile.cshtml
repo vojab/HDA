@@ -132,18 +132,20 @@
             </div>
             <div class="form-group">
                 <label for="requestDescription">Estimated:</label>
+                <h6 class="pull-right"><i data-bind="text: parsedEstimated()"></i></h6>
                 <input id="requestEstimation"
                         class="form-control"
                         name="requestEstimation"
-                        data-bind="value: newRequest().Estimated().EstimatedValue"
+                        data-bind="value: newRequest().Estimated().EstimatedValue, valueUpdate: 'afterkeydown'"
                         type="text" />
             </div>
             <div class="form-group">
                 <label for="requestDescription">Logged:</label>
+                <h6 class="pull-right"><i data-bind="text: parsedLogged()"></i></h6>
                 <input id="requestLogged"
                         class="form-control"
                         name="requestLogged"
-                        data-bind="value: newRequest().Logged().LoggedValue"
+                        data-bind="value: newRequest().Logged().LoggedValue, valueUpdate: 'afterkeydown'"
                         type="text" />
             </div>
         </div>
@@ -290,16 +292,8 @@
                 <h4><b data-bind="text: Estimated().HumanizedEstimatedValue()"></b></h4>
             </div>
         </div>
-        <div class="row table-bordered table-striped">
-            <div class="col-xs-6">
-                <h4>Logged: </h4>
-            </div>
-            <div class="col-xs-6 text-right">
-                <h4><b data-bind="text: Logged().HumanizedLoggedValue()"></b></h4>
-            </div>
-        </div>
         <br />
-        <div id="piechart" style="width: 640px; height: 480px;"></div>
+        <div id="piechart" style="width: auto; height: 480px;"></div>
     </div>
 </script>
 

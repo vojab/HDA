@@ -90,7 +90,81 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             }
         }, that);
 
+        parsedEstimated = ko.computed(function () {
+            if (that.newRequest().Estimated().EstimatedValue()) {
+                return that.parseDuration(that.newRequest().Estimated().EstimatedValue());
+            }
+            
+        }, that);
+
+        parsedLogged = ko.computed(function () {
+            if (that.newRequest().Logged().LoggedValue()) {
+                return that.parseDuration(that.newRequest().Logged().LoggedValue());
+            }
+        }, that);
+
         // ----- --------------------------- -----
+
+        // Returns duration in milliseconds
+        getDurationInMilliSeconds = function (value) {
+            var milliseconds = "";
+
+            // Defensive
+            if (value && value.length > 1) {
+                var unit = value[value.length - 1];
+                var duration = value.slice(0, value.length - 1);
+
+                if ((unit == "d" || unit == "h" || unit == "m") && 
+                    !isNaN(duration)) {
+
+                    switch (unit) {
+                        case "d":
+                            milliseconds = duration * 24 * 60 * 60 * 1000;
+                            break;
+                        case "h":
+                            milliseconds = duration * 60 * 60 * 1000;
+                            break;
+                        case "m":
+                            milliseconds = duration * 60 * 1000;
+                            break;
+                        default:
+                            milliseconds = "";
+                    }
+
+                }
+            }
+
+            return milliseconds;
+        };
+
+        parseDuration = function (value) {
+            humanizedValue = "INVALID";
+            // Defensive
+            if (value && value.length > 1) {
+                var unit = value[value.length - 1];
+                var duration = value.slice(0, value.length - 1);
+
+                if ((unit == "d" || unit == "h" || unit == "m") &&
+                    !isNaN(duration)) {
+
+                    switch (unit) {
+                        case "d":
+                            humanizedValue = moment.duration(parseInt(duration), "days").humanize();
+                            break;
+                        case "h":
+                            humanizedValue = moment.duration(parseInt(duration), "hours").humanize();
+                            break;
+                        case "m":
+                            humanizedValue = moment.duration(parseInt(duration), "minutes").humanize();
+                            break;
+                        default:
+                            humanizedValue = "INVALID";
+                    }
+
+                }
+            }
+            return humanizedValue;
+        };
 
         loadUser = function () {
             dataService.user.getUserByUserNameAndPassword({
@@ -531,14 +605,18 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                that.selectedProduct().ProductId(),
                that.loggedInUser().UserId(),
             // Parse estimation into milliseconds
-               that.newRequest().Estimated().EstimatedValue(),
-               that.newRequest().Logged().LoggedValue()
+               that.getDurationInMilliSeconds(that.newRequest().Estimated().EstimatedValue()),
+               that.getDurationInMilliSeconds(that.newRequest().Logged().LoggedValue())
             );
 
             that.newRequest().RequestSubject('');
             that.newRequest().RequestDescription('');
             that.newRequest().Estimated().EstimatedValue('');
             that.newRequest().Logged().LoggedValue('');
+
+            // Clear parsed estimated and logged in observables
+            that.parsedEstimated('');
+            that.parsedLogged('');
         };
 
         deleteRequest = function (currentData) {
@@ -1123,24 +1201,7 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 //ko.applyBindings(that.selectedRequest, document.getElementById("helpDeskRequestDetails"));
                 ko.applyBindings(that);
 
-                var data = [
-                   ['Heavy Industry', 12], ['Retail', 9], ['Light Industry', 14],
-                   ['Out of home', 16], ['Commuting', 7], ['Orientation', 9]
-                ];
-                var plot1 = jQuery.jqplot('piechart', [data],
-                  {
-                      seriesDefaults: {
-                          // Make this a pie chart.
-                          renderer: jQuery.jqplot.PieRenderer,
-                          rendererOptions: {
-                              // Put data labels on the pie slices.
-                              // By default, labels show the percentage of the slice.
-                              showDataLabels: true
-                          }
-                      },
-                      legend: { show: true, location: 'e' }
-                  }
-                );
+                that.drawChart();
 
                 // TODO: Find a way to append actions at the bottom
                 //$(selector + ">div").append('<div class="row"><div class="col-md-4 text-center"><h4>Details</h4></div><div class="col-md-4 text-center"><h4>Change Password</h4></div><div class="col-md-4 text-center"><h4>Delete</h4></div></div>');
@@ -1151,21 +1212,32 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
 
         drawChart = function () {
             try {
-                var data = google.visualization.arrayToDataTable([
-                  ['Task', 'Hours per Day'],
-                  ['Work', 11],
-                  ['Eat', 2],
-                  ['Commute', 2],
-                  ['Watch TV', 2],
-                  ['Sleep', 7]
-                ]);
+                var that = this;
 
-                var options = {
-                    title: 'My Daily Activities'
-                };
+                var remainingTimeValue = that.selectedRequest().Estimated().EstimatedValue() - that.selectedRequest().Logged().LoggedValue();
+                var humanizedRemainingTimeValue = moment.duration(remainingTimeValue).humanize();
 
-                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                chart.draw(data, options);
+                var data = [
+                   ['Logged Time, ' + that.selectedRequest().Logged().HumanizedLoggedValue(),
+                       that.selectedRequest().Logged().LoggedValue()],
+                   ['Remaining Time, ' + humanizedRemainingTimeValue,
+                       remainingTimeValue]
+                ];
+                var plot = jQuery.jqplot('piechart', [data],
+                  {
+                      seriesDefaults: {
+                          // Make this a pie chart.
+                          renderer: jQuery.jqplot.PieRenderer,
+                          rendererOptions: {
+                              // Put data labels on the pie slices.
+                              // By default, labels show the percentage of the slice.
+                              showDataLabels: true,
+                              sliceMargin: 4,
+                          }
+                      },
+                      legend: { show: true, location: 'n' }
+                  }
+                );
             } catch (e) {
                 toastr.error('Exception was thrown - Could not draw pie chart');
             }
@@ -1315,6 +1387,9 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
             business: business,
             helpdesk: helpdesk,
             signOut: signOut,
-            drawChart: drawChart
+            drawChart: drawChart,
+            parseDuration: parseDuration,
+            parsedEstimated: parsedEstimated,
+            parsedLogged: parsedLogged
         };
     });

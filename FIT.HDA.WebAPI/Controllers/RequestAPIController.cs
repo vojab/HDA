@@ -123,8 +123,16 @@ namespace FIT.HDA.API.Controllers
                 request.RequestDescription = requestdescription;
                 request.ProductId = Int32.Parse(productid);
                 request.RequestReadyForArchive = false;
-                request.Estimated = Int32.Parse(estimated);
-                request.Logged = Int32.Parse(logged);
+
+                if (estimated != null && estimated != String.Empty) {
+                    request.Estimated = Int32.Parse(estimated);
+                }
+
+                if (logged != null && logged != String.Empty)
+                {
+                    request.Logged = Int32.Parse(logged);
+                }
+
                 request.RequestOpenDate = DateTime.Now;
                 request.RequestClosedDate = DateTime.Now;
                 request.DateCreated = DateTime.Now;
