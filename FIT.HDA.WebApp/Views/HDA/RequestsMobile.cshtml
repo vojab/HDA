@@ -131,7 +131,8 @@
                 </textarea>
             </div>
             <div class="form-group">
-                <label for="requestDescription">Estimated:</label>
+                @*<h5 class="pull-right"><span id="estimated_tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Example: 1d - one day, 2h - two hours, 30m - thirty minutes"></span></h5>*@
+                <label for="requestDescription" id="estimated_tooltip" data-toggle="tooltip" data-placement="right" title="Example: 1d - one day, 2h - two hours, 30m - thirty minutes">Estimated:</label>
                 <h6 class="pull-right"><i data-bind="text: parsedEstimated()"></i></h6>
                 <input id="requestEstimation"
                         class="form-control"
@@ -140,7 +141,8 @@
                         type="text" />
             </div>
             <div class="form-group">
-                <label for="requestDescription">Logged:</label>
+                @*<h5 class="pull-left"><span id="logged_tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="top" title="Example: 1d - one day, 2h - two hours, 30m - thirty minutes"></span></h5>*@
+                <label for="requestDescription" id="logged_tooltip" data-toggle="tooltip" data-placement="right" title="Example: 1d - one day, 2h - two hours, 30m - thirty minutes">Logged:</label>
                 <h6 class="pull-right"><i data-bind="text: parsedLogged()"></i></h6>
                 <input id="requestLogged"
                         class="form-control"

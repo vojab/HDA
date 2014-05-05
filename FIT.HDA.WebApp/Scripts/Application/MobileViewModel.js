@@ -1249,6 +1249,8 @@ define('MobileViewModel', ['jquery', 'ko', 'cookie', 'DataService', 'underscore'
                 var selector = "#newHelpDeskRequestArea";
                 $(selector).attr("data-bind", "template: { name: 'newHelpDeskRequestTemplate' }");
                 ko.applyBindings(that);
+                $('#estimated_tooltip').tooltip({});
+                $('#logged_tooltip').tooltip({});
             //} catch (e) {
                 //toastr.error('Exception was thrown');
             //}
