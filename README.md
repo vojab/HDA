@@ -1,7 +1,7 @@
 HDA
 ===
 
-Help Desk Application
+Help Desk Application - WORK STILL IN PROGRESS!
 
 HDA DIAGRAM:
 https://cacoo.com/diagrams/SCkrd1y483BoQ4FM
